@@ -2,7 +2,7 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
-
+    <script src="./socket.io/socket.io.js"></script>
 </head>
     <title>eMaestro</title>
     <meta charset="utf-8"/>
@@ -96,6 +96,7 @@
 </div>
 
 <script>
+    var theScore;
     var newScoreTemplate = {
         scoretitle: "Mon premier morceau",
         scorefilename: "premiermorceau",
@@ -152,5 +153,141 @@
         $("div#bar select#alert option[value=" + aScore.bars[currentBarNum].alert + "]").prop('selected', true);
     };
 </script>
+
+<br>
+<div id="save">
+    <button>Enregistrer</button>
+</div>
+<br>
+<div id="play">
+    <button id="playscore">Démarrer</button>
+    <button id="stopscore">Stop</button>
+    <svg id="emaestrobox"></svg>
+</div>
+
+<script>
+    function saveScore() {
+        var fileName = $("div#score input#scorefilename").val();
+        var req = new XMLHttpRequest();
+        var fileContent = JSON.stringify(theScore);
+
+        req.onreadystatechange = function(event) {
+// XMLHttpRequest.DONE === 4
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    console.log("Réponse reçue: %s", this.responseText);
+                } else {
+                    console.log("Status de la réponse: %d (%s)",
+                        this.status, this.statusText);
+                }}};
+
+        req.open("PUT", "http://localhost/eMaestro/SCORES/" + fileName, true);
+        req.send(fileContent);
+    };
+    $("#save button").click(saveScore);
+</script>
+
+<script>
+    var svgns = "http://www.w3.org/2000/svg";
+    var viewBox = "0 0 100 100";
+    var centerBox = 50;
+    var boxRadius = 40;                          // must be coherent with previous declarations
+    var nbCircles = 4;
+    var circlesRadius = [30, 20, 10, 0];         // must be coherent with previous declarations
+    var circlesNbLeds = [24, 16, 8, 1];
+    var circlesPhase = [0.5, 0, 0.5, 0];         // to decide at which angle led circles are positioned.
+    var ledRadius = 1.5;
+
+    function instantiateMaestroBox() {
+        var svgPanel = document.getElementById("emaestrobox");
+        svgPanel.setAttributeNS(null, "viewBox", viewBox);
+
+        // create an encasing grey rectangle
+        var rect = makeRect('0', '0', '100', '100', 'fill: grey');
+        svgPanel.appendChild(rect);
+
+        // create a round black box
+        var box = makeCircle(centerBox, centerBox, boxRadius, 'fill: black');
+        svgPanel.appendChild(box);
+
+        var ledNum = 0;
+        for (var c = 0; c < nbCircles; c++) {
+            // every led circle is marked by a thin line (purely decorative)
+            var innerCircle = makeCircle(centerBox, centerBox, circlesRadius[c],
+                "stroke: grey; stroke-width: 0.05;");
+            svgPanel.appendChild(innerCircle);
+
+            // then leds are created according to the configuration declared above
+            for (var i = 0; i < circlesNbLeds[c]; i++) {
+                angle = 2*Math.PI*(i+circlesPhase[c])/circlesNbLeds[c];
+                cx = centerBox + circlesRadius[c]*Math.sin(angle);
+                cy = centerBox - circlesRadius[c]*Math.cos(angle);
+                var led = makeCircle(cx, cy, ledRadius, "stroke: grey; stroke-width: 0.2;" );
+                led.setAttributeNS(null, 'id', "led"+ ledNum );
+                svgPanel.appendChild(led);
+                ledNum++;
+            };
+        };
+    };
+
+    function makeRect(x, y, width, height, style) {
+        var rect = document.createElementNS(svgns,'rect');
+        rect.setAttributeNS(null, 'x', x);
+        rect.setAttributeNS(null, 'y', y);
+        rect.setAttributeNS(null, 'width', width);
+        rect.setAttributeNS(null, 'height', height);
+        rect.setAttributeNS(null, 'style', style);
+        return rect};
+
+    function makeCircle(cx, cy, r, style) {
+        var circle = document.createElementNS(svgns,'circle');
+        circle.setAttributeNS(null, 'cx', cx);
+        circle.setAttributeNS(null, 'cy', cy);
+        circle.setAttributeNS(null, 'r', r);
+        circle.setAttributeNS(null, 'style', style);
+        return circle};
+
+    $(function() {
+        theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
+        instantiateDOMScore(theScore);
+        instantiateMaestroBox();
+
+        socket = io.connect('http://localhost/eMaestro/');
+        console.log("connected to localhost");
+        socket.on('message', function(message) {
+            console.log("client <- node:" + message);
+            $('#logs').html(message);
+        });
+    });
+
+    var initClock = 1 * 1000; // a laps time before starting
+    var startClock ;
+    var listTimers = [];
+
+ //   function playScore() {
+ //       var d = new Date();
+ //       startClock = d.getTime();
+ //       var theClock = initClock;
+ //       theClock = playStart(theClock, theScore.bars[0]);
+// bars in theScore only mark changes
+// a completed bar is created to remember what does not change
+// it is cloned then updated while reading each bar in turn
+ //      var completedBar = theScore.bars[0];
+ //       for (var i = 0; i < theScore.scoresize; i++) {
+            // starts the bar handler
+            // the bar handler will start the beats and pulses handlers
+            // and return an updated time
+  //          console.log("play bar num:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
+            // do not forget to clone the completed bar
+    //        completedBar = JSON.parse(JSON.stringify(completedBar));
+    //        theClock = playBar(theClock, completedBar, i);
+    //    };
+    //    theClock = playEnd(theClock);
+   // };
+   // $("div#play button#playscore").click(playScore);
+
+
+</script>
+
 
 </html>
