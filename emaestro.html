@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+
+</head>
+    <title>eMaestro</title>
+    <meta charset="utf-8"/>
+</head>
+
+<body>
+    <h1>eMaestro</h1>
+</body>
+
+<div id="score">
+    <form>
+        <label for="scoretitle">Titre de la partition</label>
+        <input id="scoretitle" type="text"></input>
+        <label for="scorefilename">Nom du fichier</label>
+        <input id="scorefilename" type="text"></input>
+
+        <label for="scoresize">Nombre de mesure</label>
+        <input id="scoresize" type="number"></input>
+        <label for="currentbar">Selectionner une mesure</label>
+        <input id="currentbar" type="number"></input>
+    </form>
+</div>
+
+<div id="bar">
+    <form>
+        <label for="tempo">Tempo (beat/min)</label>
+        <input id="tempo"></input>
+        <label for="beat">Beat</label>
+        <select id="beat">
+            <option value="">...</option>
+            <option value=2>2nd</option>
+            <option value=4>4th</option>
+            <option value=8>8th</option>
+            <option value=3>dotted 2nd</option>
+            <option value=6>dotted 4th</option>
+            <option value=12>dotted 8th</option>
+        </select>
+        <label for="key">Key signature</label>
+        <select id="key">
+            <option value="">...</option>
+            <option value=-7>B (7 b)</option>
+            <option value=-6>Gb (6 b)</option>
+            <option value=-5>Db (5 b)</option>
+            <option value=-4>Ab (4 b)</option>
+            <option value=-3>Eb (3 b)</option>
+            <option value=-2>Bb (2 b)</option>
+            <option value=-1>F (1 b)</option>
+            <option value=0>C (no accidental)</option>
+            <option value=1>G (1 #)</option>
+            <option value=2>D (2 #)</option>
+            <option value=3>A (3 #)</option>
+            <option value=4>E (4 #)</option>
+            <option value=5>B (5 #)</option>
+            <option value=6>F# (6 #)</option>
+            <option value=7>C# (7 #)</option>
+        </select>
+        <label for="time">Time signature (beat/bar)</label>
+        <select id="time">
+            <option value="">...</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4 selected>4</option>
+            <option value=5>5</option>
+            <option value=6>6</option>
+            <option value=7>7</option>
+            <option value=8>8</option>
+        </select>
+        <label for="division">Division of beat</label>
+        <select id="division">
+            <option value="">...</option>
+            <option value=1>Simple</option>
+            <option value=2>Compound</option>
+        </select>
+        <label for="intensity">Intensité</label>
+        <select id="intensity" style="font-weight: bold;font-style: italic;">
+            <option value="">...</option>
+            <option value=0>ppp</option>
+            <option value=1>pp</option>
+            <option value=2>p</option>
+            <option value=3>mp</option>
+            <option value=4>mf</option>
+            <option value=5>f</option>
+            <option value=6>ff</option>
+            <option value=7>fff</option>
+        </select>
+    </form>
+</div>
+<br>
+<div id="cancel">
+    <button>Annuler</button>
+</div>
+
+<script>
+    var newScoreTemplate = {
+        scoretitle: "Mon premier morceau",
+        scorefilename: "premiermorceau",
+        scoresize: 4,
+        currentbar: 0, // warning ! the user must see bar numbers starting at 1
+        bars: []
+    };
+
+    var firstBarTemplate = {
+        tempo: 80,
+        beat: 4,
+        key: 1,
+        time: 4,
+        division: 1,
+        intensity: 4,
+        alert: ""
+    };
+
+    function cancelScore() {
+        console.log("cancelScore");
+        theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
+        instantiateDOMScore(theScore);
+    };
+    $("div#cancel button").click(cancelScore);
+
+    function instantiateJSScore(newScoreTemplate, firstBarTemplate) {
+        var newScore = JSON.parse(JSON.stringify(newScoreTemplate));
+        newScore.bars[0] = JSON.parse(JSON.stringify(firstBarTemplate));
+        console.log("the JS score: " + JSON.stringify(newScore));
+        return newScore;
+    };
+
+
+    function instantiateDOMScore(aScore) {
+        console.log("instantiateDOMScore: " + JSON.stringify(aScore) );
+        $("div#score input#scoretitle").val(aScore.scoretitle);
+        $("div#score input#scorefilename").val(aScore.scorefilename);
+        $("div#score input#scoresize").val(aScore.scoresize);
+        console.log("instantiateNewScore, currentbar:" + aScore.currentbar);
+        $("div#score input#currentbar").val(aScore.currentbar+1);
+
+        instantiateDOMCurrentBar(aScore, aScore.currentbar);
+    };
+
+    function instantiateDOMCurrentBar(aScore, currentBarNum) {
+        console.log("the score: " + JSON.stringify(aScore) );
+        console.log("current bar num: " + currentBarNum);
+        $("div#bar input#tempo").attr("value", aScore.bars[currentBarNum].tempo);
+        $("div#bar select#beat option[value=" + aScore.bars[currentBarNum].beat + "]").prop('selected', true);
+        $("div#bar select#key option[value=" + aScore.bars[currentBarNum].key + "]").prop('selected', true);
+        $("div#bar select#time option[value=" + aScore.bars[currentBarNum].time + "]").prop('selected', true);
+        $("div#bar select#division option[value=" + aScore.bars[currentBarNum].division + "]").prop('selected', true);
+        $("div#bar select#intensity option[value=" + aScore.bars[currentBarNum].intensity + "]").prop('selected', true);
+        $("div#bar select#alert option[value=" + aScore.bars[currentBarNum].alert + "]").prop('selected', true);
+    };
+</script>
+
+</html>
