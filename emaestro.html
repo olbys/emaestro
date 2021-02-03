@@ -88,6 +88,19 @@
             <option value=6>ff</option>
             <option value=7>fff</option>
         </select>
+        <label for="alert">Alert</label>
+        <select id="alert">
+            <option value="-1">no alert</option>
+            <option value="">...</option>
+            <option value=0>Violet</option>
+            <option value=1>Blue</option>
+            <option value=2>Greenish Blue</option>
+            <option value=3>Bluish Green</option>
+            <option value=4>Green</option>
+            <option value=5>Yellow</option>
+            <option value=6>Orange</option>
+            <option value=7>Red</option>
+        </select>
     </form>
 </div>
 <br>
@@ -95,7 +108,21 @@
     <button>Annuler</button>
 </div>
 
+<br>
+<div id="save">
+    <button>Enregistrer</button>
+    </div>
+
+    <br>
+    <div id="play">
+    <button id="playscore">Démarrer</button>
+    <button id="stopscore">Stop</button>
+    <svg id="emaestrobox"></svg>
+    </div>
+
+
 <script>
+    var socket;
     var theScore;
     var newScoreTemplate = {
         scoretitle: "Mon premier morceau",
@@ -112,6 +139,16 @@
         time: 4,
         division: 1,
         intensity: 4,
+        alert: ""
+    };
+
+    var otherBarTemplate = {
+        tempo: "",
+        beat: "",
+        key: "",
+        time: "",
+        division: "",
+        intensity: "",
         alert: ""
     };
 
@@ -152,20 +189,7 @@
         $("div#bar select#intensity option[value=" + aScore.bars[currentBarNum].intensity + "]").prop('selected', true);
         $("div#bar select#alert option[value=" + aScore.bars[currentBarNum].alert + "]").prop('selected', true);
     };
-</script>
 
-<br>
-<div id="save">
-    <button>Enregistrer</button>
-</div>
-<br>
-<div id="play">
-    <button id="playscore">Démarrer</button>
-    <button id="stopscore">Stop</button>
-    <svg id="emaestrobox"></svg>
-</div>
-
-<script>
     function saveScore() {
         var fileName = $("div#score input#scorefilename").val();
         var req = new XMLHttpRequest();
@@ -197,6 +221,61 @@
     var circlesNbLeds = [24, 16, 8, 1];
     var circlesPhase = [0.5, 0, 0.5, 0];         // to decide at which angle led circles are positioned.
     var ledRadius = 1.5;
+
+    function setScoreTitle() {
+        console.log("scoretitle:" + theScore.scoretitle);
+        theScore.scoretitle = $("#scoretitle").val();
+        console.log("scoretitle:" + theScore.scoretitle);
+    };
+    $("#scoretitle").change(setScoreTitle);
+
+    function setScoreFileName() {
+        theScore.scorefilename = $("#scorefilename").val();
+    };
+    $("#scorefilename").change(setScoreFileName);
+
+    function setScoreSize() {
+        var oldScoreSize = theScore.scoresize;
+        theScore.scoresize = $("#scoresize").val();
+        var oldScoreBars = theScore.bars;
+        for ( var i = 0; i < theScore.scoresize; i++ ) {
+            // always make a deep copy of templates
+            theScore.bars[i] = oldScoreBars[i] ? oldScoreBars[i] : JSON.parse(JSON.stringify(otherBarTemplate))};
+    };
+    $("#scoresize").change(setScoreSize);
+
+    // changing the current bar do not modify the JS score, but the DOM bar must be updated
+    function setCurrentBar() {
+        theScore.currentbar = $("#currentbar").val() -1 ;
+        console.log("current bar: " + theScore.currentbar);
+        instantiateDOMCurrentBar(theScore, theScore.currentbar);
+    };
+    $("#currentbar").change(setCurrentBar);
+
+    function setTempo() {
+        theScore.bars[theScore.currentbar].tempo = $("#tempo").val();
+    };
+    $("#tempo").change(setTempo);
+
+    function setBeat() {
+        theScore.bars[theScore.currentbar].beat = $("#beat").val();
+    };
+    $("#beat").change(setBeat);
+
+    function setKey() {
+        theScore.bars[theScore.currentbar].key = $("#key").val();
+    };
+    $("#key").change(setKey);
+
+    function setTime() {
+        theScore.bars[theScore.currentbar].time = $("#time").val();
+    };
+    $("#time").change(setTime);
+
+    function setDivision() {
+        theScore.bars[theScore.currentbar].division = $("#division").val();
+    };
+    $("#division").change(setDivision);
 
     function instantiateMaestroBox() {
         var svgPanel = document.getElementById("emaestrobox");
@@ -264,30 +343,240 @@
     var startClock ;
     var listTimers = [];
 
- //   function playScore() {
- //       var d = new Date();
- //       startClock = d.getTime();
- //       var theClock = initClock;
- //       theClock = playStart(theClock, theScore.bars[0]);
+    var nbLedsPerBeat = [0,0,12,8,6,4,4,3,3]; // to check: i*unary[i] =< 24
+
+    var nbLedsPerPulse = [
+        [0,0,12,8,6,4,4,3,3], // unary - to check: i*unary[i] =< 24
+        [0,0, 6,4,3,2,2,1,1], // binary - to check: 2*i*unary[i] =< 24
+        [0,0, 4,2,2,1,1,1,1]  // ternary - to check: 3*i*unary[i] =< 24
+    ];
+
+    var intensityColors = ["#660099","#0000ff","#0099ff","#33ffcc","#33ff00","#ffff00","#ff6600","#ff0000","#aaaaaa"];
+
+    const EMAESTRO_ON = 0x80
+    const EMAESTRO_OFF = 0x81
+
+    function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse) {
+        var d = new Date();
+        var clock = d.getTime() - startClock;
+//	console.log("light " + onoff + " pulse num:" + thePulse + " at " + clock);
+        var nbLeds = nbLedsPerPulse[nbPulse-1][completedBar.time];
+        var firstLed = theBeat*nbLedsPerBeat[completedBar.time] + thePulse*nbLeds;
+//	console.log("led " + onoff + ": from " + firstLed + " to " + (firstLed+nbLeds));
+        for (var i = 0; i < nbLeds; i++) {
+            document
+                .getElementById("led" + (firstLed+i))
+                .setAttribute("fill",
+                    onoff == "on" ? intensityColors[completedBar.intensity] : "black");
+        };
+        socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity] );
+    };
+
+    function mySetTimeout(fun, time) {
+        var timer = setTimeout(fun, time);
+        listTimers.push(timer);
+    };
+
+
+    function playStart(theClock, theBar) {
+        theBar = JSON.parse(JSON.stringify(theBar));
+        theBar.intensity = 8;
+        var nbPulse = 3;
+        var beatTime = (1000 * 60)/theBar.tempo;
+        var pulseTime = beatTime/nbPulse;
+        for (var i = 0; i < theBar.time; i++) {
+            (function(theBeat) {
+                var lightPulseOn = function() {
+                    lightPulse("on", theBar, theBeat, 0, nbPulse);
+                };
+                mySetTimeout( lightPulseOn, theClock );
+            })(i);
+            theClock += pulseTime;
+            theClock += 2*pulseTime;
+        };
+        return theClock;
+    };
+
+    function completeBar(theCompletedBar, theBar) {
+        console.log("old completed bar: " + JSON.stringify(theCompletedBar));
+        console.log("the score bar: " + JSON.stringify(theScore.bars[theBar]));
+        theCompletedBar.alert = "";
+        var newAlert = false;
+        const barAttributes = ["tempo", "time", "beat", "intensity", "key", "division"];
+        barAttributes.forEach(
+            attr =>
+            {	if (theScore.bars[theBar][attr] != "") {
+                theCompletedBar[attr] = theScore.bars[theBar][attr];
+                newAlert = true;
+            };
+            }
+        );
+        if (theScore.bars[theBar].alert == -1) {
+            theCompletedBar.alert = "";
+        }else if (theBar == 0) {
+            theCompletedBar.alert = "";
+        }else if (theScore.bars[theBar].alert != "") {
+            theCompletedBar.alert = theScore.bars[theBar].alert;
+        }else if (newAlert) {
+            theCompletedBar.alert = theCompletedBar.intensity;
+        };
+        console.log("new completed bar: " + JSON.stringify(theCompletedBar));
+        return theCompletedBar;
+    }
+
+    function lightKey(completedBar) {
+        console.log("change in key");
+        var firstLed = circlesNbLeds[0] + circlesNbLeds[1] ;
+        var nbLeds = circlesNbLeds[2];
+        console.log("switch off key circle: from " + firstLed + " to " + (firstLed+nbLeds));
+        for (var i = 0; i < nbLeds; i++) {
+            document.getElementById("led" + (firstLed+i))
+                .setAttribute("fill", "black" );
+        };
+
+        var key = completedBar.key;
+        console.log("switch on key circle with new key: " + key);
+        if (key < 0) {
+            nbLeds = -key;
+            firstLed = circlesNbLeds[0] + circlesNbLeds[1] + circlesNbLeds[2] - nbLeds ;
+        }else{
+            nbLeds = key;
+            firstLed = circlesNbLeds[0] + circlesNbLeds[1];
+        };
+        console.log("first led = " + firstLed + " ; nbLeds = " + nbLeds );
+        for (var i = 0; i < nbLeds; i++) {
+            document
+                .getElementById("led" + (firstLed+i))
+                .setAttribute("fill", intensityColors[completedBar.intensity] );
+        };
+    };
+
+
+    function playKey(theClock, completedBar) {
+        mySetTimeout(function () {
+                lightKey(completedBar);
+            },
+            theClock
+        );
+    };
+
+    var blinkProgram = [0,200,600,800];
+
+    function lightBlink(onoff, theCompletedBar) {
+        console.log("play blink: " + JSON.stringify(theCompletedBar) + onoff);
+        var firstLed = circlesNbLeds[0];
+        var nbLeds = circlesNbLeds[1];
+        var color = intensityColors[theCompletedBar.alert];
+        console.log("alert color" + color);
+        for (var i = 0; i < nbLeds; i++) {
+            document
+                .getElementById("led" + (firstLed+i))
+                .setAttribute("fill", onoff == "on" ? color : "black");
+        };
+        var lastLed = circlesNbLeds[0] + circlesNbLeds[1] + circlesNbLeds[2] ;
+        document.getElementById("led" + lastLed)
+            .setAttribute("fill", onoff == "on" ? color : "black");
+    };
+
+    function playAlert(theClock, theCompletedBar) {
+        console.log("play alert: " + JSON.stringify(theCompletedBar) );
+        if (theCompletedBar.alert != "") {
+            for (var i = 0; i < blinkProgram.length; i++) {
+                mySetTimeout(function () {
+                        lightBlink("on", theCompletedBar);
+                    },
+                    theClock + blinkProgram[i]
+                );
+                i++;
+                mySetTimeout(function () {
+                        lightBlink("off", theCompletedBar);
+                    },
+                    theClock + blinkProgram[i]
+                );
+            };
+        };
+    };
+
+    function playBeat(theClock, completedBar, theBeat) {
+        var nbPulse;
+        if (completedBar.division == 1) {
+            nbPulse = 1;
+        }else if (completedBar.beat == 2 || completedBar.beat == 4 || completedBar.beat == 8) {
+            nbPulse = 2;
+        }else {
+            nbPulse = 3;
+        };
+
+        var beatTime = (1000 * 60)/completedBar.tempo;
+        var pulseTime = beatTime/nbPulse;
+        for (var i = 0; i < nbPulse; i++) {
+//	console.log("play pulse num:" + i + " at " + theClock + "on");
+            (function(thePulse) {
+                var lightPulseOn = function() {
+                    lightPulse("on", completedBar, theBeat, thePulse, nbPulse);
+                };
+                mySetTimeout( lightPulseOn, theClock );
+            })(i);
+        };
+        for (var i = 0; i < nbPulse; i++) {
+            theClock += pulseTime;
+//	console.log("play pulse num:" + i + " at " + theClock + "off");
+            (function(thePulse) {
+                var lightPulseOff = function() {
+                    lightPulse("off", completedBar, theBeat, thePulse, nbPulse);
+                };
+                mySetTimeout( lightPulseOff, theClock );
+            })(i);
+        };
+        return theClock;
+    };
+
+    function playBar(theClock, theCompletedBar, theBar) {
+// completion of the completed bar
+        theCompletedBar = completeBar(theCompletedBar, theBar);
+        playKey(theClock, theCompletedBar);
+        playAlert(theClock, theCompletedBar);
+        for (var i = 0; i < theCompletedBar.time; i++) {
+//console.log("play beat num:" + i + " at " + theClock);
+            theClock = playBeat(theClock, theCompletedBar, i);
+        };
+        return theClock;
+    };
+
+    function lightOff() {
+        var nbLeds = 49;
+        for (var i = 0; i < nbLeds; i++) {
+            document.getElementById("led" + i).setAttribute("fill", "black" );
+        };
+    };
+
+    function playEnd(theClock) {
+        mySetTimeout(function () { lightOff(); }, theClock );
+        return theClock + 10;
+    };
+
+    function playScore() {
+        var d = new Date();
+        startClock = d.getTime();
+        var theClock = initClock;
+        theClock = playStart(theClock, theScore.bars[0]);
 // bars in theScore only mark changes
 // a completed bar is created to remember what does not change
 // it is cloned then updated while reading each bar in turn
- //      var completedBar = theScore.bars[0];
- //       for (var i = 0; i < theScore.scoresize; i++) {
+        var completedBar = theScore.bars[0];
+        for (var i = 0; i < theScore.scoresize; i++) {
             // starts the bar handler
             // the bar handler will start the beats and pulses handlers
             // and return an updated time
-  //          console.log("play bar num:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
+            console.log("play bar num:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
             // do not forget to clone the completed bar
-    //        completedBar = JSON.parse(JSON.stringify(completedBar));
-    //        theClock = playBar(theClock, completedBar, i);
-    //    };
-    //    theClock = playEnd(theClock);
-   // };
-   // $("div#play button#playscore").click(playScore);
+            completedBar = JSON.parse(JSON.stringify(completedBar));
+            theClock = playBar(theClock, completedBar, i);
+        };
+        theClock = playEnd(theClock);
+    };
+    $("div#play button#playscore").click(playScore);
 
 
 </script>
-
-
 </html>
