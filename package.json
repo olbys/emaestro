@@ -1,0 +1,10 @@
+{
+  "name": "emaestro",
+  "version": "1.0.0",
+  "devDependencies": {
+    "socket.io": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
