@@ -2,37 +2,65 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
-    <script src="emaestro.server.fs.js"></script>
     <script src="./socket.io/socket.io.js"></script>
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;subset=latin">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+
+    <link rel="stylesheet" href="assetss/bootstrap-material-design-font/css/material.css">
+    <link rel="stylesheet" href="assetss/tether/tether.min.css">
+    <link rel="stylesheet" href="assetss/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assetss/animate.css/animate.min.css">
+    <link rel="stylesheet" href="assetss/theme/css/style.css">
+    <link rel="stylesheet" href="assetss/mobirise/css/mbr-additional.css" type="text/css">
 </head>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<link rel="stylesheet" href="css/jquery.vegas.min.css">
+<link rel="stylesheet" href="css/animate.min.css">
+
 <title>eMaestro</title>
 <meta charset="utf-8"/>
 </head>
 
-<body>
-<h1>eMaestro</h1>
+<body style="background-color:#d1c2c2;">
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <h1>eMaestro</h1>
+    </div>
+</div>
+
+
 </body>
 
 <div id="score">
+
     <form>
-        <label for="scoretitle">Titre de la partition</label>
-        <input id="scoretitle" type="text"></input>
-        <label for="scorefilename">Nom du fichier</label>
-        <input id="scorefilename" type="text"></input>
+        <div class="form-group">
+            <label for="scoretitle">Titre de la partition</label>
+            <input class="form-control"  id="scoretitle" type="text"></input>
+            <label for="scorefilename">Nom du fichier</label>
+            <input  class="form-control"  id="scorefilename" type="text"></input>
 
-        <label for="scoresize">Nombre de mesure</label>
-        <input id="scoresize" type="number"></input>
-        <label for="currentbar">Selectionner une mesure</label>
-        <input id="currentbar" type="number"></input>
+            <label for="scoresize">Nombre de mesure</label>
+            <input  class="form-control"  id="scoresize" type="number"></input>
+            <label for="currentbar">Selectionner une mesure</label>
+            <input class="form-control"   id="currentbar" type="number"></input>
+        </div>
     </form>
-</div>
 
+</div>
+<BR>
 <div id="bar">
     <form>
         <label for="tempo">Tempo (beat/min)</label>
-        <input id="tempo"></input>
+        <input class="form-control" id="tempo"></input>
         <label for="beat">Beat</label>
-        <select id="beat">
+        <select class="form-control" id="beat">
             <option value="">...</option>
             <option value=2>2nd</option>
             <option value=4>4th</option>
@@ -42,7 +70,7 @@
             <option value=12>dotted 8th</option>
         </select>
         <label for="key">Key signature</label>
-        <select id="key">
+        <select class="form-control" id="key">
             <option value="">...</option>
             <option value=-7>B (7 b)</option>
             <option value=-6>Gb (6 b)</option>
@@ -61,7 +89,7 @@
             <option value=7>C# (7 #)</option>
         </select>
         <label for="time">Time signature (beat/bar)</label>
-        <select id="time">
+        <select class="form-control" id="time">
             <option value="">...</option>
             <option value=2>2</option>
             <option value=3>3</option>
@@ -72,13 +100,13 @@
             <option value=8>8</option>
         </select>
         <label for="division">Division of beat</label>
-        <select id="division">
+        <select  class="form-control" id="division">
             <option value="">...</option>
             <option value=1>Simple</option>
             <option value=2>Compound</option>
         </select>
         <label for="intensity">Intensité</label>
-        <select id="intensity" style="font-weight: bold;font-style: italic;">
+        <select class="form-control" id="intensity" style="font-weight: bold;font-style: italic;">
             <option value="">...</option>
             <option value=0>ppp</option>
             <option value=1>pp</option>
@@ -90,7 +118,7 @@
             <option value=7>fff</option>
         </select>
         <label for="alert">Alert</label>
-        <select id="alert">
+        <select class="form-control" id="alert">
             <option value="-1">no alert</option>
             <option value="">...</option>
             <option value=0>Violet</option>
@@ -106,22 +134,22 @@
 </div>
 <br>
 <div id="cancel">
-    <button>Annuler</button>
+    <button class="btn btn-primary">Annuler</button>
 </div>
 
 <br>
 <div id="save">
-    <button>Enregistrer</button>
+    <button class="btn btn-primary">Enregistrer</button>
 </div>
 
 <br>
 <div id="play">
-    <button id="playscore">Démarrer</button>
-    <button id="stopscore">Stop</button>
+    <button  class="btn btn-primary" id="playscore">Démarrer</button>
+    <button  class="btn btn-primary" id="stopscore">Stop</button>
     <svg id="emaestrobox"></svg>
 </div>
-
-
+<br>
+<br>
 <script>
     var socket;
     var theScore;
@@ -558,15 +586,25 @@
     function saveScore() {
         var fileName = $("div#score input#scorefilename").val();
         var req = new XMLHttpRequest();
-        fileContent  = JSON.stringify(theScore);
+        var fileContent = JSON.stringify(theScore);
 
-        console.log("Test");
-        console.log("File" + fileContent);
-        document.write(fileContent);
+        req.onreadystatechange = function(event) {
+// XMLHttpRequest.DONE === 4
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    console.log("Réponse reçue: %s", this.responseText);
+                } else {
+                    console.log("Status de la réponse: %d (%s)",
+                        this.status, this.statusText);
+                }}};
 
-    }
-    $("div#save button").click(saveScore);
+        req.open("PUT", "http://localhost:8000/SCORES/" + fileName, true);
+        req.send(JSON.stringify(theScore));
+    };
+    $("#save button").click(saveScore);
 
 </script>
+
+
 
 </html>

@@ -1,50 +1,89 @@
-/*
-var PORT = 8080;
 
-var http = require('http');
-var server = http.createServer(function(req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.write('Hello World (mais en http)!');
-    res.end () ;
-    });
-server.listen(PORT);
+var http = require("http");
 
-console.log('Server running on ' + PORT);
+var methods = Object.create(null);
 
-var io = require('socket.io');
-var express = require('express');
-
-var app = express.createServer();
-app.configure(function(){
-    app.use(express.static(__dirname + '/public'));
-});
-app.get('/', function(req, res, next){
-    res.render('./emaestro.html');
-});
-app.listen(8333);
-*/
-
-var fs = require('fs');
-var vm = require('vm');
-
-eval(fs.readFileSync(__dirname + '/emaestro.html')+'');
-
-/*fs.readFile('emaestro.html', function (err, html) {
-    if (err) {
-        throw err;
+var server = http.createServer(function(request, response) {
+    function respond(code, body, type) {
+        if (!type) type = "application/json";
+        response.writeHead(code, {"Content-Type": type});
+        if (body && body.pipe)
+            body.pipe(response);
+        else
+            response.end(body);
     }
-});*/
 
-var file = fileContent;
-console.log(file);
+    if (request.method in methods)
+        methods[request.method](urlToPath(request.url),
+            respond, request);
+    else
+        respond(405, "Method " + request.method
+            + " not allowed on " + request.url );
+}).listen(8000);
 
-fs.writeFile('./SCORES/test1.txt', "Test", function (err) {
+function urlToPath(url) {
+    var path = require("url").parse(url).pathname;
+    console.log("URL -> path: " + path);
+    var decodedPath = decodeURIComponent(path).substring(1);
+    console.log("decoded path: " + decodedPath);
+    return decodedPath;
+}
 
-    if (err) throw err;
 
-    console.log('Fichier créé !');
-});
+var fs = require("fs");
 
+methods.GET = function(path, respond) {
+    fs.stat(path, function(error, stats) {
+        console.log("GET path: " + path);
+        if (error && error.code == "ENOENT")
+            respond(404, "File not found");
+        else if (error)
+            respond(500, error.toString());
+        else if (stats.isDirectory()) {
+            console.log("readdir");
+            fs.readdir(path, function(error, files) {
+                if (error)
+                    respond(500, error.toString());
+                else
+                    respond(200, '{"scores": ["' + files.join('", "') + '"]}');
+            });
+        }else {
+//			respond(200, fs.readFileSync(path,"utf8") );
+            console.log("readfile");
+            respond(200, fs.createReadStream(path), require("mime").getType(path));
+        }
+    });
+};
 
+methods.DELETE = function(path, respond) {
+    fs.stat(path, function(error, stats) {
+        if (error && error.code == "ENOENT")
+            respond(204);
+        else if (error)
+            respond(500, error.toString());
+        else if (stats.isDirectory())
+            respond(204);
+        else
+            fs.unlink(path, respondErrorOrNothing(respond));
+    });
+};
 
+function respondErrorOrNothing(respond) {
+    return function(error) {
+        if (error)
+            respond(500, error.toString());
+        else
+            respond(204);
+    };
+}
 
+methods.PUT = function(path, respond, request) {
+    var outStream = fs.createWriteStream(path);
+    outStream.on("error", function(error) {
+        respond(500, error.toString());
+    });
+    outStream.on("finish", function() {
+        respond(204);
+    });
+    request.pipe(outStream);
+}
