@@ -2,14 +2,15 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+    <script src="emaestro.server.fs.js"></script>
     <script src="./socket.io/socket.io.js"></script>
 </head>
-    <title>eMaestro</title>
-    <meta charset="utf-8"/>
+<title>eMaestro</title>
+<meta charset="utf-8"/>
 </head>
 
 <body>
-    <h1>eMaestro</h1>
+<h1>eMaestro</h1>
 </body>
 
 <div id="score">
@@ -111,14 +112,14 @@
 <br>
 <div id="save">
     <button>Enregistrer</button>
-    </div>
+</div>
 
-    <br>
-    <div id="play">
+<br>
+<div id="play">
     <button id="playscore">Démarrer</button>
     <button id="stopscore">Stop</button>
     <svg id="emaestrobox"></svg>
-    </div>
+</div>
 
 
 <script>
@@ -190,25 +191,7 @@
         $("div#bar select#alert option[value=" + aScore.bars[currentBarNum].alert + "]").prop('selected', true);
     };
 
-    function saveScore() {
-        var fileName = $("div#score input#scorefilename").val();
-        var req = new XMLHttpRequest();
-        var fileContent = JSON.stringify(theScore);
 
-        req.onreadystatechange = function(event) {
-// XMLHttpRequest.DONE === 4
-            if (this.readyState === XMLHttpRequest.DONE) {
-                if (this.status === 200) {
-                    console.log("Réponse reçue: %s", this.responseText);
-                } else {
-                    console.log("Status de la réponse: %d (%s)",
-                        this.status, this.statusText);
-                }}};
-
-        req.open("PUT", "http://localhost/eMaestro/SCORES/" + fileName, true);
-        req.send(fileContent);
-    };
-    $("#save button").click(saveScore);
 </script>
 
 <script>
@@ -330,13 +313,6 @@
         theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
         instantiateDOMScore(theScore);
         instantiateMaestroBox();
-
-        socket = io.connect('http://localhost/eMaestro/');
-        console.log("connected to localhost");
-        socket.on('message', function(message) {
-            console.log("client <- node:" + message);
-            $('#logs').html(message);
-        });
     });
 
     var initClock = 1 * 1000; // a laps time before starting
@@ -577,6 +553,20 @@
     };
     $("div#play button#playscore").click(playScore);
 
+    var fileContent = "";
+
+    function saveScore() {
+        var fileName = $("div#score input#scorefilename").val();
+        var req = new XMLHttpRequest();
+        fileContent  = JSON.stringify(theScore);
+
+        console.log("Test");
+        console.log("File" + fileContent);
+        document.write(fileContent);
+
+    }
+    $("div#save button").click(saveScore);
 
 </script>
+
 </html>
