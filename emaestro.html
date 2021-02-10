@@ -2,24 +2,8 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
-    <script src="./socket.io/socket.io.js"></script>
 
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;subset=latin">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
-
-    <link rel="stylesheet" href="assetss/bootstrap-material-design-font/css/material.css">
-    <link rel="stylesheet" href="assetss/tether/tether.min.css">
-    <link rel="stylesheet" href="assetss/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assetss/animate.css/animate.min.css">
-    <link rel="stylesheet" href="assetss/theme/css/style.css">
-    <link rel="stylesheet" href="assetss/mobirise/css/mbr-additional.css" type="text/css">
 </head>
-<link rel="stylesheet" href="css/bootstrap.min.css">
-
-<link rel="stylesheet" href="css/jquery.vegas.min.css">
-<link rel="stylesheet" href="css/animate.min.css">
 
 <title>eMaestro</title>
 <meta charset="utf-8"/>
@@ -42,14 +26,14 @@
     <form>
         <div class="form-group">
             <label for="scoretitle">Titre de la partition</label>
-            <input class="form-control"  id="scoretitle" type="text"></input>
+            <input class="form-control" id="scoretitle" type="text"></input>
             <label for="scorefilename">Nom du fichier</label>
-            <input  class="form-control"  id="scorefilename" type="text"></input>
+            <input class="form-control" id="scorefilename" type="text"></input>
 
             <label for="scoresize">Nombre de mesure</label>
-            <input  class="form-control"  id="scoresize" type="number"></input>
+            <input class="form-control" id="scoresize" type="number"></input>
             <label for="currentbar">Selectionner une mesure</label>
-            <input class="form-control"   id="currentbar" type="number"></input>
+            <input class="form-control" id="currentbar" type="number"></input>
         </div>
     </form>
 
@@ -100,7 +84,7 @@
             <option value=8>8</option>
         </select>
         <label for="division">Division of beat</label>
-        <select  class="form-control" id="division">
+        <select class="form-control" id="division">
             <option value="">...</option>
             <option value=1>Simple</option>
             <option value=2>Compound</option>
@@ -141,11 +125,24 @@
 <div id="save">
     <button class="btn btn-primary">Enregistrer</button>
 </div>
+<br>
+
+<div id="choose">
+    <button id="choosebutton">Choose score</button>
+    <ul id="choosescore">
+        <li id="afterlastscore" style="display: none">After last score</li>
+    </ul>
+</div>
+
+
+<div id="test">
+    <button>Cancel choose score</button>
+</div>
 
 <br>
 <div id="play">
-    <button  class="btn btn-primary" id="playscore">Démarrer</button>
-    <button  class="btn btn-primary" id="stopscore">Stop</button>
+    <button class="btn btn-primary" id="playscore">Démarrer</button>
+    <button class="btn btn-primary" id="stopscore">Stop</button>
     <svg id="emaestrobox"></svg>
 </div>
 <br>
@@ -197,18 +194,18 @@
 
 
     function instantiateDOMScore(aScore) {
-        console.log("instantiateDOMScore: " + JSON.stringify(aScore) );
+        console.log("instantiateDOMScore: " + JSON.stringify(aScore));
         $("div#score input#scoretitle").val(aScore.scoretitle);
         $("div#score input#scorefilename").val(aScore.scorefilename);
         $("div#score input#scoresize").val(aScore.scoresize);
         console.log("instantiateNewScore, currentbar:" + aScore.currentbar);
-        $("div#score input#currentbar").val(aScore.currentbar+1);
+        $("div#score input#currentbar").val(aScore.currentbar + 1);
 
         instantiateDOMCurrentBar(aScore, aScore.currentbar);
     };
 
     function instantiateDOMCurrentBar(aScore, currentBarNum) {
-        console.log("the score: " + JSON.stringify(aScore) );
+        console.log("the score: " + JSON.stringify(aScore));
         console.log("current bar num: " + currentBarNum);
         $("div#bar input#tempo").attr("value", aScore.bars[currentBarNum].tempo);
         $("div#bar select#beat option[value=" + aScore.bars[currentBarNum].beat + "]").prop('selected', true);
@@ -249,15 +246,17 @@
         var oldScoreSize = theScore.scoresize;
         theScore.scoresize = $("#scoresize").val();
         var oldScoreBars = theScore.bars;
-        for ( var i = 0; i < theScore.scoresize; i++ ) {
+        for (var i = 0; i < theScore.scoresize; i++) {
             // always make a deep copy of templates
-            theScore.bars[i] = oldScoreBars[i] ? oldScoreBars[i] : JSON.parse(JSON.stringify(otherBarTemplate))};
+            theScore.bars[i] = oldScoreBars[i] ? oldScoreBars[i] : JSON.parse(JSON.stringify(otherBarTemplate))
+        }
+        ;
     };
     $("#scoresize").change(setScoreSize);
 
     // changing the current bar do not modify the JS score, but the DOM bar must be updated
     function setCurrentBar() {
-        theScore.currentbar = $("#currentbar").val() -1 ;
+        theScore.currentbar = $("#currentbar").val() - 1;
         console.log("current bar: " + theScore.currentbar);
         instantiateDOMCurrentBar(theScore, theScore.currentbar);
     };
@@ -309,53 +308,57 @@
 
             // then leds are created according to the configuration declared above
             for (var i = 0; i < circlesNbLeds[c]; i++) {
-                angle = 2*Math.PI*(i+circlesPhase[c])/circlesNbLeds[c];
-                cx = centerBox + circlesRadius[c]*Math.sin(angle);
-                cy = centerBox - circlesRadius[c]*Math.cos(angle);
-                var led = makeCircle(cx, cy, ledRadius, "stroke: grey; stroke-width: 0.2;" );
-                led.setAttributeNS(null, 'id', "led"+ ledNum );
+                angle = 2 * Math.PI * (i + circlesPhase[c]) / circlesNbLeds[c];
+                cx = centerBox + circlesRadius[c] * Math.sin(angle);
+                cy = centerBox - circlesRadius[c] * Math.cos(angle);
+                var led = makeCircle(cx, cy, ledRadius, "stroke: grey; stroke-width: 0.2;");
+                led.setAttributeNS(null, 'id', "led" + ledNum);
                 svgPanel.appendChild(led);
                 ledNum++;
-            };
-        };
+            }
+            ;
+        }
+        ;
     };
 
     function makeRect(x, y, width, height, style) {
-        var rect = document.createElementNS(svgns,'rect');
+        var rect = document.createElementNS(svgns, 'rect');
         rect.setAttributeNS(null, 'x', x);
         rect.setAttributeNS(null, 'y', y);
         rect.setAttributeNS(null, 'width', width);
         rect.setAttributeNS(null, 'height', height);
         rect.setAttributeNS(null, 'style', style);
-        return rect};
+        return rect
+    };
 
     function makeCircle(cx, cy, r, style) {
-        var circle = document.createElementNS(svgns,'circle');
+        var circle = document.createElementNS(svgns, 'circle');
         circle.setAttributeNS(null, 'cx', cx);
         circle.setAttributeNS(null, 'cy', cy);
         circle.setAttributeNS(null, 'r', r);
         circle.setAttributeNS(null, 'style', style);
-        return circle};
+        return circle
+    };
 
-    $(function() {
+    $(function () {
         theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
         instantiateDOMScore(theScore);
         instantiateMaestroBox();
     });
 
     var initClock = 1 * 1000; // a laps time before starting
-    var startClock ;
+    var startClock;
     var listTimers = [];
 
-    var nbLedsPerBeat = [0,0,12,8,6,4,4,3,3]; // to check: i*unary[i] =< 24
+    var nbLedsPerBeat = [0, 0, 12, 8, 6, 4, 4, 3, 3]; // to check: i*unary[i] =< 24
 
     var nbLedsPerPulse = [
-        [0,0,12,8,6,4,4,3,3], // unary - to check: i*unary[i] =< 24
-        [0,0, 6,4,3,2,2,1,1], // binary - to check: 2*i*unary[i] =< 24
-        [0,0, 4,2,2,1,1,1,1]  // ternary - to check: 3*i*unary[i] =< 24
+        [0, 0, 12, 8, 6, 4, 4, 3, 3], // unary - to check: i*unary[i] =< 24
+        [0, 0, 6, 4, 3, 2, 2, 1, 1], // binary - to check: 2*i*unary[i] =< 24
+        [0, 0, 4, 2, 2, 1, 1, 1, 1]  // ternary - to check: 3*i*unary[i] =< 24
     ];
 
-    var intensityColors = ["#660099","#0000ff","#0099ff","#33ffcc","#33ff00","#ffff00","#ff6600","#ff0000","#aaaaaa"];
+    var intensityColors = ["#660099", "#0000ff", "#0099ff", "#33ffcc", "#33ff00", "#ffff00", "#ff6600", "#ff0000", "#aaaaaa"];
 
     const EMAESTRO_ON = 0x80
     const EMAESTRO_OFF = 0x81
@@ -364,16 +367,17 @@
         var d = new Date();
         var clock = d.getTime() - startClock;
 //	console.log("light " + onoff + " pulse num:" + thePulse + " at " + clock);
-        var nbLeds = nbLedsPerPulse[nbPulse-1][completedBar.time];
-        var firstLed = theBeat*nbLedsPerBeat[completedBar.time] + thePulse*nbLeds;
+        var nbLeds = nbLedsPerPulse[nbPulse - 1][completedBar.time];
+        var firstLed = theBeat * nbLedsPerBeat[completedBar.time] + thePulse * nbLeds;
 //	console.log("led " + onoff + ": from " + firstLed + " to " + (firstLed+nbLeds));
         for (var i = 0; i < nbLeds; i++) {
             document
-                .getElementById("led" + (firstLed+i))
+                .getElementById("led" + (firstLed + i))
                 .setAttribute("fill",
                     onoff == "on" ? intensityColors[completedBar.intensity] : "black");
-        };
-        socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity] );
+        }
+        ;
+        socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
     };
 
     function mySetTimeout(fun, time) {
@@ -386,18 +390,19 @@
         theBar = JSON.parse(JSON.stringify(theBar));
         theBar.intensity = 8;
         var nbPulse = 3;
-        var beatTime = (1000 * 60)/theBar.tempo;
-        var pulseTime = beatTime/nbPulse;
+        var beatTime = (1000 * 60) / theBar.tempo;
+        var pulseTime = beatTime / nbPulse;
         for (var i = 0; i < theBar.time; i++) {
-            (function(theBeat) {
-                var lightPulseOn = function() {
+            (function (theBeat) {
+                var lightPulseOn = function () {
                     lightPulse("on", theBar, theBeat, 0, nbPulse);
                 };
-                mySetTimeout( lightPulseOn, theClock );
+                mySetTimeout(lightPulseOn, theClock);
             })(i);
             theClock += pulseTime;
-            theClock += 2*pulseTime;
-        };
+            theClock += 2 * pulseTime;
+        }
+        ;
         return theClock;
     };
 
@@ -408,51 +413,56 @@
         var newAlert = false;
         const barAttributes = ["tempo", "time", "beat", "intensity", "key", "division"];
         barAttributes.forEach(
-            attr =>
-            {	if (theScore.bars[theBar][attr] != "") {
-                theCompletedBar[attr] = theScore.bars[theBar][attr];
-                newAlert = true;
-            };
+            attr => {
+                if (theScore.bars[theBar][attr] != "") {
+                    theCompletedBar[attr] = theScore.bars[theBar][attr];
+                    newAlert = true;
+                }
+                ;
             }
         );
         if (theScore.bars[theBar].alert == -1) {
             theCompletedBar.alert = "";
-        }else if (theBar == 0) {
+        } else if (theBar == 0) {
             theCompletedBar.alert = "";
-        }else if (theScore.bars[theBar].alert != "") {
+        } else if (theScore.bars[theBar].alert != "") {
             theCompletedBar.alert = theScore.bars[theBar].alert;
-        }else if (newAlert) {
+        } else if (newAlert) {
             theCompletedBar.alert = theCompletedBar.intensity;
-        };
+        }
+        ;
         console.log("new completed bar: " + JSON.stringify(theCompletedBar));
         return theCompletedBar;
     }
 
     function lightKey(completedBar) {
         console.log("change in key");
-        var firstLed = circlesNbLeds[0] + circlesNbLeds[1] ;
+        var firstLed = circlesNbLeds[0] + circlesNbLeds[1];
         var nbLeds = circlesNbLeds[2];
-        console.log("switch off key circle: from " + firstLed + " to " + (firstLed+nbLeds));
+        console.log("switch off key circle: from " + firstLed + " to " + (firstLed + nbLeds));
         for (var i = 0; i < nbLeds; i++) {
-            document.getElementById("led" + (firstLed+i))
-                .setAttribute("fill", "black" );
-        };
+            document.getElementById("led" + (firstLed + i))
+                .setAttribute("fill", "black");
+        }
+        ;
 
         var key = completedBar.key;
         console.log("switch on key circle with new key: " + key);
         if (key < 0) {
             nbLeds = -key;
-            firstLed = circlesNbLeds[0] + circlesNbLeds[1] + circlesNbLeds[2] - nbLeds ;
-        }else{
+            firstLed = circlesNbLeds[0] + circlesNbLeds[1] + circlesNbLeds[2] - nbLeds;
+        } else {
             nbLeds = key;
             firstLed = circlesNbLeds[0] + circlesNbLeds[1];
-        };
-        console.log("first led = " + firstLed + " ; nbLeds = " + nbLeds );
+        }
+        ;
+        console.log("first led = " + firstLed + " ; nbLeds = " + nbLeds);
         for (var i = 0; i < nbLeds; i++) {
             document
-                .getElementById("led" + (firstLed+i))
-                .setAttribute("fill", intensityColors[completedBar.intensity] );
-        };
+                .getElementById("led" + (firstLed + i))
+                .setAttribute("fill", intensityColors[completedBar.intensity]);
+        }
+        ;
     };
 
 
@@ -464,7 +474,7 @@
         );
     };
 
-    var blinkProgram = [0,200,600,800];
+    var blinkProgram = [0, 200, 600, 800];
 
     function lightBlink(onoff, theCompletedBar) {
         console.log("play blink: " + JSON.stringify(theCompletedBar) + onoff);
@@ -474,16 +484,17 @@
         console.log("alert color" + color);
         for (var i = 0; i < nbLeds; i++) {
             document
-                .getElementById("led" + (firstLed+i))
+                .getElementById("led" + (firstLed + i))
                 .setAttribute("fill", onoff == "on" ? color : "black");
-        };
-        var lastLed = circlesNbLeds[0] + circlesNbLeds[1] + circlesNbLeds[2] ;
+        }
+        ;
+        var lastLed = circlesNbLeds[0] + circlesNbLeds[1] + circlesNbLeds[2];
         document.getElementById("led" + lastLed)
             .setAttribute("fill", onoff == "on" ? color : "black");
     };
 
     function playAlert(theClock, theCompletedBar) {
-        console.log("play alert: " + JSON.stringify(theCompletedBar) );
+        console.log("play alert: " + JSON.stringify(theCompletedBar));
         if (theCompletedBar.alert != "") {
             for (var i = 0; i < blinkProgram.length; i++) {
                 mySetTimeout(function () {
@@ -497,41 +508,46 @@
                     },
                     theClock + blinkProgram[i]
                 );
-            };
-        };
+            }
+            ;
+        }
+        ;
     };
 
     function playBeat(theClock, completedBar, theBeat) {
         var nbPulse;
         if (completedBar.division == 1) {
             nbPulse = 1;
-        }else if (completedBar.beat == 2 || completedBar.beat == 4 || completedBar.beat == 8) {
+        } else if (completedBar.beat == 2 || completedBar.beat == 4 || completedBar.beat == 8) {
             nbPulse = 2;
-        }else {
+        } else {
             nbPulse = 3;
-        };
+        }
+        ;
 
-        var beatTime = (1000 * 60)/completedBar.tempo;
-        var pulseTime = beatTime/nbPulse;
+        var beatTime = (1000 * 60) / completedBar.tempo;
+        var pulseTime = beatTime / nbPulse;
         for (var i = 0; i < nbPulse; i++) {
 //	console.log("play pulse num:" + i + " at " + theClock + "on");
-            (function(thePulse) {
-                var lightPulseOn = function() {
+            (function (thePulse) {
+                var lightPulseOn = function () {
                     lightPulse("on", completedBar, theBeat, thePulse, nbPulse);
                 };
-                mySetTimeout( lightPulseOn, theClock );
+                mySetTimeout(lightPulseOn, theClock);
             })(i);
-        };
+        }
+        ;
         for (var i = 0; i < nbPulse; i++) {
             theClock += pulseTime;
 //	console.log("play pulse num:" + i + " at " + theClock + "off");
-            (function(thePulse) {
-                var lightPulseOff = function() {
+            (function (thePulse) {
+                var lightPulseOff = function () {
                     lightPulse("off", completedBar, theBeat, thePulse, nbPulse);
                 };
-                mySetTimeout( lightPulseOff, theClock );
+                mySetTimeout(lightPulseOff, theClock);
             })(i);
-        };
+        }
+        ;
         return theClock;
     };
 
@@ -543,19 +559,23 @@
         for (var i = 0; i < theCompletedBar.time; i++) {
 //console.log("play beat num:" + i + " at " + theClock);
             theClock = playBeat(theClock, theCompletedBar, i);
-        };
+        }
+        ;
         return theClock;
     };
 
     function lightOff() {
         var nbLeds = 49;
         for (var i = 0; i < nbLeds; i++) {
-            document.getElementById("led" + i).setAttribute("fill", "black" );
-        };
+            document.getElementById("led" + i).setAttribute("fill", "black");
+        }
+        ;
     };
 
     function playEnd(theClock) {
-        mySetTimeout(function () { lightOff(); }, theClock );
+        mySetTimeout(function () {
+            lightOff();
+        }, theClock);
         return theClock + 10;
     };
 
@@ -576,7 +596,8 @@
             // do not forget to clone the completed bar
             completedBar = JSON.parse(JSON.stringify(completedBar));
             theClock = playBar(theClock, completedBar, i);
-        };
+        }
+        ;
         theClock = playEnd(theClock);
     };
     $("div#play button#playscore").click(playScore);
@@ -588,7 +609,7 @@
         var req = new XMLHttpRequest();
         var fileContent = JSON.stringify(theScore);
 
-        req.onreadystatechange = function(event) {
+        req.onreadystatechange = function (event) {
 // XMLHttpRequest.DONE === 4
             if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
@@ -596,15 +617,103 @@
                 } else {
                     console.log("Status de la réponse: %d (%s)",
                         this.status, this.statusText);
-                }}};
+                }
+            }
+        };
 
         req.open("PUT", "http://localhost:8000/SCORES/" + fileName, true);
         req.send(JSON.stringify(theScore));
     };
     $("#save button").click(saveScore);
 
-</script>
 
+    var affichage = false;
+
+    function readScoreNames() {
+        var req = new XMLHttpRequest();
+
+            req.onreadystatechange = function (event) {
+                // XMLHttpRequest.DONE === 4
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    if (this.status === 200) {
+                        console.log("Réponse reçue: %s", this.responseText);
+                        buildScoreSelector(JSON.parse(this.responseText));
+                    } else {
+                        console.log("Status de la réponse: %d (%s)",
+                            this.status, this.statusText);
+                    }
+                }
+            };
+            req.open("GET", "http://localhost:8000/SCORES/", true);
+            req.send(null);
+    }
+
+    $('#choosebutton').on('click', readScoreNames);
+
+    var a = "";
+    function buildScoreSelector(scoreList) {
+        console.log("buildScoreSelector " + scoreList);
+        if (affichage === false) {
+           /* document.getElementById('afterlastscore').;*/
+            console.log("hidden");
+            a = "";
+            console.log("A= "+a);
+            affichage = true;
+        } else {
+            for (var i in scoreList.scores) {
+                a = a +'<li class="onescore">' + "<button>" + scoreList.scores[i] + "</button>" + "</li>"
+                console.log("a = "+ a);
+                affichage = false;
+            }
+        }
+        $("#choosescore").before(a);
+
+        document.getElementById("afterlastscore").innerHTML=a;
+
+                (function (target) {
+                    if (scoreList !== null) {
+                        $("#choosescore button:contains('" + scoreList.scores[target] + "')").on('click', readScoreByName(scoreList.scores[target]));
+                        $("#choosescore button:contains('" + scoreList.scores[target] + "')").attr('value', scoreList.scores[target]);
+                    }
+                    })(i);
+
+    }
+
+    function test() {
+        console.log("Test");
+        test1 = "";
+        test1;
+    }
+
+    $("#test button").click(test);
+
+
+    function readScoreByName(name) {
+        console.log("readScoreByName:" + name);
+        return function readOneScore() {
+            console.log("readOneScore: " + name);
+            var req = new XMLHttpRequest();
+
+            req.onreadystatechange = function (event) {
+                // XMLHttpRequest.DONE === 4
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    if (this.status === 200) {
+                        console.log("Réponse reçue: %s", this.responseText);
+                        theScore = JSON.parse(this.responseText);
+                        instantiateDOMScore(theScore);
+                    } else {
+                        console.log("Status de la réponse: %d (%s)",
+                            this.status, this.statusText);
+                    }
+                }
+            };
+
+            req.open("GET", "http://localhost:8000/SCORES/" + name, true);
+            req.send(null);
+        };
+    }
+
+</script>
 
 
 </html>
