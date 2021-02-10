@@ -25,7 +25,6 @@
 
     <form>
         <div class="form-group">
-<<<<<<< HEAD
             <label for="scoretitle">Titre de la partition</label>
             <input class="form-control" id="scoretitle" type="text"></input>
             <label for="scorefilename">Nom du fichier</label>
@@ -33,24 +32,8 @@
 
             <label for="scoresize">Nombre de mesure</label>
             <input class="form-control" id="scoresize" type="number"></input>
-=======
-            <div class="col col-lg-2">
-               <label for="scoretitle">Titre de la partition</label>
-               <input class="form-control"  id="scoretitle" type="text"></input>
-            </div>
-            <div class="col col-lg-2">
-            <label for="scorefilename">Nom du fichier</label>
-            <input  class="form-control"  id="scorefilename" type="text"></input>
-            </div>
-            <div class="col col-lg-2">
-            <label for="scoresize">Nombre de mesure</label>
-            <input  class="form-control"  id="scoresize" type="number"></input>
-            </div>
-            <div class="col col-lg-2">
->>>>>>> 8adb930ed6e57087cad4db69cb036a4f9814fb96
             <label for="currentbar">Selectionner une mesure</label>
             <input class="form-control" id="currentbar" type="number"></input>
-        </div>
         </div>
     </form>
 
@@ -58,11 +41,8 @@
 <BR>
 <div id="bar">
     <form>
-        <div class="col col-lg-2">
         <label for="tempo">Tempo (beat/min)</label>
         <input class="form-control" id="tempo"></input>
-    </div>
-        <div class="col col-lg-2">
         <label for="beat">Beat</label>
         <select class="form-control" id="beat">
             <option value="">...</option>
@@ -73,8 +53,6 @@
             <option value=6>dotted 4th</option>
             <option value=12>dotted 8th</option>
         </select>
-    </div>
-        <div class="col col-lg-2">
         <label for="key">Key signature</label>
         <select class="form-control" id="key">
             <option value="">...</option>
@@ -94,8 +72,6 @@
             <option value=6>F# (6 #)</option>
             <option value=7>C# (7 #)</option>
         </select>
-    </div>
-        <div class="col col-lg-2">
         <label for="time">Time signature (beat/bar)</label>
         <select class="form-control" id="time">
             <option value="">...</option>
@@ -107,17 +83,12 @@
             <option value=7>7</option>
             <option value=8>8</option>
         </select>
-    </div>
-        <div class="col col-lg-2">
         <label for="division">Division of beat</label>
         <select class="form-control" id="division">
             <option value="">...</option>
             <option value=1>Simple</option>
             <option value=2>Compound</option>
         </select>
-    </div>
-
-        <div class="col col-lg-2">
         <label for="intensity">Intensité</label>
         <select class="form-control" id="intensity" style="font-weight: bold;font-style: italic;">
             <option value="">...</option>
@@ -130,8 +101,6 @@
             <option value=6>ff</option>
             <option value=7>fff</option>
         </select>
-    </div>
-        <div class="col col-lg-2">
         <label for="alert">Alert</label>
         <select class="form-control" id="alert">
             <option value="-1">no alert</option>
@@ -145,14 +114,8 @@
             <option value=6>Orange</option>
             <option value=7>Red</option>
         </select>
-    </div>
     </form>
 </div>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
 <br>
 <div id="cancel">
     <button class="btn btn-primary">Annuler</button>
@@ -178,13 +141,8 @@
 
 <br>
 <div id="play">
-<<<<<<< HEAD
     <button class="btn btn-primary" id="playscore">Démarrer</button>
     <button class="btn btn-primary" id="stopscore">Stop</button>
-=======
-    <button  class="btn btn-primary" id="playscore">Demarrer</button>
-    <button  class="btn btn-primary" id="stopscore">Stop</button>
->>>>>>> 8adb930ed6e57087cad4db69cb036a4f9814fb96
     <svg id="emaestrobox"></svg>
 </div>
 <br>
