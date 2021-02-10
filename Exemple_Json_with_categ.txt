@@ -1,0 +1,45 @@
+{
+	"scoretitle":"Étude for eMaestro",
+	"scorefilename":"fivebarscore",
+	"scoresize":"5",
+	"currentbar":4,
+	"categorie": [{"nom":"Trompette",
+				   "bars":[{"tempo":"120", 
+							"beat":4,
+							"key":1,
+							"time":4,
+							"division":1,
+							"intensity":4,
+							"alert":""
+						   },
+						   {"tempo":"100",
+						    "beat":"",
+						    "key":"",
+						    "time":"",
+						    "division":"",
+						    "intensity":"",
+						    "alert":""
+						   }
+						 ]
+				  },
+				  {"nom":"Percussion",
+				   "bars":[{"tempo":"120", 
+							"beat":4,
+							"key":1,
+							"time":3,
+							"division":1,
+							"intensity":4,
+							"alert":""
+						   },
+						   {"tempo":"100",
+						    "beat":"",
+						    "key":"",
+						    "time":"",
+						    "division":"",
+						    "intensity":"",
+						    "alert":""
+						   }
+						 ]
+				  }]
+	
+}
