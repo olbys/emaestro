@@ -29,16 +29,33 @@
             <label for="responsable">Responsable de l'ensemble</label>
             <input class="form-control" id="responsable" type="text"></input>
 
-            <label for="membres">Membre</label>
-            <input class="form-control" id="membres" type="text"></input>
+            <label for="currentmembre">Identifiant membre</label>
+            <input class="form-control" id="currentmembre" type="number"></input>
+
+        </div>
+    </form>
+</div>
+
+<label>Membres : </label>
+<br>
+
+<div id="membre">
+    <form>
+        <div class="form-group">
+
+            <label for="namemembre">Nom</label>
+            <input class="form-control" id="namemembre" type="text"></input>
+
+            <label for="prenommembre">Prenom</label>
+            <input class="form-control" id="prenommembre" type="text"></input>
+
+            <label for="player">Instrument</label>
+            <input class="form-control" id="player" type="text"></input>
 
             <br>
         </div>
     </form>
 </div>
-
-<label for="player">Instrument</label>
-<input class="form-control" id="player" type="text"></input>
 
 <br><br>
 
@@ -59,22 +76,26 @@
     var ensembleTemplate = {
         namegroup: "Harmonie",
         responsable: "Chef Machin",
-        membres: "Pierre Durand",
+        currentmembre: 0,
+        membres: []
     };
 
     var firstMusicienTemplate = {
-        player: "piano"
+        nom: "Lecler",
+        prenom: "Adèle",
+        instrument: "piano"
     };
 
 
     function cancelGroup() {
-        group = instantiateGroup(ensembleTemplate);
+        group = instantiateGroup(ensembleTemplate, firstMusicienTemplate);
         instantiateDOMGroup(group);
     };
     $("div#cancel button").click(cancelGroup);
 
-    function instantiateGroup(ensembleTemplate) {
+    function instantiateGroup(ensembleTemplate, firstMusicienTemplate) {
         var group = JSON.parse(JSON.stringify(ensembleTemplate));
+        group.membres[0] = JSON.parse(JSON.stringify(firstMusicienTemplate));
         return group;
     };
 
@@ -82,7 +103,16 @@
         $("div#group input#namegroup").val(aGroup.namegroup);
         $("div#group input#responsable").val(aGroup.responsable);
         $("div#group input#membres").val(aGroup.membres);
+        $("div#group input#currentmembre").val(aGroup.currentmembre + 1);
+
+        instantiateDOMCurrentMembre(aGroup, aGroup.currentmembre);
     };
+
+    function instantiateDOMCurrentMembre(aGroup, currentmembreNum) {
+        $("div#membre input#namemembre").attr("value", aGroup.membres[currentmembreNum].nom);
+        $("div#membre input#prenommembre").attr("value", aGroup.membres[currentmembreNum].prenom);
+        $("div#membre input#player").attr("value", aGroup.membres[currentmembreNum].instrument);
+    }
 
     function saveGroup() {
         var fileName = $("div#group input#namegroup").val();
@@ -105,6 +135,7 @@
     };
     $("#save button").click(saveGroup);
 
+
     function setNameGroup() {
         group.namegroup = $("#namegroup").val();
     };
@@ -115,10 +146,31 @@
     };
     $("#responsable").change(setResponsable);
 
-    function setMembres() {
+    function setCurrentMembre() {
+        group.currentmembre = $("#currentmembre").val() - 1;
+        instantiateDOMCurrentMembre(group, group.currentmembre);
+    };
+    $("#currentmembre").change(setCurrentMembre);
+
+/*    function setMembres() {
         group.membres = $("#membres").val();
     };
-    $("#membres").change(setMembres);
+    $("#membres").change(setMembres);*/
+
+    function setNom() {
+        group.membres[group.currentmembre].nom = $("#namemembre").val();
+    };
+    $("#namemembre").change(setNom);
+
+    function setPrenom() {
+        group.membres[group.currentmembre].prenom = $("#prenommembre").val();
+    };
+    $("#prenommembre").change(setPrenom);
+
+    function setInstrument() {
+        group.membres[group.currentmembre].instrument = $("#player").val();
+    };
+    $("#player").change(setInstrument);
 
 
 </script>
