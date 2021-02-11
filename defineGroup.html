@@ -100,11 +100,25 @@
                 }
             }
         };
-
         req.open("PUT", "http://localhost:8000/Ensemble/" + fileName, true);
         req.send(fileContent);
     };
     $("#save button").click(saveGroup);
+
+    function setNameGroup() {
+        group.namegroup = $("#namegroup").val();
+    };
+    $("#namegroup").change(setNameGroup);
+
+    function setResponsable() {
+        group.responsable = $("#responsable").val();
+    };
+    $("#responsable").change(setResponsable);
+
+    function setMembres() {
+        group.membres = $("#membres").val();
+    };
+    $("#membres").change(setMembres);
 
 
 </script>
