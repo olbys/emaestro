@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+
+</head>
+
+<title>eMaestro</title>
+<meta charset="utf-8"/>
+</head>
+
+<body style="background-color:#d1c2c2;">
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <h1>eMaestro</h1>
+    </div>
+</div>
+</body>
+
+
+<div id="group">
+    <form>
+        <div class="form-group">
+            <label for="namegroup">Nom de l'ensemble</label>
+            <input class="form-control" id="namegroup" type="text"></input>
+
+            <label for="responsable">Responsable de l'ensemble</label>
+            <input class="form-control" id="responsable" type="text"></input>
+
+            <label for="membres">Membre</label>
+            <input class="form-control" id="membres" type="text"></input>
+
+            <br>
+        </div>
+    </form>
+</div>
+
+<label for="player">Instrument</label>
+<input class="form-control" id="player" type="text"></input>
+
+<br><br>
+
+<div id="cancel">
+    <button class="btn btn-primary">Annuler</button>
+</div>
+<br>
+<div id="save">
+    <button class="btn btn-primary">Enregistrer</button>
+</div>
+
+</div>
+</form>
+
+<script>
+
+    var group;
+    var ensembleTemplate = {
+        namegroup: "Harmonie",
+        responsable: "Chef Machin",
+        membres: "Pierre Durand",
+    };
+
+    var firstMusicienTemplate = {
+        player: "piano"
+    };
+
+
+    function cancelGroup() {
+        group = instantiateGroup(ensembleTemplate);
+        instantiateDOMGroup(group);
+    };
+    $("div#cancel button").click(cancelGroup);
+
+    function instantiateGroup(ensembleTemplate) {
+        var group = JSON.parse(JSON.stringify(ensembleTemplate));
+        return group;
+    };
+
+    function instantiateDOMGroup(aGroup) {
+        $("div#group input#namegroup").val(aGroup.namegroup);
+        $("div#group input#responsable").val(aGroup.responsable);
+        $("div#group input#membres").val(aGroup.membres);
+    };
+
+    function saveGroup() {
+        var fileName = $("div#group input#namegroup").val();
+        var req = new XMLHttpRequest();
+        var fileContent = JSON.stringify(group);
+
+        req.onreadystatechange = function (event) {
+// XMLHttpRequest.DONE === 4
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    console.log("Réponse reçue: %s", this.responseText);
+                } else {
+                    console.log("Status de la réponse: %d (%s)",
+                        this.status, this.statusText);
+                }
+            }
+        };
+
+        req.open("PUT", "http://localhost:8000/Ensemble/" + fileName, true);
+        req.send(fileContent);
+    };
+    $("#save button").click(saveGroup);
+
+
+</script>
+
+</html>
