@@ -24,6 +24,11 @@
 <div id="score">
 
     <form>
+        <div id="chooseg">
+            <label for="choosegroup">Choisir un groupe</label>
+            <select class="form-control" id="choosegroup">
+            </select>
+        </div>
         <div class="form-group">
             <label for="scoretitle">Titre de la partition</label>
             <input class="form-control" id="scoretitle" type="text"></input>
@@ -139,9 +144,6 @@
         <li id="afterlastgroup" style="display: none">After last group</li>
     </ul>-->
 
-    <label for="choosegroup">Choisir un groupe</label>
-    <select class="form-control" id="choosegroup" >
-    </select>
 
 <div id="test">
     <button>Cancel choose score</button>
@@ -159,6 +161,7 @@
     var socket;
     var theScore;
     var newScoreTemplate = {
+        choosegroup: "",
         scoretitle: "Mon premier morceau",
         scorefilename: "premiermorceau",
         scoresize: 4,
@@ -202,12 +205,12 @@
 
 
     function instantiateDOMScore(aScore) {
-        console.log("instantiateDOMScore: " + JSON.stringify(aScore));
+        $("div#bar select#choosegroup option[value=" + aScore.choosegroup + "]").prop('selected', true);
         $("div#score input#scoretitle").val(aScore.scoretitle);
         $("div#score input#scorefilename").val(aScore.scorefilename);
         $("div#score input#scoresize").val(aScore.scoresize);
-        console.log("instantiateNewScore, currentbar:" + aScore.currentbar);
         $("div#score input#currentbar").val(aScore.currentbar + 1);
+        console.log("AAAA" + aScore.choosegroup);
 
         instantiateDOMCurrentBar(aScore, aScore.currentbar);
     };
@@ -237,6 +240,11 @@
     var circlesNbLeds = [24, 16, 8, 1];
     var circlesPhase = [0.5, 0, 0.5, 0];         // to decide at which angle led circles are positioned.
     var ledRadius = 1.5;
+
+    function setChooseGroup() {
+        theScore.choosegroup = $("#choosegroup").val();
+    };
+    $("#choosegroup").change(setChooseGroup);
 
     function setScoreTitle() {
         console.log("scoretitle:" + theScore.scoretitle);
@@ -641,51 +649,38 @@
     function readScoreNames() {
         var req = new XMLHttpRequest();
 
-            req.onreadystatechange = function (event) {
-                // XMLHttpRequest.DONE === 4
-                if (this.readyState === XMLHttpRequest.DONE) {
-                    if (this.status === 200) {
-                        console.log("Réponse reçue: %s", this.responseText);
-                        buildScoreSelector(JSON.parse(this.responseText));
-                    } else {
-                        console.log("Status de la réponse: %d (%s)",
-                            this.status, this.statusText);
-                    }
+        req.onreadystatechange = function (event) {
+            // XMLHttpRequest.DONE === 4
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    console.log("Réponse reçue: %s", this.responseText);
+                    buildScoreSelector(JSON.parse(this.responseText));
+                } else {
+                    console.log("Status de la réponse: %d (%s)",
+                        this.status, this.statusText);
                 }
-            };
-            req.open("GET", "http://localhost:8000/SCORES/", true);
-            req.send(null);
+            }
+        };
+        req.open("GET", "http://localhost:8000/SCORES/", true);
+        req.send(null);
     }
 
     $('#choosebutton').on('click', readScoreNames);
 
     var a = "";
+
     function buildScoreSelector(scoreList) {
         console.log("buildScoreSelector " + scoreList);
-        if (affichage === false) {
-           /* document.getElementById('afterlastscore').;*/
-            console.log("hidden");
-            a = "";
-            console.log("A= "+a);
-            affichage = true;
-        } else {
-            for (var i in scoreList.scores) {
-                a = a +'<li class="onescore">' + "<button>" + scoreList.scores[i] + "</button>" + "</li>"
-                console.log("a = "+ a);
-                affichage = false;
-            }
-        }
-        $("#choosescore").before(a);
+        for (var i in scoreList.scores) {
+            $("#afterlastscore").before('<li class="onescore">' + "<button>" + scoreList.scores[i] + "</button>" + "</li>");
+            console.log("onclick: " + scoreList.scores[i]);
+            console.log("#choosescore button:contains('" + scoreList.scores[i] + "'):" + $("#choosescore button:contains('" + scoreList.scores[i] + "')"));
 
-        document.getElementById("afterlastscore").innerHTML=a;
-
-                (function (target) {
-                    if (scoreList !== null) {
-                        $("#choosescore button:contains('" + scoreList.scores[target] + "')").on('click', readScoreByName(scoreList.scores[target]));
-                        $("#choosescore button:contains('" + scoreList.scores[target] + "')").attr('value', scoreList.scores[target]);
-                    }
-                    })(i);
-
+            (function(target) {
+                $("#choosescore button:contains('" + scoreList.scores[target] + "')").on('click', readScoreByName(scoreList.scores[target]));
+                $("#choosescore button:contains('" + scoreList.scores[target] + "')").attr('value', scoreList.scores[target] );
+            })(i);
+        };
     }
 
     function test() {
@@ -741,20 +736,21 @@
         req.open("GET", "http://localhost:8000/Ensemble/", true);
         req.send(null);
     }
-    $('#choosegroup').on('click', readGroupNames);
+
 
     var a = "";
+
     function buildGroupSelector(groupList) {
         console.log("buildScoreSelector " + groupList);
         for (var i in groupList.scores) {
-            a = a + '<option value="' +groupList.scores[i]+ '">' + groupList.scores[i] + '</option>'
-/*
-            a = a +'<li class="onegroup">' + "<button>" + groupList.scores[i] + "</button>" + "</li>"
-*/
-            console.log("a = "+ a);
+            a = a + '<option value="' + groupList.scores[i] + '">' + groupList.scores[i] + '</option>'
+            /*
+                        a = a +'<li class="onegroup">' + "<button>" + groupList.scores[i] + "</button>" + "</li>"
+            */
+            console.log("a = " + a);
         }
 
-        document.getElementById("choosegroup").innerHTML=a;
+        document.getElementById("choosegroup").innerHTML = a;
 
         (function (target) {
             if (groupList !== null) {
