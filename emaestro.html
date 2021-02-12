@@ -132,12 +132,16 @@
     <ul id="choosescore">
         <li id="afterlastscore" style="display: none">After last score</li>
     </ul>
+</div>
 
-    <button id="choosebuttongroup">Choose group</button>
+<!--    <button id="choosebuttongroup">Choose group</button>
     <ul id="choosegroup">
         <li id="afterlastgroup" style="display: none">After last group</li>
-    </ul>
-</div>
+    </ul>-->
+
+    <label for="choosegroup">Choisir un groupe</label>
+    <select class="form-control" id="choosegroup" >
+    </select>
 
 <div id="test">
     <button>Cancel choose score</button>
@@ -348,6 +352,7 @@
         theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
         instantiateDOMScore(theScore);
         instantiateMaestroBox();
+        readGroupNames();
     });
 
     var initClock = 1 * 1000; // a laps time before starting
@@ -736,19 +741,20 @@
         req.open("GET", "http://localhost:8000/Ensemble/", true);
         req.send(null);
     }
-    $('#choosebuttongroup').on('click', readGroupNames);
+    $('#choosegroup').on('click', readGroupNames);
 
     var a = "";
     function buildGroupSelector(groupList) {
         console.log("buildScoreSelector " + groupList);
         for (var i in groupList.scores) {
+            a = a + '<option value="' +groupList.scores[i]+ '">' + groupList.scores[i] + '</option>'
+/*
             a = a +'<li class="onegroup">' + "<button>" + groupList.scores[i] + "</button>" + "</li>"
+*/
             console.log("a = "+ a);
         }
 
-        $("#choosegroup").before(a);
-
-        document.getElementById("afterlastscore").innerHTML=a;
+        document.getElementById("choosegroup").innerHTML=a;
 
         (function (target) {
             if (groupList !== null) {

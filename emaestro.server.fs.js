@@ -87,3 +87,5 @@ methods.PUT = function(path, respond, request) {
     });
     request.pipe(outStream);
 }
+
+console.log("Serveur : Ok");
