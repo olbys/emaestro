@@ -29,6 +29,9 @@
             <label for="responsable">Responsable de l'ensemble</label>
             <input class="form-control" id="responsable" type="text"></input>
 
+            <label for="groupsize">Nombre de membre</label>
+            <input class="form-control" id="groupsize" type="number"></input>
+
             <label for="currentmembre">Identifiant membre</label>
             <input class="form-control" id="currentmembre" type="number"></input>
 
@@ -67,8 +70,7 @@
     <button class="btn btn-primary">Enregistrer</button>
 </div>
 
-</div>
-</form>
+
 
 <script>
 
@@ -76,6 +78,7 @@
     var ensembleTemplate = {
         namegroup: "Harmonie",
         responsable: "Chef Machin",
+        groupsize: "3",
         currentmembre: 0,
         membres: []
     };
@@ -83,9 +86,19 @@
     var firstMusicienTemplate = {
         nom: "Lecler",
         prenom: "Adèle",
-        instrument: "piano"
+        instrument: "guitare"
     };
 
+    var otherMembreTemplate = {
+        nom: null,
+        prenom: null,
+        instrument: null
+    };
+
+    $(function () {
+        group = instantiateGroup(ensembleTemplate, firstMusicienTemplate);
+        instantiateDOMGroup(group);
+    });
 
     function cancelGroup() {
         group = instantiateGroup(ensembleTemplate, firstMusicienTemplate);
@@ -103,6 +116,7 @@
         $("div#group input#namegroup").val(aGroup.namegroup);
         $("div#group input#responsable").val(aGroup.responsable);
         $("div#group input#membres").val(aGroup.membres);
+        $("div#group input#groupsize").val(aGroup.groupsize);
         $("div#group input#currentmembre").val(aGroup.currentmembre + 1);
 
         instantiateDOMCurrentMembre(aGroup, aGroup.currentmembre);
@@ -135,6 +149,22 @@
     };
     $("#save button").click(saveGroup);
 
+    function setGroupSize() {
+        var oldGroupSize = group.groupsize;
+        group.groupsize = $("#groupsize").val();
+        console.log("Groupsize = " + group.groupsize);
+        var oldGroupMembres = group.membres;
+        var i = 0;
+        while (i < group.groupsize) {
+            console.log(oldGroupMembres);
+            console.log("current membre" + group.currentmembre);
+            group.membres[i] = oldGroupMembres[i] ? oldGroupMembres[i] : JSON.parse(JSON.stringify(otherMembreTemplate))
+            i++;
+        }
+        ;
+    };
+    $("#groupsize").change(setGroupSize);
+
 
     function setNameGroup() {
         group.namegroup = $("#namegroup").val();
@@ -146,16 +176,20 @@
     };
     $("#responsable").change(setResponsable);
 
+
     function setCurrentMembre() {
+        group.currentmembre = $("#currentmembre").val();
+        console.log("Current membre affiché: " + group.currentmembre);
         group.currentmembre = $("#currentmembre").val() - 1;
+        console.log("Current membre réel: " + group.currentmembre);
         instantiateDOMCurrentMembre(group, group.currentmembre);
     };
     $("#currentmembre").change(setCurrentMembre);
 
-/*    function setMembres() {
-        group.membres = $("#membres").val();
-    };
-    $("#membres").change(setMembres);*/
+    /*    function setMembres() {
+            group.membres = $("#membres").val();
+        };
+        $("#membres").change(setMembres);*/
 
     function setNom() {
         group.membres[group.currentmembre].nom = $("#namemembre").val();
@@ -171,6 +205,8 @@
         group.membres[group.currentmembre].instrument = $("#player").val();
     };
     $("#player").change(setInstrument);
+
+
 
 
 </script>

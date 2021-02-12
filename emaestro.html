@@ -132,8 +132,12 @@
     <ul id="choosescore">
         <li id="afterlastscore" style="display: none">After last score</li>
     </ul>
-</div>
 
+    <button id="choosebuttongroup">Choose group</button>
+    <ul id="choosegroup">
+        <li id="afterlastgroup" style="display: none">After last group</li>
+    </ul>
+</div>
 
 <div id="test">
     <button>Cancel choose score</button>
@@ -711,6 +715,70 @@
             req.open("GET", "http://localhost:8000/SCORES/" + name, true);
             req.send(null);
         };
+    }
+
+    // Afficher la liste des groupes
+    function readGroupNames() {
+        var req = new XMLHttpRequest();
+
+        req.onreadystatechange = function (event) {
+            // XMLHttpRequest.DONE === 4
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    console.log("Réponse reçue: %s", this.responseText);
+                    buildGroupSelector(JSON.parse(this.responseText));
+                } else {
+                    console.log("Status de la réponse: %d (%s)",
+                        this.status, this.statusText);
+                }
+            }
+        };
+        req.open("GET", "http://localhost:8000/Ensemble/", true);
+        req.send(null);
+    }
+    $('#choosebuttongroup').on('click', readGroupNames);
+
+    var a = "";
+    function buildGroupSelector(groupList) {
+        console.log("buildScoreSelector " + groupList);
+        for (var i in groupList.scores) {
+            a = a +'<li class="onegroup">' + "<button>" + groupList.scores[i] + "</button>" + "</li>"
+            console.log("a = "+ a);
+        }
+
+        $("#choosegroup").before(a);
+
+        document.getElementById("afterlastscore").innerHTML=a;
+
+        (function (target) {
+            if (groupList !== null) {
+                $("#choosegroup button:contains('" + groupList.scores[target] + "')").on('click', readGroupByName(groupList.scores[target]));
+                $("#choosegroup button:contains('" + groupList.scores[target] + "')").attr('value', groupList.scores[target]);
+            }
+        })(i);
+    }
+
+    function readGroupByName(name) {
+        return function readOneGroup() {
+            var req = new XMLHttpRequest();
+
+            req.onreadystatechange = function (event) {
+                // XMLHttpRequest.DONE === 4
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    if (this.status === 200) {
+                        console.log("Réponse reçue: %s", this.responseText);
+                        group = JSON.parse(this.responseText);
+                        instantiateDOMGroup(group);
+                    } else {
+                        console.log("Status de la réponse: %d (%s)",
+                            this.status, this.statusText);
+                    }
+                }
+            };
+
+            req.open("GET", "http://localhost:8000/Ensemble/" + name, true);
+            req.send(null);
+        }
     }
 
 </script>
