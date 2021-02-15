@@ -79,20 +79,20 @@
         namegroup: "Harmonie",
         responsable: "Chef Machin",
         groupsize: "3",
-        currentmembre: 0,
+        currentmembre: 1,
         membres: []
     };
 
     var firstMusicienTemplate = {
-        nom: "Lecler",
-        prenom: "Adèle",
+        nom: "Aaa",
+        prenom: "Aaa",
         instrument: "guitare"
     };
 
     var otherMembreTemplate = {
-        nom: null,
-        prenom: null,
-        instrument: null
+        nom: "",
+        prenom: "",
+        instrument: ""
     };
 
     $(function () {
@@ -108,7 +108,7 @@
 
     function instantiateGroup(ensembleTemplate, firstMusicienTemplate) {
         var group = JSON.parse(JSON.stringify(ensembleTemplate));
-        group.membres[0] = JSON.parse(JSON.stringify(firstMusicienTemplate));
+        group.membres[1] = JSON.parse(JSON.stringify(firstMusicienTemplate));
         return group;
     };
 
@@ -117,7 +117,7 @@
         $("div#group input#responsable").val(aGroup.responsable);
         $("div#group input#membres").val(aGroup.membres);
         $("div#group input#groupsize").val(aGroup.groupsize);
-        $("div#group input#currentmembre").val(aGroup.currentmembre + 1);
+        $("div#group input#currentmembre").val(aGroup.currentmembre);
 
         instantiateDOMCurrentMembre(aGroup, aGroup.currentmembre);
     };
@@ -150,15 +150,16 @@
     $("#save button").click(saveGroup);
 
     function setGroupSize() {
-        var oldGroupSize = group.groupsize;
+       // var oldGroupSize = group.groupsize;
         group.groupsize = $("#groupsize").val();
         console.log("Groupsize = " + group.groupsize);
-        var oldGroupMembres = group.membres;
-        var i = 0;
-        while (i < group.groupsize) {
-            console.log(oldGroupMembres);
+        // var oldGroupMembres = group.membres;
+        var i = 1;
+        while (i <= group.groupsize) {
             console.log("current membre" + group.currentmembre);
-            group.membres[i] = oldGroupMembres[i] ? oldGroupMembres[i] : JSON.parse(JSON.stringify(otherMembreTemplate))
+            if (!group.membres[i]) {
+            group.membres[i] =  JSON.parse(JSON.stringify(otherMembreTemplate));
+            }
             i++;
         }
         ;
@@ -180,8 +181,6 @@
     function setCurrentMembre() {
         group.currentmembre = $("#currentmembre").val();
         console.log("Current membre affiché: " + group.currentmembre);
-        group.currentmembre = $("#currentmembre").val() - 1;
-        console.log("Current membre réel: " + group.currentmembre);
         instantiateDOMCurrentMembre(group, group.currentmembre);
     };
     $("#currentmembre").change(setCurrentMembre);
