@@ -1,7 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+    <head>
+        <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+   
+    
+    
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;subset=latin">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+    
+        <link rel="stylesheet" href="assetss/bootstrap-material-design-font/css/material.css">
+        <link rel="stylesheet" href="assetss/tether/tether.min.css">
+        <link rel="stylesheet" href="assetss/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assetss/animate.css/animate.min.css">
+        <link rel="stylesheet" href="assetss/theme/css/style.css">
+        <link rel="stylesheet" href="assetss/mobirise/css/mbr-additional.css" type="text/css">
+    </head>
+    
 
 </head>
 
@@ -22,106 +38,95 @@
 </body>
 
 <div id="score">
-
     <form>
-        <div id="chooseg">
-            <label for="choosegroup">Choisir un groupe</label>
-            <select class="form-control" id="choosegroup">
-            </select>
-        </div>
         <div class="form-group">
             <label for="scoretitle">Titre de la partition</label>
-            <input class="form-control" id="scoretitle" type="text"></input>
+            <input class="form-control"  id="scoretitle" type="text"></input>
+            <div class="col col-lg-2">
+               <label for="scoretitle">Titre de la partition</label>
+               <input class="form-control"  id="scoretitle" type="text"></input>
+            </div>
+            <div class="col col-lg-2">
             <label for="scorefilename">Nom du fichier</label>
-            <input class="form-control" id="scorefilename" type="text"></input>
+            <input  class="form-control"  id="scorefilename" type="text"></input>
 
+            </div>
+            <div class="col col-lg-2">
             <label for="scoresize">Nombre de mesure</label>
-            <input class="form-control" id="scoresize" type="number"></input>
+            <input  class="form-control"  id="scoresize" type="number"></input>
+            </div>
+            <div class="col col-lg-2">
             <label for="currentbar">Selectionner une mesure</label>
-            <input class="form-control" id="currentbar" type="number"></input>
+            <input class="form-control"   id="currentbar" type="number"></input>
+        </div>
         </div>
     </form>
 
 </div>
-<br>
+<BR>
 <div id="bar">
     <form>
+        <div class="col col-lg-2">
         <label for="tempo">Tempo (beat/min)</label>
         <input class="form-control" id="tempo"></input>
+    </div>
+        <div class="col col-lg-2">
         <label for="beat">Beat</label>
         <select class="form-control" id="beat">
             <option value="">...</option>
-            <option value=2>2nd</option>
-            <option value=4>4th</option>
-            <option value=8>8th</option>
-            <option value=3>dotted 2nd</option>
             <option value=6>dotted 4th</option>
             <option value=12>dotted 8th</option>
         </select>
+    </div>
+        <div class="col col-lg-2">
         <label for="key">Key signature</label>
         <select class="form-control" id="key">
             <option value="">...</option>
-            <option value=-7>B (7 b)</option>
-            <option value=-6>Gb (6 b)</option>
-            <option value=-5>Db (5 b)</option>
-            <option value=-4>Ab (4 b)</option>
-            <option value=-3>Eb (3 b)</option>
-            <option value=-2>Bb (2 b)</option>
-            <option value=-1>F (1 b)</option>
-            <option value=0>C (no accidental)</option>
-            <option value=1>G (1 #)</option>
-            <option value=2>D (2 #)</option>
-            <option value=3>A (3 #)</option>
-            <option value=4>E (4 #)</option>
-            <option value=5>B (5 #)</option>
             <option value=6>F# (6 #)</option>
             <option value=7>C# (7 #)</option>
         </select>
+    </div>
+        <div class="col col-lg-2">
         <label for="time">Time signature (beat/bar)</label>
         <select class="form-control" id="time">
             <option value="">...</option>
-            <option value=2>2</option>
-            <option value=3>3</option>
-            <option value=4 selected>4</option>
-            <option value=5>5</option>
-            <option value=6>6</option>
             <option value=7>7</option>
             <option value=8>8</option>
         </select>
+    </div>
+        <div class="col col-lg-2">
         <label for="division">Division of beat</label>
-        <select class="form-control" id="division">
+        <select  class="form-control" id="division">
             <option value="">...</option>
             <option value=1>Simple</option>
             <option value=2>Compound</option>
         </select>
+    </div>
+
+        <div class="col col-lg-2">
         <label for="intensity">Intensité</label>
         <select class="form-control" id="intensity" style="font-weight: bold;font-style: italic;">
             <option value="">...</option>
-            <option value=0>ppp</option>
-            <option value=1>pp</option>
-            <option value=2>p</option>
-            <option value=3>mp</option>
-            <option value=4>mf</option>
-            <option value=5>f</option>
             <option value=6>ff</option>
             <option value=7>fff</option>
         </select>
+    </div>
+        <div class="col col-lg-2">
         <label for="alert">Alert</label>
         <select class="form-control" id="alert">
             <option value="-1">no alert</option>
-            <option value="">...</option>
-            <option value=0>Violet</option>
-            <option value=1>Blue</option>
-            <option value=2>Greenish Blue</option>
-            <option value=3>Bluish Green</option>
-            <option value=4>Green</option>
-            <option value=5>Yellow</option>
             <option value=6>Orange</option>
             <option value=7>Red</option>
         </select>
+    </div>
     </form>
 </div>
-<br>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+
 <div id="cancel">
     <button class="btn btn-primary">Annuler</button>
 </div>
