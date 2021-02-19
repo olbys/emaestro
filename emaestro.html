@@ -41,6 +41,11 @@
 <div id="score">
     <form>
         <div class="form-group">
+            <div id="chooseg">
+                <label for="choosegroup">Choisir un groupe</label>
+                <select class="form-control" id="choosegroup">
+                </select>
+            </div>
             <div class="col col-lg-2">
                 <label for="scoretitle">Titre de la partition</label>
                 <input class="form-control" id="scoretitle" type="text"></input>
@@ -187,7 +192,10 @@
 <div id="test">
     <button>Cancel choose score</button>
 </div>
-
+<br>
+<audio controls>
+    <source src="sons/son1.mp3" type="audio/mp3">
+</audio>
 <br>
 <div id="play">
     <button class="btn btn-primary" id="playscore">Démarrer</button>
