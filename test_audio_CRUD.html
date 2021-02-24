@@ -19,15 +19,48 @@
         <p>Emaestro  test Media Recorder</p>
         
         <p><button id="btnStart">START RECORDING</button><br/>
-        <button id="btnStop">STOP RECORDING</button></p>
+        <button id="btnStop">STOP RECORDING</button>
+        <br>
+        <button id="btnsave">DOWNLOAD RECORDING</button>
+    </p>
         
         <video controls></video>
         
         <video id="vid2" controls></video>
-        
-       
+        <br> <br>
+       <form method="post" enctype="multipart/form-data" action="/">
+        <label> Upload your track </label>
+        <input type="file" name="filename">
+        <input type="submit" value="upload">
+       </form>
     </main>    
     <script>
+       // upload file  track after Recording
+
+        upload=require("express-fileupload");
+        app.use(upload())
+        app.get("/",function(req,res){
+            res.sendFile(__dirname+"/test_audio_CRUD.html");
+        })
+        app.post("/",function(req,res){
+         if(req.files){
+
+            var file=req.files.filename,
+                filename=files.filename;
+                files.mv("./upload/"+filename,function(err){
+                    if(err){
+                        console.log(err)
+                        res.send("error occured")
+                    }
+                    else
+                    {
+                        res.send("done!")
+                    }
+                })
+         }
+
+   })
+//media  audio / video 
         
         let constraintObj = { 
             audio: { 
@@ -81,6 +114,7 @@
             //add listeners for saving video/audio
             let start = document.getElementById('btnStart');
             let stop = document.getElementById('btnStop');
+            let  save= document.getElementById('btnsave');
             let vidSave = document.getElementById('vid2');
             let mediaRecorder = new MediaRecorder(mediaStreamObj);
             let chunks = [];
@@ -93,15 +127,37 @@
                 mediaRecorder.stop();
                 console.log(mediaRecorder.state);
             });
+
+
             mediaRecorder.ondataavailable = function(ev) {
                 chunks.push(ev.data);
             }
+
+            let link='';
             mediaRecorder.onstop = (ev)=>{
                 let blob = new Blob(chunks, { 'type' : 'video/mp4;' });
                 chunks = [];
                 let videoURL = window.URL.createObjectURL(blob);
+               // window.ser
+               link=videoURL;
                 vidSave.src = videoURL;
+
+             
             }
+
+
+            save.addEventListener('click',(ev)=>{
+                var a = document.createElement('a');
+                document.body.appendChild(a);
+                a.style = 'display: none';
+                a.href = link;
+                a.download = 'track.mp4';
+                a.click();
+                window.URL.revokeObjectURL(link);
+
+            });
+
+
         })
         .catch(function(err) { 
             console.log(err.name, err.message); 
