@@ -20,6 +20,7 @@ var server = http.createServer(function(request, response) {
         respond(405, "Method " + request.method
             + " not allowed on " + request.url );
 }).listen(8000);
+console.log('Node server running on port 8000');
 
 function urlToPath(url) {
     var path = require("url").parse(url).pathname;

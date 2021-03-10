@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
 
 </head>
 
@@ -78,7 +78,7 @@
     var ensembleTemplate = {
         namegroup: "Harmonie",
         responsable: "Chef Machin",
-        groupsize: "3",
+        groupsize: 3,
         currentmembre: 1,
         membres: []
     };
@@ -148,23 +148,11 @@
     };
     $("#save button").click(saveGroup);
 
-    function setGroupSize() {
-       // var oldGroupSize = group.groupsize;
-        group.groupsize = $("#groupsize").val();
-        console.log("Groupsize = " + group.groupsize);
-        // var oldGroupMembres = group.membres;
-        var i = 1;
-        while (i <= group.groupsize) {
-            console.log("current membre" + group.currentmembre);
-            if (!group.membres[i]) {
-            group.membres[i] =  JSON.parse(JSON.stringify(otherMembreTemplate));
-            }
-            i++;
-        }
-        ;
-    };
-    $("#groupsize").change(setGroupSize);
 
+    $("#groupsize").change(setGroupSize);
+    function setGroupSize() {
+        group.groupsize = $("#groupsize").val();
+    };
 
     function setNameGroup() {
         group.namegroup = $("#namegroup").val();
