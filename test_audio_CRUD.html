@@ -28,10 +28,10 @@
         
         <video id="vid2" controls></video>
         <br> <br>
-       <form method="post" enctype="multipart/form-data" action="/">
+       <form method="POST" enctype="multipart/form-data" action="/">
         <label> Upload your track </label>
-        <input type="file" name="filename">
-        <input type="submit" value="upload">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
        </form>
     </main>    
     <script>
@@ -140,29 +140,33 @@
         });
         
 
-        upload=require("express-fileupload");
-        app.use(upload())
-        app.get("/",function(req,res){
-            res.sendFile(__dirname+"/test_audio_CRUD.html");
+        const express=require('express');
+const upload=require('express-fileupload');
+const app=express()
+app.use(upload())
+app.get('/',(req,res)=>{
+    res.sendFile(__dirname +'/test_audio_CRUD.html');
+})
+app.post('/',(req,res)=>{
+ if(req.files){
+/*
+    var file=req.files.filename,
+        filename=files.filename;
+        files.mv("/upload/"+filename,function(err){
+            if(err){
+                console.log(err)
+                res.send("error occured")
+            }
+            else
+            {
+                res.send("done!")
+            }
         })
-        app.post("/",function(req,res){
-         if(req.files){
+        */
+       console.log(req.files)
+ }
 
-            var file=req.files.filename,
-                filename=files.filename;
-                files.mv("./upload/"+filename,function(err){
-                    if(err){
-                        console.log(err)
-                        res.send("error occured")
-                    }
-                    else
-                    {
-                        res.send("done!")
-                    }
-                })
-         }
-
-   })
+})
 
      
     </script>
