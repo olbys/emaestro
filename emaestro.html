@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="assetss/animate.css/animate.min.css">
         <link rel="stylesheet" href="assetss/theme/css/style.css">
         <link rel="stylesheet" href="assetss/mobirise/css/mbr-additional.css" type="text/css">
+
+        <script type="text/javascript" src="Mediarecorder.js"></script>
         <meta charset="UTF-8"/>
     </head>
 
@@ -185,11 +187,8 @@
 </form>
 
 </div>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
+<br>
+
 
 <div id="cancel">
     <button class="btn btn-primary">Annuler</button>
@@ -229,8 +228,53 @@
 <div id="play">
     <button class="btn btn-primary" id="playscore">Démarrer</button>
     <button class="btn btn-primary" id="stopscore">Stop</button>
+    
+
+
+<div style="border: dashed; border-width: 2px 4px;border-radius: 40px;">
+    <main>
+        <br><br> <br>
+        <p>Emaestro Media Recorder</p>
+        <div class="col col-lg-2">
+        <p><button class="btn btn-primary" id="btnStart">START RECORDING</button><br/>
+        </div>
+        <div class="col col-lg-2">
+        <button class="btn btn-primary" id="btnStop">STOP RECORDING</button>
+        </div>
+        
+        <div class="col col-lg-2">
+        <button class="btn btn-primary" id="btnsave">DOWNLOAD </button>
+        </div>
+    
+        
+        <video controls></video>
+        
+        <video id="vid2" controls></video>
+        <br> <br>
+
+       <form method="POST" enctype="multipart/form-data" action="/">
+        <div class="col col-lg-4">
+        <label > Upload your track </label>
+        <input class="form-control" type="file" name="file">
+        </div>
+        <div class="col col-lg-2">
+            <br>
+        <input class="form-control" type="submit" value="Upload">
+        </div>
+       </form>
+    </main>
+</div>
+
+
+
+
+    <br>
+    <br>
+    <br>
+    <br>
     <svg id="emaestrobox"></svg>
 </div>
+
 <br>
 <br>
 <script>

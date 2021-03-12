@@ -1,48 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Emaestro</title>
 
-    <meta name="viewport" content="width=device-width">
-   
-    
-
-</head>
-<body>
-    <header>
-        <h1>MediaRecorder  Emaestro</h1>
-    </header>
-
-
-    <main>
-        <p>Emaestro  test Media Recorder</p>
-        <div class="col col-lg-2">
-        <p><button id="btnStart">START RECORDING</button><br/>
-        </div>
-        <div class="col col-lg-2">
-        <button id="btnStop">STOP RECORDING</button>
-        </div>
-        <br>
-        <div class="col col-lg-2">
-        <button id="btnsave">DOWNLOAD RECORDING</button>
-        </div>
-    </p>
-        
-        <video controls></video>
-        
-        <video id="vid2" controls></video>
-        <br> <br>
-       <form method="POST" enctype="multipart/form-data" action="/">
-        <label> Upload your track </label>
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-       </form>
-    </main>    
-    <script>
-       
-
-   
         
         let constraintObj = { 
             audio: { 
@@ -174,6 +130,3 @@ app.post('/',(req,res)=>{
 })
 
      
-    </script>
-</body>
-</html>
