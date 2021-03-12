@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
 
 </head>
 
 <title>eMaestro</title>
-<meta charset="utf-8"/>
+<meta charset="UTF-8"/>
 </head>
 
 <body style="background-color:#d1c2c2;">
@@ -59,7 +59,27 @@
         </div>
     </form>
 </div>
+<br>
+<form>
+    <div class="membre">
+        <div class="infomembre" id="infomembre">
+            <label for="nommusicien">Nom</label>
+            <input class="form-control" id="nommusicien" type="text"></input>
+            <label for="prenommusicien">Prénom</label>
+            <input class="form-control" id="prenommusicien" type="text"></input>
+            <label for="instrument">Intrument</label>
+            <input class="form-control" id="instrument" type="text"></input>
 
+        </div>
+        <div>
+            <img src="assetss/images/plus.png" width="50" onclick="add()">
+        </div>
+    </div>
+</form>
+
+<div id="add">
+    <button class="btn btn-primary">Ajouter</button>
+</div>
 <br><br>
 
 <div id="cancel">
@@ -68,6 +88,10 @@
 <br>
 <div id="save">
     <button class="btn btn-primary">Enregistrer</button>
+</div>
+<br>
+<div id="pageemaestro">
+        <input type="button" onclick="window.location.href = 'emaestro.html';" value="Accéder aux morceaux"/>
 </div>
 
 
@@ -78,7 +102,7 @@
     var ensembleTemplate = {
         namegroup: "Harmonie",
         responsable: "Chef Machin",
-        groupsize: "3",
+        groupsize: 3,
         currentmembre: 1,
         membres: []
     };
@@ -111,6 +135,14 @@
         group.membres[1] = JSON.parse(JSON.stringify(firstMusicienTemplate));
         return group;
     };
+
+    function add() {
+        var infoMusicien = ('<label for="nommusicien">Nom</label>' + '<input class="form-control" id="nommusicien" type="text"></input>' +
+        ' <label for="prenommusicien">Prénom</label>' + '<input class="form-control" id="prenommusicien" type="text"></input>' +
+        '<label for="instrument">Intrument</label>' + '<input class="form-control" id="instrument" type="text"></input>' );
+        document.getElementById("add").innerHTML = infoMusicien;
+    };
+    $("#add button").click(add);
 
     function instantiateDOMGroup(aGroup) {
         $("div#group input#namegroup").val(aGroup.namegroup);
@@ -148,23 +180,11 @@
     };
     $("#save button").click(saveGroup);
 
-    function setGroupSize() {
-       // var oldGroupSize = group.groupsize;
-        group.groupsize = $("#groupsize").val();
-        console.log("Groupsize = " + group.groupsize);
-        // var oldGroupMembres = group.membres;
-        var i = 1;
-        while (i <= group.groupsize) {
-            console.log("current membre" + group.currentmembre);
-            if (!group.membres[i]) {
-            group.membres[i] =  JSON.parse(JSON.stringify(otherMembreTemplate));
-            }
-            i++;
-        }
-        ;
-    };
-    $("#groupsize").change(setGroupSize);
 
+    $("#groupsize").change(setGroupSize);
+    function setGroupSize() {
+        group.groupsize = $("#groupsize").val();
+    };
 
     function setNameGroup() {
         group.namegroup = $("#namegroup").val();
