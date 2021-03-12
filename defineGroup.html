@@ -67,7 +67,7 @@
             <input class="form-control" id="nommusicien" type="text"></input>
             <label for="prenommusicien">Prénom</label>
             <input class="form-control" id="prenommusicien" type="text"></input>
-            <label for="instrument">Intrument</label>
+            <label for="instrument">Instrument</label>
             <input class="form-control" id="instrument" type="text"></input>
 
         </div>
@@ -137,10 +137,11 @@
     };
 
     function add() {
-        var infoMusicien = ('<label for="nommusicien">Nom</label>' + '<input class="form-control" id="nommusicien" type="text"></input>' +
+        console.log("Test");
+        $("#infomembre").before('<label for="nommusicien">Nom</label>' + '<input class="form-control" id="nommusicien" type="text"></input>' +
         ' <label for="prenommusicien">Prénom</label>' + '<input class="form-control" id="prenommusicien" type="text"></input>' +
         '<label for="instrument">Intrument</label>' + '<input class="form-control" id="instrument" type="text"></input>' );
-        document.getElementById("add").innerHTML = infoMusicien;
+        document.getElementById("infomembre").innerHTML = infoMusicien;
     };
     $("#add button").click(add);
 
