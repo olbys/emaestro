@@ -167,7 +167,7 @@
             </select>
         </div>
         <div class="col col-lg-2">
-            <label for="instrument">Instrument</label>
+            <label for="instrument">Pupitre</label>
             <select class="form-control" id="instrument" style="font-weight: bold;font-style: italic;">
                 <option value="">...</option>
                 <option value=0>piano</option>
@@ -175,6 +175,17 @@
         </div>
     </form>
 </div>
+<form>
+    <div class="pupitre">
+        <div class="infopupitre" id="infopupitre">
+            <label for="nompupitre">Nom du pupitre</label>
+            <input class="form-control" id="nompupitre" type="text"></input>
+        </div>
+        <div>
+            <img src="assetss/images/plus.png" width="50" onclick="addPupitre()">
+        </div>
+    </div>
+</form>
 
 <!--<form>
     <div class="pupitre">
@@ -310,6 +321,14 @@
         intensity: "",
         alert: ""
     };
+
+    function addPupitre() {
+        console.log("Test");
+        $("#infopupitre").before('<label for="nompupitre">Nom du pupitre</label>' + '<input class="form-control" id="nompupitre" type="text"></input>'
+            );
+        document.getElementById("infopupitre").innerHTML = infoPupitre;
+    };
+    $("#add button").click(add);
 
     function cancelScore() {
         console.log("cancelScore");
