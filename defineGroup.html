@@ -6,7 +6,7 @@
 </head>
 
 <title>eMaestro</title>
-<meta charset="utf-8"/>
+<meta charset="UTF-8"/>
 </head>
 
 <body style="background-color:#d1c2c2;">
@@ -59,7 +59,27 @@
         </div>
     </form>
 </div>
+<br>
+<form>
+    <div class="membre">
+        <div class="infomembre" id="infomembre">
+            <label for="nommusicien">Nom</label>
+            <input class="form-control" id="nommusicien" type="text"></input>
+            <label for="prenommusicien">Prénom</label>
+            <input class="form-control" id="prenommusicien" type="text"></input>
+            <label for="instrument">Intrument</label>
+            <input class="form-control" id="instrument" type="text"></input>
 
+        </div>
+        <div>
+            <img src="assetss/images/plus.png" width="50" onclick="add()">
+        </div>
+    </div>
+</form>
+
+<div id="add">
+    <button class="btn btn-primary">Ajouter</button>
+</div>
 <br><br>
 
 <div id="cancel">
@@ -68,6 +88,10 @@
 <br>
 <div id="save">
     <button class="btn btn-primary">Enregistrer</button>
+</div>
+<br>
+<div id="pageemaestro">
+        <input type="button" onclick="window.location.href = 'emaestro.html';" value="Accéder aux morceaux"/>
 </div>
 
 
@@ -111,6 +135,14 @@
         group.membres[1] = JSON.parse(JSON.stringify(firstMusicienTemplate));
         return group;
     };
+
+    function add() {
+        var infoMusicien = ('<label for="nommusicien">Nom</label>' + '<input class="form-control" id="nommusicien" type="text"></input>' +
+        ' <label for="prenommusicien">Prénom</label>' + '<input class="form-control" id="prenommusicien" type="text"></input>' +
+        '<label for="instrument">Intrument</label>' + '<input class="form-control" id="instrument" type="text"></input>' );
+        document.getElementById("add").innerHTML = infoMusicien;
+    };
+    $("#add button").click(add);
 
     function instantiateDOMGroup(aGroup) {
         $("div#group input#namegroup").val(aGroup.namegroup);
