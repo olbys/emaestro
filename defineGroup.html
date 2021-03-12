@@ -77,9 +77,9 @@
     </div>
 </form>
 
-<div id="add">
+<!--<div id="add">
     <button class="btn btn-primary">Ajouter</button>
-</div>
+</div>-->
 <br><br>
 
 <div id="cancel">
@@ -140,7 +140,7 @@
         console.log("Test");
         $("#infomembre").before('<label for="nommusicien">Nom</label>' + '<input class="form-control" id="nommusicien" type="text"></input>' +
         ' <label for="prenommusicien">Prénom</label>' + '<input class="form-control" id="prenommusicien" type="text"></input>' +
-        '<label for="instrument">Intrument</label>' + '<input class="form-control" id="instrument" type="text"></input>' );
+        '<label for="instrument">Intrument</label>' + '<input class="form-control" id="instrument" type="text" </input>' + '<br>' );
         document.getElementById("infomembre").innerHTML = infoMusicien;
     };
     $("#add button").click(add);
