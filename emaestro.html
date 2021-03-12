@@ -150,7 +150,7 @@
             </select>
         </div>
         <div class="col col-lg-2">
-            <label for="alert">Alert</label>
+            <label for="alert">Alerte</label>
             <select class="form-control" id="alert">
                 <option value="-1">no alert</option>
                 <option value="">...</option>
@@ -201,11 +201,18 @@
 <br>
 
 <div id="choose">
-    <button id="choosebutton">Choose score</button>
+    <button class="btn btn-primary" id="choosebutton">Choisir un morceau</button>
     <ul id="choosescore">
         <li id="afterlastscore" style="display: none">After last score</li>
     </ul>
+    <button class="btn btn-primary" id="chooserecord">Choisir un enregistrement</button>
+        <ul id="recordchoose">
+            <li id="afterlastrecord" style="display: none">After last score</li>
+        </ul>
+    </div>
 </div>
+
+
 
 <!--    <button id="choosebuttongroup">Choose group</button>
     <ul id="choosegroup">
@@ -217,65 +224,57 @@
     <button>Cancel choose score</button>
 </div>-->
 <br>
-<div id="ecoute">
-    <!--<button id="ecouteson">Ecouter</button>-->
+<!--<div id="ecoute">
+    &lt;!&ndash;<button id="ecouteson">Ecouter</button>&ndash;&gt;
     <audio controls>
         <source src="sons/son1.mp3" type="audio/mp3">
     </audio>
-</div>
-
+</div>-->
 <br>
 <div id="play">
     <button class="btn btn-primary" id="playscore">Démarrer</button>
     <button class="btn btn-primary" id="stopscore">Stop</button>
-    
+</div>
 
-
+    <br>
+    <svg id="emaestrobox"></svg>
+</div>
 <div style="border: dashed; border-width: 2px 4px;border-radius: 40px;">
     <main>
         <br><br> <br>
         <p>Emaestro Media Recorder</p>
         <div class="col col-lg-2">
-        <p><button class="btn btn-primary" id="btnStart">START RECORDING</button><br/>
+            <p><button class="btn btn-primary" id="btnStart">START RECORDING</button><br/>
         </div>
         <div class="col col-lg-2">
-        <button class="btn btn-primary" id="btnStop">STOP RECORDING</button>
+            <button class="btn btn-primary" id="btnStop">STOP RECORDING</button>
         </div>
-        
+
         <div class="col col-lg-2">
-        <button class="btn btn-primary" id="btnsave">DOWNLOAD </button>
+            <button class="btn btn-primary" id="btnsave">DOWNLOAD </button>
         </div>
-    
-        
-            <video hidden controls></video>
-        
-       
-        
+
+
+        <video hidden controls></video>
+
+
+
         <video id="vid2" controls></video>
         <br> <br>
 
-       <form method="POST" enctype="multipart/form-data" action="/">
-        <div class="col col-lg-4">
-        <label > Upload your track </label>
-        <input class="form-control" type="file" name="file">
-        </div>
-        <div class="col col-lg-2">
-            <br>
-        <input class="form-control" type="submit" value="Upload">
-        </div>
-       </form>
+        <form method="POST" enctype="multipart/form-data" action="/">
+            <div class="col col-lg-4">
+                <label > Upload your track </label>
+                <input class="form-control" type="file" name="file">
+            </div>
+            <div class="col col-lg-2">
+                <br>
+                <input class="form-control" type="submit" value="Upload">
+            </div>
+        </form>
     </main>
 </div>
 
-
-
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <svg id="emaestrobox"></svg>
-</div>
 
 <br>
 <br>
@@ -806,6 +805,39 @@
         ;
     }
 
+    function readRecordNames() {
+        var req = new XMLHttpRequest();
+
+        req.onreadystatechange = function (event) {
+            // XMLHttpRequest.DONE === 4
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    console.log("Réponse reçue: %s", this.responseText);
+                    buildRecordSelector(JSON.parse(this.responseText));
+                } else {
+                    console.log("Status de la réponse: %d (%s)",
+                        this.status, this.statusText);
+                }
+            }
+        };
+        req.open("GET", "http://localhost:8000/sons/", true);
+        req.send(null);
+    }
+    $('#chooserecord').on('click', readRecordNames);
+
+    function buildRecordSelector(recordList) {
+        for (var i in recordList.scores) {
+            $("#afterlastrecord").before('<li class="onerecord">' + "<p>" + recordList.scores[i] + "</p>" + "</li>" +
+                '<audio controls>' + '<source src="sons/' + recordList.scores[i] +'"'+ 'type="audio/mp3">' + '</audio>');
+
+            (function (target) {
+                $("#recordchoose button:contains('" + recordList.scores[target] + "')").on('click', readScoreByName(recordList.scores[target]));
+                $("#recordchoose button:contains('" + recordList.scores[target] + "')").attr('value', recordList.scores[target]);
+            })(i);
+        }
+        ;
+    }
+
     function test() {
         console.log("Test");
     }
@@ -834,6 +866,29 @@
             };
 
             req.open("GET", "http://localhost:8000/SCORES/" + name, true);
+            req.send(null);
+        };
+    }
+
+    function readRecordByName(name) {
+        return function readOneRecord() {
+            var req = new XMLHttpRequest();
+
+            req.onreadystatechange = function (event) {
+                // XMLHttpRequest.DONE === 4
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    if (this.status === 200) {
+                        console.log("Réponse reçue: %s", this.responseText);
+                        theScore = JSON.parse(this.responseText);
+                        instantiateDOMScore(theScore);
+                    } else {
+                        console.log("Status de la réponse: %d (%s)",
+                            this.status, this.statusText);
+                    }
+                }
+            };
+
+            req.open("GET", "http://localhost:8000/sons/" + name, true);
             req.send(null);
         };
     }
