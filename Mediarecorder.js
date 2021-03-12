@@ -1,10 +1,15 @@
-
+/*{ 
+    facingMode: "user", 
+    width: { min: 640, ideal: 1280, max: 1920 },
+    height: { min: 480, ideal: 720, max: 1080 } 
+}
+*/
         
         let constraintObj = { 
-            audio: { 
+            audio:  { 
                 facingMode: "user", 
-                width: { min: 640, ideal: 1280, max: 1920 },
-                height: { min: 480, ideal: 720, max: 1080 } 
+                width: { min: 540, ideal: 540, max: 540 },
+                height: { min: 280, ideal: 280, max: 280 } 
             } , 
             video: false
         }; 
@@ -46,7 +51,7 @@
             
             video.onloadedmetadata = function(ev) {
                 
-                video.play();
+              // video.play();
             };
             
             //add listeners for saving video/audio
