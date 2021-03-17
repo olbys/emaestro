@@ -1,7 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+    <script src="server.js" type="text/javascript"></script>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;subset=latin">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+
+    <link rel="stylesheet" href="assetss/bootstrap-material-design-font/css/material.css">
+    <link rel="stylesheet" href="assetss/tether/tether.min.css">
+    <link rel="stylesheet" href="assetss/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assetss/animate.css/animate.min.css">
+    <link rel="stylesheet" href="assetss/theme/css/style.css">
+    <link rel="stylesheet" href="assetss/mobirise/css/mbr-additional.css" type="text/css">
+
+    <script type="text/javascript" src="Mediarecorder.js"></script>
+    <meta charset="UTF-8"/>
 
 </head>
 
@@ -24,16 +40,16 @@
     <form>
         <div class="form-group">
             <label for="namegroup">Nom de l'ensemble</label>
-            <input class="form-control" id="namegroup" type="text"></input>
+            <input id="namegroup" type="text"></input>
 
             <label for="responsable">Responsable de l'ensemble</label>
-            <input class="form-control" id="responsable" type="text"></input>
+            <input id="responsable" type="text"></input>
 
             <label for="groupsize">Nombre de membre</label>
-            <input class="form-control" id="groupsize" type="number"></input>
+            <input id="groupsize" type="number"></input>
 
             <label for="currentmembre">Identifiant membre</label>
-            <input class="form-control" id="currentmembre" type="number"></input>
+            <input id="currentmembre" type="number"></input>
 
         </div>
     </form>
@@ -47,13 +63,13 @@
         <div class="form-group">
 
             <label for="namemembre">Nom</label>
-            <input class="form-control" id="namemembre" type="text"></input>
+            <input id="namemembre" type="text"></input>
 
             <label for="prenommembre">Prenom</label>
-            <input class="form-control" id="prenommembre" type="text"></input>
+            <input id="prenommembre" type="text"></input>
 
             <label for="player">Instrument</label>
-            <input class="form-control" id="player" type="text"></input>
+            <input id="player" type="text"></input>
 
             <br>
         </div>
@@ -64,11 +80,11 @@
     <div class="membre">
         <div class="infomembre" id="infomembre">
             <label for="nommusicien">Nom</label>
-            <input class="form-control" id="nommusicien" type="text"></input>
+            <input id="nommusicien" type="text"></input>
             <label for="prenommusicien">Prénom</label>
-            <input class="form-control" id="prenommusicien" type="text"></input>
+            <input id="prenommusicien" type="text"></input>
             <label for="instrument">Instrument</label>
-            <input class="form-control" id="instrument" type="text"></input>
+            <input id="instrument" type="text"></input>
 
         </div>
         <div>
@@ -91,7 +107,7 @@
 </div>
 <br>
 <div id="pageemaestro">
-        <input type="button" onclick="window.location.href = 'emaestro.html';" value="Accéder aux morceaux"/>
+    <input type="button" onclick="window.location.href = 'emaestro.html';" value="Accéder aux morceaux"/>
 </div>
 
 
@@ -138,9 +154,9 @@
 
     function add() {
         console.log("Test");
-        $("#infomembre").before('<label for="nommusicien">Nom</label>' + '<input class="form-control" id="nommusicien" type="text"></input>' +
-        ' <label for="prenommusicien">Prénom</label>' + '<input class="form-control" id="prenommusicien" type="text"></input>' +
-        '<label for="instrument">Intrument</label>' + '<input class="form-control" id="instrument" type="text" </input>' + '<br>' );
+        $("#infomembre").before('<label for="nommusicien">Nom</label>' + '<input id="nommusicien" type="text"></input>' +
+            ' <label for="prenommusicien">Prénom</label>' + '<input id="prenommusicien" type="text"></input>' +
+            '<label for="instrument">Intrument</label>' + '<input id="instrument" type="text" </input>' + '<br>' );
         document.getElementById("infomembre").innerHTML = infoMusicien;
     };
     $("#add button").click(add);
