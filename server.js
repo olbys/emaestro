@@ -1,4 +1,4 @@
-const port = process.env.port || 8000
+
 var http = require("http");
 
 var methods = Object.create(null);
@@ -19,7 +19,7 @@ var server = http.createServer(function(request, response) {
     else
         respond(405, "Method " + request.method
             + " not allowed on " + request.url );
-}).listen(port);
+}).listen(process.env.PORT || 8000);
 console.log('Node server running on port 8000');
 
 function urlToPath(url) {
