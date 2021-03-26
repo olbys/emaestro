@@ -85,11 +85,34 @@
                link=videoURL;
                 vidSave.src = videoURL;
 
+                let h = new Headers();
+                h.append('Accept', 'video/mp4');
+                let fd = new FormData();
+                fd.append('user-id', 77);
+                //let myFile = vidSave;
+                fd.append('avatar', blob, "avatrack.mp4");
+
+                let req = new Request(link, {
+                    method: 'POST',
+                    headers: h,
+                    mode: 'no-cors',
+                    body: fd
+                });
+            
+                fetch(req)
+                    .then( (response)=>{
+                        console.log('sucsses');
+                    })
+                    .catch( (err) =>{
+                        console.log('ERROR:', err.message);
+                    });
              
             }
 
 
             save.addEventListener('click',(ev)=>{
+
+
                 var a = document.createElement('a');
                 document.body.appendChild(a);
                 a.style = 'display: none';
