@@ -57,14 +57,18 @@
             //add listeners for saving video/audio
             let start = document.getElementById('btnStart');
             let stop = document.getElementById('btnStop');
+            let playscore = document.getElementById('playscore');
             let  save= document.getElementById('btnsave');
             let vidSave = document.getElementById('vid2');
             let mediaRecorder = new MediaRecorder(mediaStreamObj);
             let chunks = [];
             
             start.addEventListener('click', (ev)=>{
+               
                 mediaRecorder.start();
                 console.log(mediaRecorder.state);
+
+
             })
             stop.addEventListener('click', (ev)=>{
                 mediaRecorder.stop();
@@ -158,3 +162,25 @@ app.post('/',(req,res)=>{
 })
 
      
+
+function playScoreRecord() {
+    var d = new Date();
+    startClock = d.getTime();
+    var theClock = initClock;
+    theClock = playStart(theClock, theScore.bars[0]);
+// bars in theScore only mark changes
+// a completed bar is created to remember what does not change
+// it is cloned then updated while reading each bar in turn
+    var completedBar = theScore.bars[0];
+    for (var i = 0; i < theScore.scoresize; i++) {
+        // starts the bar handler
+        // the bar handler will start the beats and pulses handlers
+        // and return an updated time
+        console.log("play bar num:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
+        // do not forget to clone the completed bar
+        completedBar = JSON.parse(JSON.stringify(completedBar));
+        theClock = playBar(theClock, completedBar, i);
+    }
+    ;
+    theClock = playEnd(theClock);
+};

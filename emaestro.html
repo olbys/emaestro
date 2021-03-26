@@ -41,6 +41,7 @@
 </body>
 
 <div id="score">
+    
     <form>
         <div class="form-group">
             <div id="chooseg">
@@ -248,8 +249,10 @@
         <br><br> <br>
         <p>Emaestro Media Recorder</p>
         <div class="col col-lg-2">
-            <p><button class="btn btn-primary" id="btnStart">Démarrer l'enregistrement</button><br/>
-        </div>
+            <p><button class="btn btn-primary" id="btnStart" onclick="alertt();">Démarrer l'enregistrement</button><br/>
+             <label id="lab1">l'enregistrement a démarrer</label>
+         </div>
+
         <div class="col col-lg-2">
             <button class="btn btn-primary" id="btnStop">Arrêter l'enregistrement</button>
         </div>
@@ -280,12 +283,12 @@
 </div>
 
 <br>
-<form>
+
 <div id="play">
     <button class="btn btn-primary" id="playscore">Démarrer le métronome</button>
     <button class="btn btn-primary" id="stopscore">Arrêter le métronome</button>
-</div>
-</form>
+
+
 <br>
 <button class="btn btn-primary" id="playscorerecord">Démarrer le métronome et l'enregistrement</button>
 
@@ -307,6 +310,15 @@
 <br>
 <br>
 <script>
+    
+     document.getElementById("lab1").style.display = 'none';
+
+function alertt(){
+    document.getElementById("lab1").style.display = 'block';
+
+}
+
+
     var socket;
     var theScore;
     var newScoreTemplate = {
@@ -777,6 +789,14 @@
     $("div#play button#playscore").click(playScore);
 
     function playScoreRecord() {
+
+        let btnstart = document.getElementById('btnStart');
+       btnstart.click();
+
+
+
+
+
         var d = new Date();
         startClock = d.getTime();
         var theClock = initClock;
@@ -797,7 +817,7 @@
         ;
         theClock = playEnd(theClock);
     };
-    $("#playscorerecord button").click(playScoreRecord);
+    $("div#play button#playscorerecord").click(playScoreRecord);
 
 
 
