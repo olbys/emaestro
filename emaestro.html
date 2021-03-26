@@ -51,8 +51,8 @@
             </div>
             <br>
             <div id ="pagecreategroup">
-            <input class="btn btn-primary" type="button" onclick="window.location.href = 'defineGroup.html';" value="Créer un nouveau groupe"/>
-        </div>
+                <input class="btn btn-primary" type="button" onclick="window.location.href = 'defineGroup.html';" value="Créer un nouveau groupe"/>
+            </div>
             <br>
             <div class="col col-lg-2">
                 <label for="scoretitle">Titre de la partition</label>
@@ -200,7 +200,7 @@
     </div>
 </form>-->
 
-</div>
+
 <br>
 
 <div id="cancel">
@@ -219,10 +219,9 @@
         <li id="afterlastscore" style="display: none">After last score</li>
     </ul>
     <button class="btn btn-primary" id="chooserecord">Choisir un enregistrement</button>
-        <ul id="recordchoose">
-            <li id="afterlastrecord" style="display: none">After last score</li>
-        </ul>
-    </div>
+    <ul id="recordchoose">
+        <li id="afterlastrecord" style="display: none">After last score</li>
+    </ul>
 </div>
 
 
@@ -243,7 +242,17 @@
         <source src="sons/son1.mp3" type="audio/mp3">
     </audio>
 </div>-->
+<<<<<<< HEAD
 
+=======
+<br>
+<div id="play">
+    <button class="btn btn-primary" id="playscore">Démarrer</button>
+    <button class="btn btn-primary" id="stopscore">Stop</button>
+    <svg id="emaestrobox"></svg>
+</div>
+<br>
+>>>>>>> a1714ebfdb46206fc99edd6d5a08377e68e66f6e
 <div style="border: dashed; border-width: 2px 4px;border-radius: 40px;">
     <main>
         <br><br> <br>
@@ -355,7 +364,7 @@ function alertt(){
     function addPupitre() {
         console.log("Test");
         $("#infopupitre").before('<label for="nompupitre">Nom du pupitre</label>' + '<input class="form-control" id="nompupitre" type="text"></input>'
-            );
+        );
         document.getElementById("infopupitre").innerHTML = infoPupitre;
     };
     $("#add button").click(add);
@@ -848,7 +857,7 @@ function alertt(){
             }
         };
 
-        req.open("PUT", "/SCORES/" + fileName, true);
+        req.open("PUT", "http://localhost:8000/SCORES/" + fileName, true);
         req.send(JSON.stringify(theScore));
     };
     $("#save button").click(saveScore);
@@ -871,7 +880,7 @@ function alertt(){
                 }
             }
         };
-        req.open("GET", "/SCORES/", true);
+        req.open("GET", "http://localhost:8000/SCORES/", true);
         req.send(null);
     }
 
@@ -909,7 +918,7 @@ function alertt(){
                 }
             }
         };
-        req.open("GET", "/sons/", true);
+        req.open("GET", "http://localhost:8000/sons/", true);
         req.send(null);
     }
     $('#chooserecord').on('click', readRecordNames);
@@ -954,7 +963,7 @@ function alertt(){
                 }
             };
 
-            req.open("GET", "/SCORES/" + name, true);
+            req.open("GET", "http://localhost:8000/SCORES/" + name, true);
             req.send(null);
         };
     }
@@ -977,7 +986,7 @@ function alertt(){
                 }
             };
 
-            req.open("GET", "/sons/" + name, true);
+            req.open("GET", "http://localhost:8000/sons/" + name, true);
             req.send(null);
         };
     }
@@ -998,7 +1007,7 @@ function alertt(){
                 }
             }
         };
-        req.open("GET", "/Ensemble/", true);
+        req.open("GET", "http://localhost:8000/Ensemble/", true);
         req.send(null);
     }
 
@@ -1043,7 +1052,7 @@ function alertt(){
                 }
             };
 
-            req.open("GET", "/Ensemble/" + name, true);
+            req.open("GET", "http://localhost:8000/Ensemble/" + name, true);
             req.send(null);
         }
     }
