@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX with Fetch</title>
+</head>
+<body>
+<h1>Using Fetch to Upload Files</h1>
+<h2>Testing with Postman</h2>
+<p>https://postman-echo.com/post</p>
+<form action="#">
+    <div>
+        <input type="hidden" id="user_id" value="75" />
+        <input type="file" id="avatar_img" accept="image/x-png" multiple />
+    </div>
+    <div>
+        <button id="btnSubmit">Upload Avatar</button>
+    </div>
+</form>
+<div id="output">
+    <!-- output goes here -->
+
+</div>
+
+<script src="./fetch-upload.js" ></script>
+</body>
+</html>

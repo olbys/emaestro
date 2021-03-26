@@ -286,6 +286,14 @@
     </main>
 </div>
 
+<br>
+
+<audio class="my_audio" controls preload="none">
+    <source class="son1" src="sons/son3.mp3" type="audio/mp3"/>
+    <source class="son2" src="sons/son2.mp3" type="audio/mp3"/>
+</audio>
+<button onclick="play_audio('play')">PLAY</button>
+<button onclick="play_audio('stop')">STOP</button>
 
 <br>
 <br>
@@ -975,6 +983,20 @@
 
             req.open("GET", "/Ensemble/" + name, true);
             req.send(null);
+        }
+    }
+
+    $(".my_audio").trigger('load');
+    function play_audio(task) {
+        if(task == 'play'){
+            $(".my_audio").trigger('play');
+/*
+            document.getElementById('son2').play();
+*/
+        }
+        if(task == 'stop'){
+            $(".my_audio").trigger('pause');
+            $(".my_audio").prop("currentTime",0);
         }
     }
 
