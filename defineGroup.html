@@ -155,8 +155,13 @@
     function add() {
         console.log("Test");
         $("#infomembre").before('<label for="nommusicien">Nom</label>' + '<input id="nommusicien" type="text"></input>' +
+<<<<<<< HEAD
+        ' <label for="prenommusicien">Prénom</label>' + '<input id="prenommusicien" type="text"></input>' +
+        '<label for="instrument">Intrument</label>' + '<input id="instrument" type="text" </input>' + '<br>' );
+=======
             ' <label for="prenommusicien">Prénom</label>' + '<input id="prenommusicien" type="text"></input>' +
             '<label for="instrument">Intrument</label>' + '<input id="instrument" type="text" </input>' + '<br>' );
+>>>>>>> 220c48d4dd07457d60b7e7bebd8ea3c8937b1b3c
         document.getElementById("infomembre").innerHTML = infoMusicien;
     };
     $("#add button").click(add);
