@@ -10,7 +10,6 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
         <link rel="stylesheet"
               href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
-
         <link rel="stylesheet" href="assetss/bootstrap-material-design-font/css/material.css">
         <link rel="stylesheet" href="assetss/tether/tether.min.css">
         <link rel="stylesheet" href="assetss/bootstrap/css/bootstrap.min.css">
@@ -284,6 +283,14 @@
     </main>
 </div>
 
+<br>
+
+<audio class="my_audio" controls preload="none">
+    <source class="son1" src="sons/son3.mp3" type="audio/mp3"/>
+    <source class="son2" src="sons/son2.mp3" type="audio/mp3"/>
+</audio>
+<button onclick="play_audio('play')">PLAY</button>
+<button onclick="play_audio('stop')">STOP</button>
 
 <br>
 <br>
@@ -474,7 +481,7 @@
         }
         ;
     };
-
+//
     function makeRect(x, y, width, height, style) {
         var rect = document.createElementNS(svgns, 'rect');
         rect.setAttributeNS(null, 'x', x);
@@ -776,7 +783,7 @@
             }
         };
 
-        req.open("PUT", "http://localhost:8000/SCORES/" + fileName, true);
+        req.open("PUT", "/SCORES/" + fileName, true);
         req.send(JSON.stringify(theScore));
     };
     $("#save button").click(saveScore);
@@ -799,7 +806,7 @@
                 }
             }
         };
-        req.open("GET", "http://localhost:8000/SCORES/", true);
+        req.open("GET", "/SCORES/", true);
         req.send(null);
     }
 
@@ -837,7 +844,7 @@
                 }
             }
         };
-        req.open("GET", "http://localhost:8000/sons/", true);
+        req.open("GET", "/sons/", true);
         req.send(null);
     }
     $('#chooserecord').on('click', readRecordNames);
@@ -882,7 +889,7 @@
                 }
             };
 
-            req.open("GET", "http://localhost:8000/SCORES/" + name, true);
+            req.open("GET", "/SCORES/" + name, true);
             req.send(null);
         };
     }
@@ -905,7 +912,7 @@
                 }
             };
 
-            req.open("GET", "http://localhost:8000/sons/" + name, true);
+            req.open("GET", "/sons/" + name, true);
             req.send(null);
         };
     }
@@ -926,7 +933,7 @@
                 }
             }
         };
-        req.open("GET", "http://localhost:8000/Ensemble/", true);
+        req.open("GET", "/Ensemble/", true);
         req.send(null);
     }
 
@@ -971,8 +978,22 @@
                 }
             };
 
-            req.open("GET", "http://localhost:8000/Ensemble/" + name, true);
+            req.open("GET", "/Ensemble/" + name, true);
             req.send(null);
+        }
+    }
+
+    $(".my_audio").trigger('load');
+    function play_audio(task) {
+        if(task == 'play'){
+            $(".my_audio").trigger('play');
+/*
+            document.getElementById('son2').play();
+*/
+        }
+        if(task == 'stop'){
+            $(".my_audio").trigger('pause');
+            $(".my_audio").prop("currentTime",0);
         }
     }
 

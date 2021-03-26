@@ -9,5 +9,12 @@
     "mime": "~2.1.0",
     "serialport": "^9.0.6",
     "socket.io": "^3.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Erro: non test\" && exsit 1",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "12.11.1"
   }
 }
