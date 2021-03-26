@@ -94,7 +94,7 @@
             </select>
         </div>
         <div class="col col-lg-2">
-            <label for="key">Armure</label>
+            <label for="key">Key signature</label>
             <select class="form-control" id="key">
                 <option value="">...</option>
                 <option value=-7>B (7 b)</option>
@@ -115,7 +115,7 @@
             </select>
         </div>
         <div class="col col-lg-2">
-            <label for="time">Nombre de beat par mesure</label>
+            <label for="time">Time signature (beat/bar)</label>
             <select class="form-control" id="time">
                 <option value="">...</option>
                 <option value=2>2</option>
@@ -128,7 +128,7 @@
             </select>
         </div>
         <div class="col col-lg-2">
-            <label for="division">Division du beat</label>
+            <label for="division">Division of beat</label>
             <select class="form-control" id="division">
                 <option value="">...</option>
                 <option value=1>Simple</option>
@@ -169,13 +169,12 @@
             <label for="instrument">Pupitre</label>
             <select class="form-control" id="instrument" style="font-weight: bold;font-style: italic;">
                 <option value="">...</option>
-               <!-- <option value=0>piano</option>-->
+                <option value=0>piano</option>
             </select>
         </div>
-        <br>
     </form>
 </div>
-<!--<form>
+<form>
     <div class="pupitre">
         <div class="infopupitre" id="infopupitre">
             <label for="nompupitre">Nom du pupitre</label>
@@ -185,7 +184,7 @@
             <img src="assetss/images/plus.png" width="50" onclick="addPupitre()">
         </div>
     </div>
-</form>-->
+</form>
 
 <!--<form>
     <div class="pupitre">
@@ -199,7 +198,7 @@
     </div>
 </form>-->
 
-</div>
+
 <br>
 
 <div id="cancel">
@@ -208,7 +207,7 @@
 
 <br>
 <div id="save">
-    <button class="btn btn-primary">Enregistrer les caractéristiques</button>
+    <button class="btn btn-primary">Enregistrer</button>
 </div>
 <br>
 
@@ -221,7 +220,6 @@
         <ul id="recordchoose">
             <li id="afterlastrecord" style="display: none">After last score</li>
         </ul>
-    </div>
 </div>
 
 
@@ -242,20 +240,26 @@
         <source src="sons/son1.mp3" type="audio/mp3">
     </audio>
 </div>-->
-
+<br>
+<div id="play">
+    <button class="btn btn-primary" id="playscore">Démarrer</button>
+    <button class="btn btn-primary" id="stopscore">Stop</button>
+    <svg id="emaestrobox"></svg>
+    </div>
+    <br>
 <div style="border: dashed; border-width: 2px 4px;border-radius: 40px;">
     <main>
         <br><br> <br>
         <p>Emaestro Media Recorder</p>
         <div class="col col-lg-2">
-            <p><button class="btn btn-primary" id="btnStart">Démarrer l'enregistrement</button><br/>
+            <p><button class="btn btn-primary" id="btnStart">START RECORDING</button><br/>
         </div>
         <div class="col col-lg-2">
-            <button class="btn btn-primary" id="btnStop">Arrêter l'enregistrement</button>
+            <button class="btn btn-primary" id="btnStop">STOP RECORDING</button>
         </div>
 
         <div class="col col-lg-2">
-            <button class="btn btn-primary" id="btnsave">Télécharger</button>
+            <button class="btn btn-primary" id="btnsave">DOWNLOAD </button>
         </div>
 
 
@@ -280,29 +284,13 @@
 </div>
 
 <br>
-<form>
-<div id="play">
-    <button class="btn btn-primary" id="playscore">Démarrer le métronome</button>
-    <button class="btn btn-primary" id="stopscore">Arrêter le métronome</button>
-</div>
-</form>
-<br>
-<button class="btn btn-primary" id="playscorerecord">Démarrer le métronome et l'enregistrement</button>
 
-
-    <br>
-    <svg id="emaestrobox"></svg>
-</div>
-
-
-<br>
-
-<!--<audio class="my_audio" controls preload="none">
+<audio class="my_audio" controls preload="none">
     <source class="son1" src="sons/son3.mp3" type="audio/mp3"/>
     <source class="son2" src="sons/son2.mp3" type="audio/mp3"/>
 </audio>
 <button onclick="play_audio('play')">PLAY</button>
-<button onclick="play_audio('stop')">STOP</button>-->
+<button onclick="play_audio('stop')">STOP</button>
 
 <br>
 <br>
@@ -775,32 +763,6 @@
         theClock = playEnd(theClock);
     };
     $("div#play button#playscore").click(playScore);
-
-    function playScoreRecord() {
-        var d = new Date();
-        startClock = d.getTime();
-        var theClock = initClock;
-        theClock = playStart(theClock, theScore.bars[0]);
-// bars in theScore only mark changes
-// a completed bar is created to remember what does not change
-// it is cloned then updated while reading each bar in turn
-        var completedBar = theScore.bars[0];
-        for (var i = 0; i < theScore.scoresize; i++) {
-            // starts the bar handler
-            // the bar handler will start the beats and pulses handlers
-            // and return an updated time
-            console.log("play bar num:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
-            // do not forget to clone the completed bar
-            completedBar = JSON.parse(JSON.stringify(completedBar));
-            theClock = playBar(theClock, completedBar, i);
-        }
-        ;
-        theClock = playEnd(theClock);
-    };
-    $("#playscorerecord button").click(playScoreRecord);
-
-
-
 
     var fileContent = "";
 
