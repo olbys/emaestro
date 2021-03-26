@@ -823,25 +823,6 @@ function alertt(){
 
         let stop = document.getElementById('btnStop');
         stop.click();
-
-        var d = new Date();
-        startClock = d.getTime();
-        var theClock = initClock;
-        theClock = playStart(theClock, theScore.bars[0]);
-// bars in theScore only mark changes
-// a completed bar is created to remember what does not change
-// it is cloned then updated while reading each bar in turn
-        var completedBar = theScore.bars[0];
-        for (var i = 0; i < theScore.scoresize; i++) {
-            // starts the bar handler
-            // the bar handler will start the beats and pulses handlers
-            // and return an updated time
-            console.log("play bar num:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
-            // do not forget to clone the completed bar
-            completedBar = JSON.parse(JSON.stringify(completedBar));
-            theClock = playBar(theClock, completedBar, i);
-        }
-        ;
         theClock = playEnd(theClock);
     };
     $("div#play button#stopscorerecord").click(stopScoreRecord);
