@@ -78,6 +78,8 @@ function respondErrorOrNothing(respond) {
     };
 }
 
+
+
 methods.PUT = function(path, respond, request) {
     var outStream = fs.createWriteStream(path);
     outStream.on("error", function(error) {
@@ -88,5 +90,65 @@ methods.PUT = function(path, respond, request) {
     });
     request.pipe(outStream);
 }
+/*
+methods.POST = function(path, respond, request) {
+const express=require('express');
+const upload=require('express-fileupload');
+const app=express()
+app.use(upload())
+
+app.post('/',(req,res)=>{
+ if(req.files){
+
+    var file=req.files.file
+       var filename =file.name
+        file.mv('./upload/'+filename,function(err){
+            if(err){
+               
+                res.send("error occured")
+            }
+            else
+            {
+                res.send("done!")
+            }
+        })
+       
+ }
+
+})
+}
+ methods.POST = function() {
+
+    const express=require('express');
+    const upload=require('express-fileupload');
+    const app=express()
+    app.use(upload())
+    
+    app.post('/',(req,res)=>{
+     if(req.files){
+    
+        var file=req.files.filename,
+            filename=files.filename;
+            files.mv("/upload/"+filename,function(err){
+                if(err){
+                    console.log(err)
+                    res.send("error occured")
+                }
+                else
+                {
+                    res.send("done!")
+                }
+            })
+            
+           console.log(req.files)
+     }
+    
+    })
+
+};
+
+*/
+
+
 
 console.log("Serveur : Ok");
