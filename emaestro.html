@@ -559,6 +559,12 @@ function alertt(){
 
     var intensityColors = ["#660099", "#0000ff", "#0099ff", "#33ffcc", "#33ff00", "#ffff00", "#ff6600", "#ff0000", "#aaaaaa"];
 
+    function setIntensity() {
+        theScore.bars[theScore.currentbar].intensity = $("#intensity").val();
+    };
+    $("#intensity").change(setIntensity);
+
+
     const EMAESTRO_ON = 0x80
     const EMAESTRO_OFF = 0x81
 
