@@ -564,6 +564,10 @@ function alertt(){
     };
     $("#intensity").change(setIntensity);
 
+    function setAlert() {
+        theScore.bars[theScore.currentbar].alert = $("#alert").val();
+    };
+    $("#alert").change(setAlert);
 
     const EMAESTRO_ON = 0x80
     const EMAESTRO_OFF = 0x81
