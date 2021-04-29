@@ -222,10 +222,15 @@
         <ul id="recordchoose">
             <li id="afterlastrecord" style="display: none">After last score</li>
         </ul>
-    </div>
 </div>
 
-
+<br>
+<!--<button class="btn btn-primary" id="diapason">S'accorder</button>-->
+<div id="diapason">
+    <audio controls>
+        <source src="sons/diapason.mp3" type="audio/mp3">
+    </audio>
+</div>
 
 <!--    <button id="choosebuttongroup">Choose group</button>
     <ul id="choosegroup">
@@ -413,6 +418,11 @@ function alertt(){
 </script>
 
 <script>
+    function hearLa() {
+
+    }
+    $('#diapason').on('click', hearLa);
+
     var svgns = "http://www.w3.org/2000/svg";
     var viewBox = "0 0 100 100";
     var centerBox = 32.5;

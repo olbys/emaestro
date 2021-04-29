@@ -104,7 +104,7 @@ app.post('/',(req,res)=>{
        var filename =file.name
         file.mv('./upload/'+filename,function(err){
             if(err){
-               
+
                 res.send("error occured")
             }
             else
@@ -112,7 +112,7 @@ app.post('/',(req,res)=>{
                 res.send("done!")
             }
         })
-       
+
  }
 
 })
@@ -123,10 +123,10 @@ app.post('/',(req,res)=>{
     const upload=require('express-fileupload');
     const app=express()
     app.use(upload())
-    
+
     app.post('/',(req,res)=>{
      if(req.files){
-    
+
         var file=req.files.filename,
             filename=files.filename;
             files.mv("/upload/"+filename,function(err){
@@ -139,10 +139,10 @@ app.post('/',(req,res)=>{
                     res.send("done!")
                 }
             })
-            
+
            console.log(req.files)
      }
-    
+
     })
 
 };
