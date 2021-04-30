@@ -214,14 +214,18 @@
 <br>
 
 <div id="choose">
-    <button class="btn btn-primary" id="choosebutton">Choisir un morceau</button>
+    <button class="btn btn-primary" id="choosebutton">Choisir un morceau</button><br>
+   
     <ul id="choosescore">
         <li id="afterlastscore" style="display: none">After last score</li>
     </ul>
-    <button class="btn btn-primary" id="chooserecord">Choisir un enregistrement</button>
+    <button class="btn btn-primary" id="chooserecord">Mixer avec d'autres sons</button>
+    <form action="">
         <ul id="recordchoose">
             <li id="afterlastrecord" style="display: none">After last score</li>
         </ul>
+    </form>
+       
 </div>
 
 <br>
@@ -273,6 +277,73 @@
         <div class="col col-lg-2">
             <button class="btn btn-primary" id="btnsave">Télécharger</button>
         </div>
+
+     
+<br>
+
+<script>
+function playmix(){
+    
+  var sonmix = document.getElementsByName("sonmix");
+ 
+  var i;
+  for (i = 0; i < sonmix.length; i++) {
+    if (sonmix[i].checked) {
+    
+
+     document.getElementById(sonmix[i].value+'1').play();
+    
+
+    }
+  }
+  document.getElementById("vid2").play();
+ // document.getElementById("order").value = "You ordered a coffee with: " + txt;
+}
+
+function stopmix(){
+    
+
+
+
+    
+    var sonmix = document.getElementsByName("sonmix");
+   
+    var i;
+    for (i = 0; i < sonmix.length; i++) {
+      if (sonmix[i].checked) {
+      
+  
+       document.getElementById(sonmix[i].value+'1').pause();
+      
+  
+      }
+    }
+    document.getElementById("vid2").pause();
+   // document.getElementById("order").value = "You ordered a coffee with: " + txt;
+  }
+
+
+
+
+
+</script>
+
+
+   
+
+
+        <div class="col col-lg-2">
+            <button class="btn btn-primary" id="btnmix" onclick="playmix()"  >Ecouter le mix</button>
+
+        </div>
+
+        <div class="col col-lg-2">
+            <button class="btn btn-primary" id="btnmix" onclick="stopmix()"  >arrêter le mix</button>
+
+        </div>
+
+
+        
 
 
         <video hidden controls></video>
@@ -821,7 +892,47 @@ function alertt(){
     };
     $("div#play button#playscore").click(playScore);
 
+   
     function playScoreRecord() {
+
+
+
+     /*   var{ exec } = require('childprocess');
+    exec("ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac output.mp4", (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+    });
+
+       */
+    
+
+
+
+
+        function ff() {
+  var sonmix = document.getElementsByName("sonmix");
+  var txt = "";
+  var i;
+  for (i = 0; i < sonmix.length; i++) {
+    if (sonmix[i].checked) {
+    
+
+     document.getElementById(sonmix[i].value+'1').play();
+
+
+    }
+  }
+ // document.getElementById("order").value = "You ordered a coffee with: " + txt;
+}
+
+ff();
 
         let btnstart = document.getElementById('btnStart');
        btnstart.click();
@@ -852,6 +963,25 @@ function alertt(){
 
     function stopScoreRecord() {
 
+
+        function ff() {
+  var sonmix = document.getElementsByName("sonmix");
+  var txt = "";
+  var i;
+  for (i = 0; i < sonmix.length; i++) {
+    if (sonmix[i].checked) {
+    
+
+     document.getElementById(sonmix[i].value+'1').pause();
+
+
+    }
+  }
+ // document.getElementById("order").value = "You ordered a coffee with: " + txt;
+}
+
+ff();
+        
         let stop = document.getElementById('btnStop');
         stop.click();
         theClock = playEnd(theClock);
@@ -946,9 +1076,11 @@ function alertt(){
     $('#chooserecord').on('click', readRecordNames);
 
     function buildRecordSelector(recordList) {
+
+                
         for (var i in recordList.scores) {
             $("#afterlastrecord").before('<li class="onerecord">' + "<p>" + recordList.scores[i] + "</p>" + "</li>" +
-                '<audio controls>' + '<source src="sons/' + recordList.scores[i] +'"'+ 'type="audio/mp3">' + '</audio>');
+                '<audio controls id="'+recordList.scores[i]+'1">' + '<source src="sons/' + recordList.scores[i] +'"'+ 'type="audio/mp3">' + '</audio> <input type="checkbox" id="'+recordList.scores[i]+'" name="sonmix" value="'+recordList.scores[i]+'">   <label >Selectionner!</label>');
 
             (function (target) {
                 $("#recordchoose button:contains('" + recordList.scores[target] + "')").on('click', readScoreByName(recordList.scores[target]));
