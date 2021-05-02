@@ -2,12 +2,14 @@
   "name": "emaestro",
   "version": "1.0.0",
   "devDependencies": {
+    "formidable": "^1.2.2",
     "socket.io": "^3.1.0"
   },
   "dependencies": {
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "mime": "~2.1.0",
+    "popup-tools": "^1.0.2",
     "serialport": "^9.0.6",
     "socket.io": "^3.1.0"
   },
