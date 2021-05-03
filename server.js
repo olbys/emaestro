@@ -96,7 +96,9 @@ methods.POST = function(path, res, req) {
         console.log(files.file.name);
         var oldpath = files.file.path;
         var newpath = './sons/' + files.file.name;
-        fs.rename(oldpath, newpath, function (err) {
+
+        fs.renameSync(oldpath, newpath, function (err) {
+            fs.unlinkSync(files.file.path);
             if (err) throw err;
             res(204);
         });
