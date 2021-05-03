@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "alert": "^5.0.10",
+    "formidable": "^1.2.2",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "mime": "~2.1.0",
