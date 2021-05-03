@@ -353,7 +353,8 @@ function stopmix(){
         <video id="vid2" controls></video>
         <br> <br>
 
-        <form method="POST" enctype="multipart/form-data" action="/" onsubmit="alert('Le fichier a été téléversé !'); setTimeout(function(){window.location.reload();},1000);">
+        <form method="POST" enctype="multipart/form-data" action="/" onsubmit="alert('Le fichier a été téléversé !'); ">
+        //    setTimeout(function(){window.location.reload();},1000);
             <div class="col col-lg-4">
                 <label >Télécharger votre piste sur emaestro</label>
                 <input class="form-control" type="file" name="file">
