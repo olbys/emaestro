@@ -135,6 +135,8 @@
         instrument: ""
     };
 
+    var nbmembre = 1;
+
     $(function () {
         group = instantiateGroup(ensembleTemplate, firstMusicienTemplate);
         instantiateDOMGroup(group);
@@ -153,16 +155,11 @@
     };
 
     function add() {
-        console.log("Test");
+        console.log(nbmembre);
         $("#infomembre").before('<label for="nommusicien">Nom</label>' + '<input id="nommusicien" type="text"></input>' +
-<<<<<<< HEAD
         ' <label for="prenommusicien">Prénom</label>' + '<input id="prenommusicien" type="text"></input>' +
         '<label for="instrument">Intrument</label>' + '<input id="instrument" type="text" </input>' + '<br>' );
-=======
-            ' <label for="prenommusicien">Prénom</label>' + '<input id="prenommusicien" type="text"></input>' +
-            '<label for="instrument">Intrument</label>' + '<input id="instrument" type="text" </input>' + '<br>' );
->>>>>>> 220c48d4dd07457d60b7e7bebd8ea3c8937b1b3c
-        document.getElementById("infomembre").innerHTML = infoMusicien;
+        nbmembre = nbmembre +1;
     };
     $("#add button").click(add);
 
@@ -173,13 +170,25 @@
         $("div#group input#groupsize").val(aGroup.groupsize);
         $("div#group input#currentmembre").val(aGroup.currentmembre);
 
-        instantiateDOMCurrentMembre(aGroup, aGroup.currentmembre);
+        var i = 0;
+        while (i <= nbmembre) {
+            $("div#infomembre input#nommusicien").attr("value", aGroup.membres[i].nom);
+            $("div#infomembre input#prenommusicien").attr("value", aGroup.membres[i].prenom);
+            $("div#infomembre input#instrument").attr("value", aGroup.membres[i].instrument);
+            i++;
+        }
+
+       /* instantiateDOMCurrentMembre(aGroup, aGroup.currentmembre);*/
     };
 
     function instantiateDOMCurrentMembre(aGroup, currentmembreNum) {
-        $("div#membre input#namemembre").attr("value", aGroup.membres[currentmembreNum].nom);
-        $("div#membre input#prenommembre").attr("value", aGroup.membres[currentmembreNum].prenom);
-        $("div#membre input#player").attr("value", aGroup.membres[currentmembreNum].instrument);
+        var i = 0;
+        while (i <= nbmembre) {
+            $("div#infomembre input#nommusicien").attr("value", aGroup.membres[i].nom);
+            $("div#infomembre input#prenommusicien").attr("value", aGroup.membres[i].prenom);
+            $("div#infomembre input#instrument").attr("value", aGroup.membres[i].instrument);
+            i++;
+        }
     }
 
     function saveGroup() {

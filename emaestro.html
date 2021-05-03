@@ -18,6 +18,9 @@
         <link rel="stylesheet" href="assetss/mobirise/css/mbr-additional.css" type="text/css">
 
         <script type="text/javascript" src="Mediarecorder.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>
+
         <meta charset="UTF-8"/>
     </head>
 
@@ -236,6 +239,7 @@
     </audio>
 </div>
 
+
 <!--    <button id="choosebuttongroup">Choose group</button>
     <ul id="choosegroup">
         <li id="afterlastgroup" style="display: none">After last group</li>
@@ -264,10 +268,9 @@
 <div style="border: dashed; border-width: 2px 4px;border-radius: 40px;">
     <main>
         <br><br> <br>
-        <p>Emaestro Media Recorder</p>
         <div class="col col-lg-2">
             <p><button class="btn btn-primary" id="btnStart" onclick="alertt();">Démarrer l'enregistrement</button><br/>
-             <label id="lab1">l'enregistrement a démarrer</label>
+             <label id="lab1">l'enregistrement a démarré</label>
          </div>
 
         <div class="col col-lg-2">
@@ -280,8 +283,12 @@
 
      
 <br>
+<div id="test">
+    <button class="btn btn-primary">Oscilateur</button>
+</div>
 
 <script>
+
 function playmix(){
     
   var sonmix = document.getElementsByName("sonmix");
@@ -301,10 +308,6 @@ function playmix(){
 }
 
 function stopmix(){
-    
-
-
-
     
     var sonmix = document.getElementsByName("sonmix");
    
@@ -624,6 +627,7 @@ function alertt(){
         instantiateDOMScore(theScore);
         instantiateMaestroBox();
         readGroupNames();
+
     });
 
     var initClock = 1 * 1000; // a laps time before starting
