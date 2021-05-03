@@ -1,4 +1,5 @@
 var http = require("http");
+
 var methods = Object.create(null);
 
 var server = http.createServer(function(request, response) {
