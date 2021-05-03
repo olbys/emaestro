@@ -214,12 +214,12 @@
 <br>
 
 <div id="choose">
-    <button class="btn btn-primary" id="choosebutton">Choisir un morceau</button><br>
+    <button class="btn btn-primary" id="choosebutton" onclick="readScoreNames(); this.onclick=null;">Choisir un morceau</button><br>
    
     <ul id="choosescore">
         <li id="afterlastscore" style="display: none">After last score</li>
     </ul>
-    <button class="btn btn-primary" id="chooserecord">Mixer avec d'autres sons</button>
+    <button class="btn btn-primary" id="chooserecord" onclick="readRecordNames(); this.onclick=null;">Mixer avec d'autres sons</button>
     <form action="">
         <ul id="recordchoose">
             <li id="afterlastrecord" style="display: none">After last score</li>
@@ -353,7 +353,7 @@ function stopmix(){
         <video id="vid2" controls></video>
         <br> <br>
 
-        <form method="POST" enctype="multipart/form-data" action="/">
+        <form method="POST" enctype="multipart/form-data" action="/" onsubmit="alert('Le fichier a été téléversé !'); setTimeout(function(){window.location.reload();},1000);">
             <div class="col col-lg-4">
                 <label >Télécharger votre piste sur emaestro</label>
                 <input class="form-control" type="file" name="file">
@@ -1037,7 +1037,8 @@ ff();
         req.send(null);
     }
 
-    $('#choosebutton').on('click', readScoreNames);
+   // $('#choosebutton').on('click', readScoreNames);
+
 
     var a = "";
 
@@ -1074,7 +1075,7 @@ ff();
         req.open("GET", "/sons/", true);
         req.send(null);
     }
-    $('#chooserecord').on('click', readRecordNames);
+  //  $('#chooserecord').on('click', readRecordNames);
 
     function buildRecordSelector(recordList) {
 

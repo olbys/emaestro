@@ -1,5 +1,4 @@
-
-var http = require("http");
+    var http = require("http");
 
 var methods = Object.create(null);
 
