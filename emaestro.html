@@ -1236,15 +1236,25 @@ ff();
         }
     }
 
-    function diapason() {
-        console.log("Test ok");
-        var sineWave = new Pizzicato.Sound({
+    var sineWave = new Pizzicato.Sound({
             source: 'wave',
             options: {
                 frequency: valLa
             }
         });
-        sineWave.play();
+
+        var i=2;
+    function diapason() {
+    
+        console.log(i%2);
+        if(i%2==0)
+       { sineWave.play();}
+       else
+       {sineWave.pause();}
+      
+       i++;
+    
+       
     }
     $("#diapason button").click(diapason);
 
