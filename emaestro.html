@@ -243,7 +243,7 @@
 <div id="accorder">
 <div class="col col-lg-2">
     <label for="valLa">Fréquence du la</label>
-    <input class="form-control" id="valLa"></input>
+    <input  id="valLa" class="form-control" id="valLa"></input>
 </div>
 </div>
 <br>
@@ -1236,25 +1236,26 @@ ff();
         }
     }
 
+
     var sineWave = new Pizzicato.Sound({
             source: 'wave',
             options: {
-                frequency: valLa
+                frequency: document.getElementById("valLa").value
             }
         });
 
         var i=2;
     function diapason() {
-    
-        console.log(i%2);
+        console.log(document.getElementById("valLa").value);
+
+        sineWave.frequency=document.getElementById("valLa").value;
+
         if(i%2==0)
-       { sineWave.play();}
+       { 
+        sineWave.play();}
        else
        {sineWave.pause();}
-      
        i++;
-    
-       
     }
     $("#diapason button").click(diapason);
 
