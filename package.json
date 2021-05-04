@@ -10,6 +10,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "mime": "~2.1.0",
+    "move-file": "^2.0.0",
     "node-popup": "^0.1.14",
     "pizzicato": "^0.6.4",
     "popup-tools": "^1.0.2",
