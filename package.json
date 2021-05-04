@@ -11,6 +11,7 @@
     "express-fileupload": "^1.2.1",
     "mime": "~2.1.0",
     "node-popup": "^0.1.14",
+    "pizzicato": "^0.6.4",
     "popup-tools": "^1.0.2",
     "serialport": "^9.0.6",
     "socket.io": "^3.1.0",

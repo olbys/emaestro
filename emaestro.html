@@ -233,10 +233,22 @@
 
 <br>
 <!--<button class="btn btn-primary" id="diapason">S'accorder</button>-->
+<!--
 <div id="diapason">
     <audio controls>
         <source src="sons/diapason.mp3" type="audio/mp3">
     </audio>
+</div>
+-->
+<div id="accorder">
+<div class="col col-lg-2">
+    <label for="valLa">Fréquence du la</label>
+    <input class="form-control" id="valLa"></input>
+</div>
+</div>
+<br>
+<div id="diapason">
+    <button class="btn btn-primary">Oscilateur</button>
 </div>
 
 
@@ -283,9 +295,7 @@
 
      
 <br>
-<div id="test">
-    <button class="btn btn-primary">Oscilateur</button>
-</div>
+
 
 <script>
 
@@ -443,6 +453,8 @@ function alertt(){
         alert: ""
     };
 
+     var valLa = 440;
+
     function addPupitre() {
         console.log("Test");
         $("#infopupitre").before('<label for="nompupitre">Nom du pupitre</label>' + '<input class="form-control" id="nompupitre" type="text"></input>'
@@ -489,14 +501,14 @@ function alertt(){
         $("div#bar select#alert option[value=" + aScore.bars[currentBarNum].alert + "]").prop('selected', true);
     };
 
+     function instantiateLa(aScore) {
+         $("div#accorder input#valLa").val(valLa);
+     }
 
 </script>
 
 <script>
-    function hearLa() {
 
-    }
-    $('#diapason').on('click', hearLa);
 
     var svgns = "http://www.w3.org/2000/svg";
     var viewBox = "0 0 100 100";
@@ -570,6 +582,12 @@ function alertt(){
     };
     $("#division").change(setDivision);
 
+    function setFrequenceLa() {
+        valLa = $("#valLa").val();
+    };
+    $("#valLa").change(setFrequenceLa);
+
+
     function instantiateMaestroBox() {
         var svgPanel = document.getElementById("emaestrobox");
         svgPanel.setAttributeNS(null, "viewBox", viewBox);
@@ -628,6 +646,7 @@ function alertt(){
         instantiateDOMScore(theScore);
         instantiateMaestroBox();
         readGroupNames();
+        instantiateLa();
 
     });
 
@@ -1216,6 +1235,19 @@ ff();
             req.send(null);
         }
     }
+
+    function diapason() {
+        console.log("Test ok");
+        var sineWave = new Pizzicato.Sound({
+            source: 'wave',
+            options: {
+                frequency: valLa
+            }
+        });
+        sineWave.play();
+    }
+    $("#diapason button").click(diapason);
+
 
     $(".my_audio").trigger('load');
     function play_audio(task) {
