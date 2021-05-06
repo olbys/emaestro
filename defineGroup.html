@@ -206,7 +206,7 @@
                 }
             }
         };
-        req.open("PUT", "http://localhost:8000/Ensemble/" + fileName, true);
+        req.open("PUT", "/Ensemble/" + fileName, true);
         req.send(fileContent);
     };
     $("#save button").click(saveGroup);
