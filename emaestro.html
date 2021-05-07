@@ -1034,7 +1034,7 @@ ff();
             }
         };
 
-        req.open("PUT", "/SCORES/" + fileName, true);
+        req.open("PUT", "http://pro-emaestro.istic.univ-rennes1.fr/SCORES" + fileName, true);
         req.send(JSON.stringify(theScore));
     };
     $("#save button").click(saveScore);
@@ -1057,7 +1057,7 @@ ff();
                 }
             }
         };
-        req.open("GET", "/SCORES/", true);
+        req.open("GET", "http://pro-emaestro.istic.univ-rennes1.fr/SCORES", true);
         req.send(null);
     }
 
@@ -1096,7 +1096,7 @@ ff();
                 }
             }
         };
-        req.open("GET", "/sons/", true);
+        req.open("GET", "http://pro-emaestro.istic.univ-rennes1.fr/sons", true);
         req.send(null);
     }
   //  $('#chooserecord').on('click', readRecordNames);
@@ -1106,7 +1106,7 @@ ff();
                 
         for (var i in recordList.scores) {
             $("#afterlastrecord").before('<li class="onerecord">' + "<p>" + recordList.scores[i] + "</p>" + "</li>" +
-                '<audio controls id="'+recordList.scores[i]+'1">' + '<source src="sons/' + recordList.scores[i] +'"'+ 'type="audio/mp3">' + '</audio> <input type="checkbox" id="'+recordList.scores[i]+'" name="sonmix" value="'+recordList.scores[i]+'">   <label >Selectionner!</label>');
+                '<audio controls id="'+recordList.scores[i]+'1">' + '<source src="http://pro-emaestro.istic.univ-rennes1.fr/sons' + recordList.scores[i] +'"'+ 'type="audio/mp3">' + '</audio> <input type="checkbox" id="'+recordList.scores[i]+'" name="sonmix" value="'+recordList.scores[i]+'">   <label >Selectionner!</label>');
 
             (function (target) {
                 $("#recordchoose button:contains('" + recordList.scores[target] + "')").on('click', readScoreByName(recordList.scores[target]));
@@ -1143,7 +1143,7 @@ ff();
                 }
             };
 
-            req.open("GET", "/SCORES/" + name, true);
+            req.open("GET", "http://pro-emaestro.istic.univ-rennes1.fr/SCORES" + name, true);
             req.send(null);
         };
     }
@@ -1166,7 +1166,7 @@ ff();
                 }
             };
 
-            req.open("GET", "/sons/" + name, true);
+            req.open("GET", "http://pro-emaestro.istic.univ-rennes1.fr/sons" + name, true);
             req.send(null);
         };
     }
