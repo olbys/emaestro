@@ -44,7 +44,7 @@
 </body>
 
 <div id="score">
-    
+
     <form>
         <div class="form-group">
             <div id="chooseg">
@@ -54,8 +54,8 @@
             </div>
             <br>
             <div id ="pagecreategroup">
-            <input class="btn btn-primary" type="button" onclick="window.location.href = 'defineGroup.html';" value="Créer un nouveau groupe"/>
-        </div>
+                <input class="btn btn-primary" type="button" onclick="window.location.href = 'defineGroup.html';" value="Créer un nouveau groupe"/>
+            </div>
             <br>
             <div class="col col-lg-2">
                 <label for="scoretitle">Titre de la partition</label>
@@ -173,7 +173,7 @@
             <label for="instrument">Pupitre</label>
             <select class="form-control" id="instrument" style="font-weight: bold;font-style: italic;">
                 <option value="">...</option>
-               <!-- <option value=0>piano</option>-->
+                <!-- <option value=0>piano</option>-->
             </select>
         </div>
         <br>
@@ -218,7 +218,7 @@
 
 <div id="choose">
     <button class="btn btn-primary" id="choosebutton" onclick="readScoreNames(); this.onclick=null;">Choisir un morceau</button><br>
-   
+
     <ul id="choosescore">
         <li id="afterlastscore" style="display: none">After last score</li>
     </ul>
@@ -228,7 +228,7 @@
             <li id="afterlastrecord" style="display: none">After last score</li>
         </ul>
     </form>
-       
+
 </div>
 
 <br>
@@ -241,10 +241,10 @@
 </div>
 -->
 <div id="accorder">
-<div class="col col-lg-2">
-    <label for="valLa">Fréquence du la</label>
-    <input  id="valLa" class="form-control" id="valLa"></input>
-</div>
+    <div class="col col-lg-2">
+        <label for="valLa">Fréquence du la</label>
+        <input  id="valLa" class="form-control" id="valLa"></input>
+    </div>
 </div>
 <br>
 <div id="diapason">
@@ -282,8 +282,8 @@
         <br><br> <br>
         <div class="col col-lg-2">
             <p><button class="btn btn-primary" id="btnStart" onclick="alertt();">Démarrer l'enregistrement</button><br/>
-             <label id="lab1">l'enregistrement a démarré</label>
-         </div>
+                <label id="lab1">l'enregistrement a démarré</label>
+        </div>
 
         <div class="col col-lg-2">
             <button class="btn btn-primary" id="btnStop">Arrêter l'enregistrement</button>
@@ -293,56 +293,56 @@
             <button class="btn btn-primary" id="btnsave">Télécharger</button>
         </div>
 
-     
-<br>
+
+        <br>
 
 
-<script>
+        <script>
 
-function playmix(){
-    
-  var sonmix = document.getElementsByName("sonmix");
- 
-  var i;
-  for (i = 0; i < sonmix.length; i++) {
-    if (sonmix[i].checked) {
-    
+            function playmix(){
 
-     document.getElementById(sonmix[i].value+'1').play();
-    
+                var sonmix = document.getElementsByName("sonmix");
 
-    }
-  }
-  document.getElementById("vid2").play();
- // document.getElementById("order").value = "You ordered a coffee with: " + txt;
-}
-
-function stopmix(){
-    
-    var sonmix = document.getElementsByName("sonmix");
-   
-    var i;
-    for (i = 0; i < sonmix.length; i++) {
-      if (sonmix[i].checked) {
-      
-  
-       document.getElementById(sonmix[i].value+'1').pause();
-      
-  
-      }
-    }
-    document.getElementById("vid2").pause();
-   // document.getElementById("order").value = "You ordered a coffee with: " + txt;
-  }
+                var i;
+                for (i = 0; i < sonmix.length; i++) {
+                    if (sonmix[i].checked) {
 
 
+                        document.getElementById(sonmix[i].value+'1').play();
+
+
+                    }
+                }
+                document.getElementById("vid2").play();
+                // document.getElementById("order").value = "You ordered a coffee with: " + txt;
+            }
+
+            function stopmix(){
+
+                var sonmix = document.getElementsByName("sonmix");
+
+                var i;
+                for (i = 0; i < sonmix.length; i++) {
+                    if (sonmix[i].checked) {
+
+
+                        document.getElementById(sonmix[i].value+'1').pause();
+
+
+                    }
+                }
+                document.getElementById("vid2").pause();
+                // document.getElementById("order").value = "You ordered a coffee with: " + txt;
+            }
 
 
 
-</script>
 
 
-   
+        </script>
+
+
+
 
 
         <div class="col col-lg-2">
@@ -356,7 +356,7 @@ function stopmix(){
         </div>
 
 
-        
+
 
 
         <video hidden controls></video>
@@ -388,17 +388,17 @@ function stopmix(){
     <button class="btn btn-primary" id="stopscore">Arrêter le métronome</button>
 
 
-<br>
     <br>
-<button class="btn btn-primary" id="playscorerecord">Démarrer le métronome et l'enregistrement</button>
+    <br>
+    <button class="btn btn-primary" id="playscorerecord">Démarrer le métronome et l'enregistrement</button>
     <button class="btn btn-primary" id="stopscorerecord">Arrêter le métronome et l'enregistrement</button>
 
     <br>
     <center>
         <svg width="75%" height="30%"  id="emaestrobox" viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg">
+             xmlns="http://www.w3.org/2000/svg">
         </svg>
-      </center>
+    </center>
 </div>
 
 
@@ -414,13 +414,13 @@ function stopmix(){
 <br>
 <br>
 <script>
-    
-     document.getElementById("lab1").style.display = 'none';
 
-function alertt(){
-    document.getElementById("lab1").style.display = 'block';
+    document.getElementById("lab1").style.display = 'none';
 
-}
+    function alertt(){
+        document.getElementById("lab1").style.display = 'block';
+
+    }
 
 
     var socket;
@@ -454,12 +454,12 @@ function alertt(){
         alert: ""
     };
 
-     var valLa = 440;
+    var valLa = 440;
 
     function addPupitre() {
         console.log("Test");
         $("#infopupitre").before('<label for="nompupitre">Nom du pupitre</label>' + '<input class="form-control" id="nompupitre" type="text"></input>'
-            );
+        );
         document.getElementById("infopupitre").innerHTML = infoPupitre;
     };
     $("#add button").click(add);
@@ -502,9 +502,9 @@ function alertt(){
         $("div#bar select#alert option[value=" + aScore.bars[currentBarNum].alert + "]").prop('selected', true);
     };
 
-     function instantiateLa(aScore) {
-         $("div#accorder input#valLa").val(valLa);
-     }
+    function instantiateLa(aScore) {
+        $("div#accorder input#valLa").val(valLa);
+    }
 
 </script>
 
@@ -622,7 +622,7 @@ function alertt(){
         }
         ;
     };
-//
+    //
     function makeRect(x, y, width, height, style) {
         var rect = document.createElementNS(svgns, 'rect');
         rect.setAttributeNS(null, 'x', x);
@@ -917,50 +917,50 @@ function alertt(){
     };
     $("div#play button#playscore").click(playScore);
 
-   
+
     function playScoreRecord() {
 
 
 
-     /*   var{ exec } = require('childprocess');
-    exec("ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac output.mp4", (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-    });
+        /*   var{ exec } = require('childprocess');
+       exec("ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac output.mp4", (error, stdout, stderr) => {
+           if (error) {
+               console.log(`error: ${error.message}`);
+               return;
+           }
+           if (stderr) {
+               console.log(`stderr: ${stderr}`);
+               return;
+           }
+           console.log(`stdout: ${stdout}`);
+       });
 
-       */
-    
+          */
+
 
 
 
 
         function ff() {
-  var sonmix = document.getElementsByName("sonmix");
-  var txt = "";
-  var i;
-  for (i = 0; i < sonmix.length; i++) {
-    if (sonmix[i].checked) {
-    
-
-     document.getElementById(sonmix[i].value+'1').play();
+            var sonmix = document.getElementsByName("sonmix");
+            var txt = "";
+            var i;
+            for (i = 0; i < sonmix.length; i++) {
+                if (sonmix[i].checked) {
 
 
-    }
-  }
- // document.getElementById("order").value = "You ordered a coffee with: " + txt;
-}
+                    document.getElementById(sonmix[i].value+'1').play();
 
-ff();
+
+                }
+            }
+            // document.getElementById("order").value = "You ordered a coffee with: " + txt;
+        }
+
+        ff();
 
         let btnstart = document.getElementById('btnStart');
-       btnstart.click();
+        btnstart.click();
 
         var d = new Date();
         startClock = d.getTime();
@@ -990,23 +990,23 @@ ff();
 
 
         function ff() {
-  var sonmix = document.getElementsByName("sonmix");
-  var txt = "";
-  var i;
-  for (i = 0; i < sonmix.length; i++) {
-    if (sonmix[i].checked) {
-    
-
-     document.getElementById(sonmix[i].value+'1').pause();
+            var sonmix = document.getElementsByName("sonmix");
+            var txt = "";
+            var i;
+            for (i = 0; i < sonmix.length; i++) {
+                if (sonmix[i].checked) {
 
 
-    }
-  }
- // document.getElementById("order").value = "You ordered a coffee with: " + txt;
-}
+                    document.getElementById(sonmix[i].value+'1').pause();
 
-ff();
-        
+
+                }
+            }
+            // document.getElementById("order").value = "You ordered a coffee with: " + txt;
+        }
+
+        ff();
+
         let stop = document.getElementById('btnStop');
         stop.click();
         theClock = playEnd(theClock);
@@ -1034,7 +1034,7 @@ ff();
             }
         };
 
-        req.open("PUT", "http://pro-emaestro.istic.univ-rennes1.fr/SCORES" + fileName, true);
+        req.open("PUT", "/SCORES/" + fileName, true);
         req.send(JSON.stringify(theScore));
     };
     $("#save button").click(saveScore);
@@ -1057,11 +1057,11 @@ ff();
                 }
             }
         };
-        req.open("GET", "http://pro-emaestro.istic.univ-rennes1.fr/SCORES", true);
+        req.open("GET", "/SCORES/", true);
         req.send(null);
     }
 
-   // $('#choosebutton').on('click', readScoreNames);
+    // $('#choosebutton').on('click', readScoreNames);
 
 
     var a = "";
@@ -1096,17 +1096,17 @@ ff();
                 }
             }
         };
-        req.open("GET", "http://pro-emaestro.istic.univ-rennes1.fr/sons", true);
+        req.open("GET", "/sons/", true);
         req.send(null);
     }
-  //  $('#chooserecord').on('click', readRecordNames);
+    //  $('#chooserecord').on('click', readRecordNames);
 
     function buildRecordSelector(recordList) {
 
-                
+
         for (var i in recordList.scores) {
             $("#afterlastrecord").before('<li class="onerecord">' + "<p>" + recordList.scores[i] + "</p>" + "</li>" +
-                '<audio controls id="'+recordList.scores[i]+'1">' + '<source src="http://pro-emaestro.istic.univ-rennes1.fr/sons' + recordList.scores[i] +'"'+ 'type="audio/mp3">' + '</audio> <input type="checkbox" id="'+recordList.scores[i]+'" name="sonmix" value="'+recordList.scores[i]+'">   <label >Selectionner!</label>');
+                '<audio controls id="'+recordList.scores[i]+'1">' + '<source src="sons/' + recordList.scores[i] +'"'+ 'type="audio/mp3">' + '</audio> <input type="checkbox" id="'+recordList.scores[i]+'" name="sonmix" value="'+recordList.scores[i]+'">   <label >Selectionner!</label>');
 
             (function (target) {
                 $("#recordchoose button:contains('" + recordList.scores[target] + "')").on('click', readScoreByName(recordList.scores[target]));
@@ -1143,7 +1143,7 @@ ff();
                 }
             };
 
-            req.open("GET", "http://pro-emaestro.istic.univ-rennes1.fr/SCORES" + name, true);
+            req.open("GET", "/SCORES/" + name, true);
             req.send(null);
         };
     }
@@ -1166,7 +1166,7 @@ ff();
                 }
             };
 
-            req.open("GET", "http://pro-emaestro.istic.univ-rennes1.fr/sons" + name, true);
+            req.open("GET", "/sons/" + name, true);
             req.send(null);
         };
     }
@@ -1239,24 +1239,24 @@ ff();
 
 
     var sineWave = new Pizzicato.Sound({
-            source: 'wave',
-            options: {
-                frequency: document.getElementById("valLa").value
-            }
-        });
+        source: 'wave',
+        options: {
+            frequency: document.getElementById("valLa").value
+        }
+    });
 
-        var i=2;
+    var i=2;
     function diapason() {
         console.log(document.getElementById("valLa").value);
 
         sineWave.frequency=document.getElementById("valLa").value;
 
         if(i%2==0)
-       { 
-        sineWave.play();}
-       else
-       {sineWave.pause();}
-       i++;
+        {
+            sineWave.play();}
+        else
+        {sineWave.pause();}
+        i++;
     }
     $("#diapason button").click(diapason);
 
@@ -1265,9 +1265,9 @@ ff();
     function play_audio(task) {
         if(task == 'play'){
             $(".my_audio").trigger('play');
-/*
-            document.getElementById('son2').play();
-*/
+            /*
+                        document.getElementById('son2').play();
+            */
         }
         if(task == 'stop'){
             $(".my_audio").trigger('pause');

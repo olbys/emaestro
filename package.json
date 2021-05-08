@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "alert": "^5.0.10",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "formidable": "^1.2.2",

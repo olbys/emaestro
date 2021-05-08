@@ -206,7 +206,7 @@
                 }
             }
         };
-        req.open("PUT", "/Ensemble/" + fileName, true);
+        req.open("PUT", "http://pro-emaestro.istic.univ-rennes1.fr/Ensemble/" + fileName, true);
         req.send(fileContent);
     };
     $("#save button").click(saveGroup);
