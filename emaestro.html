@@ -523,6 +523,7 @@
 
     function setChooseGroup() {
         theScore.choosegroup = $("#choosegroup").val();
+        console.log(theScore.choosegroup);
     };
     $("#choosegroup").change(setChooseGroup);
 
@@ -1057,7 +1058,7 @@
                 }
             }
         };
-        req.open("GET", "/SCORES/", true);
+        req.open("GET", "/SCORES/" + theScore.choosegroup + "/", true);
         req.send(null);
     }
 
@@ -1071,7 +1072,7 @@
         for (var i in scoreList.scores) {
             $("#afterlastscore").before('<li class="onescore">' + "<button>" + scoreList.scores[i] + "</button>" + "</li>");
             console.log("onclick: " + scoreList.scores[i]);
-            console.log("#choosescore button:contains('" + scoreList.scores[i] + "'):" + $("#choosescore button:contains('" + scoreList.scores[i] + "')"));
+            console.log("#choosescore button:contains('" +  scoreList.scores[i] + "'):" + $("#choosescore button:contains('" + scoreList.scores[i] + "')"));
 
             (function (target) {
                 $("#choosescore button:contains('" + scoreList.scores[target] + "')").on('click', readScoreByName(scoreList.scores[target]));
@@ -1143,7 +1144,7 @@
                 }
             };
 
-            req.open("GET", "/SCORES/" + name, true);
+            req.open("GET", "/SCORES/" + theScore.choosegroup + "/" + name, true);
             req.send(null);
         };
     }
