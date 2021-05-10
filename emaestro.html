@@ -889,6 +889,18 @@
         ;
     };
 
+    function stopScore() {
+        clearAllTimers(listTimers);
+        playEnd(10);
+    };
+    $("div#play button#stopscore").click(stopScore);
+
+    function clearAllTimers(timers) {
+        for (i=0; i<timers.length; i++) {
+            clearTimeout(timers.shift());
+        };
+    };
+
     function playEnd(theClock) {
         mySetTimeout(function () {
             lightOff();
