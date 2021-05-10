@@ -1,14 +1,10 @@
-const https = require('https');
+const http = require('http');
 const fs = require('fs');
 
-const options = {
-    key: fs.readFileSync('privatekey.pem'),
-    cert: fs.readFileSync('certificate.pem')
-};
 
 var methods = Object.create(null);
 
-var server = https.createServer(options, function(request, response) {
+var server = http.createServer(function(request, response) {
         function respond(code, body, type) {
         if (!type) type = "application/json";
         response.writeHead(code, {"Content-Type": type});
@@ -95,6 +91,10 @@ methods.PUT = function(path, respond, request) {
     });
     request.pipe(outStream);
 }
+
+var mkdirp = require('mkdirp');
+mkdirp('/SCORES/test', function (err) {
+});
 
 var moveFile = require('move-file');
 methods.POST = function(path, res, req) {
