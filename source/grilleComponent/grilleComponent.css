@@ -1,40 +1,65 @@
 
-.input-control--container > .input-field{
+.input-control--container > .input-field {
     /*margin: 40px 1rem;*/
 }
 
-.input-button > button{
+.input-button > button {
     margin: 5px 0;
     border-radius: 8px;
 }
 
-.mesure-control-container > .input-field .select-wrapper{
-   /*width: 30%;*/
+.mesure-control-container > .input-field .select-wrapper {
+    /*width: 30%;*/
 }
+
 .mesure-control-container > .line-mesure p {
     display: inline-block;
     margin-right: 16px;
     font-size: 13px;
     font-weight: 600;
 }
-/*.mesure-control-container > .line-mesure > .input-field {*/
-/*    display: inline-block;*/
-/*    margin: 1px 0;*/
-/*}*/
+
+.mesure-control-container > .line-mesure > .input-field {
+    display: inline-block;
+    margin: 1px 0;
+}
 
 .mesure-control-container > .line-mesure > label {
     font-size: 13px;
     color: black;
     font-weight: bold;
 }
+
+
 .mesure-control-container > .line-mesure > .input-field {
     margin-top: 0px;
     margin-bottom: 3px;
 }
 
-/*.mesure-control-container > .line-mesure > .input-field .dropdown-content li>a, .dropdown-content li>span, .select-wrapper input.select-dropdown {*/
-/*  font-size: 13px !important;*/
-/*}*/
-/*.ft-13{*/
-/*    font-size: 13px !important;*/
-/*}*/
+.mesure-control-container > .line-mesure > .input-field .dropdown-content li > a, .dropdown-content li > span, .select-wrapper input.select-dropdown {
+    font-size: 13px !important;
+}
+
+.ft-13 {
+    font-size: 13px !important;
+}
+
+.grille-controle-container > .layout {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.grille-controle-container > .layout > .grille-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background-color: #00C853;
+}
