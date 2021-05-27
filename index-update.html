@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="mix-sounds/mix-sounds.css" type="text/css">
     <link rel="stylesheet" href="groupe/new-group.css" type="text/css">
     <link rel="stylesheet" href="oscilateur/oscilateur.css" type="text/css">
-    <link rel="stylesheet" href="grilleComponent/grilleComponent.css">
+    <link rel="stylesheet" href="grilleComponent/grilleComponent.css" type="text/css">
+    <link rel="stylesheet" href="navBar/nav_bar.css">
+    <link rel="stylesheet" href="navBar/materialize.css">
     <link rel="stylesheet" href="index.css">
 
 
@@ -29,20 +31,262 @@
 
 <div class="global-layout">
 
-    <nav class="layout-nav"> Nav</nav>
+    <div class="layout-nav">
+        <nav class="navbar">
+            <div class="nav-wrapper white">
+                <a href="#!" class="brand-logo"><div class="logo">eMastro</div></a>
+                <ul class="btnblock right hide-on-med-and-down">
+                    <a class="btndownload btn waves-effect waves-light" type="submit" name="action">
+                        <i class="material-icons left">file_download</i>
+                        Télécharger
+                    </a>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
     <div class="layout-main">
         <div class="layout-mix">
-            mix
+            <section class="mix-sounds-section">
+
+                <div class="container">
+
+                    <div class="form-check">
+                        <label for="chooserecord" class="form-check-label">
+                            <strong> Mixer avec d'autres sons </strong>
+                        </label>
+                        <input id="chooserecord" class="form-check-input" type="checkbox" value=""
+                               onChange="readRecordNames()" />
+                    </div>
+
+                    <div class="button-upload">
+                        <button id="btnsave" class="btn" type="button" onclick="">
+                            <i class="large material-icons">file_upload</i>
+                            Upload
+                        </button>
+                    </div>
+
+                    <div class="list-mix">
+
+                        <p class="list-mix-p"> <strong> Son1.mp3 </strong> </p>
+                        <audio class="list-mix-audio" controls id="">
+                            <source src="../sons" type="audio/mp3">
+                        </audio>
+                        <input class="list-mix-input" type="checkbox" id="" name="sonmix" value="">
+
+                        <p class="list-mix-p"> <strong> Son2.mp3 </strong> </p>
+                        <audio class="list-mix-audio" controls id="">
+                            <source src="../sons" type="audio/mp3">
+                        </audio>
+                        <input class="list-mix-input" type="checkbox" id="" name="sonmix" value="">
+
+                        <p class="list-mix-p"> <strong> Son3.mp3 </strong> </p>
+                        <audio class="list-mix-audio" controls id="">
+                            <source src="../sons" type="audio/mp3">
+                        </audio>
+                        <input class="list-mix-input" type="checkbox" id="" name="sonmix" value="">
+
+                        <p class="list-mix-p"> <strong> Son4.mp3 </strong> </p>
+                        <audio class="list-mix-audio" controls id="">
+                            <source src="../sons" type="audio/mp3">
+                        </audio>
+                        <input class="list-mix-input" type="checkbox" id="" name="sonmix" value="">
+
+                    </div>
+
+                </div>
+            </section>
         </div>
         <div class="layout-metronome">
             metronme
         </div>
     </div>
     <div class="layout-bar">
-        bar
+        <section class="oscilateur-section">
+
+            <div class="input-control">
+                <div>
+                    <label for="valLa" class="oscilateur-label">
+                        <p class="container-p" style="color: white;"> <strong> Fréquence du La </strong> </p>
+                    </label>
+                    <input id="valLa" class="oscilateur-input" type="text" placeholder="Entrez la fréquence du La">
+                </div>
+                <button class="btn waves-effect waves-light" type="button" onclick="diaposon()">
+                    <i class="large material-icons">play_circle_outline</i>
+                </button>
+            </div>
+
+            <div class="button-control">
+                <button class="btn waves-effect waves-light" type="button" onclick="">
+                    <i class="large material-icons">mic_noneaudiotrack</i>
+                    Lancer le métronome et l'enregistrement
+                </button>
+                <button class="btn waves-effect waves-light" type="button" onclick="">
+                    <i class="large material-icons"> stopaudiotrack</i>
+                    Arrêter le métronome et l'enregistrement
+                </button>
+            </div>
+
+
+        </section>
     </div>
     <div class="layout-mesures">
-        grille
+
+        <div class="grille--component">
+
+            <div class="input-control--container">
+                <div class="input-control">
+                    <label class="input-label" for="delai_demarrage">Délai du démarrage</label>
+                    <input placeholder="12" id="delai_demarrage" type="text" class="">
+                </div>
+
+                <div class="input-control">
+                    <label class="input-label" for="nombre_mesure">Nombre de mesure</label>
+                    <input placeholder="12" id="nombre_mesure" type="text" class="">
+                </div>
+
+                <div class="input-control">
+                    <label class="input-label" for="titre_partition">Titre de la partition</label>
+                    <input placeholder="mon titre.." id="titre_partition" type="text" class="">
+                </div>
+
+
+                <div class="input-button">
+                    <button class="btn waves-effect waves-light" id="choose_morceau">
+                        Choisir un morceau
+                    </button>
+                    <button id="sauvegarder_mesures" class="btn waves-effect waves-light">
+                        <i class="material-icons left">save</i>
+                        Sauvegarder
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="mesure-control-container">
+                <!--      single mesure line          -->
+                <div class="line-mesure">
+                    <label class="input-label-white" for="tempo">Tempo : </label>
+                    <input placeholder="80" class="ft-13" id="tempo" type="text" class="validate">
+                </div>
+
+                <!--      single mesure line          -->
+                <div class="line-mesure">
+                    <label class="input-label-white" for="tempo">Beat : </label>
+                    <select class="" id="beat">
+                        <option value=null disabled selected>Seléctionnez</option>
+                        <option value=2>2nd</option>
+                        <option value=4>4th</option>
+                        <option value=8>8th</option>
+                        <option value=3>dotted 2nd</option>
+                        <option value=6>dotted 4th</option>
+                        <option value=12>dotted 8th</option>
+                    </select>
+                </div>
+
+                <!--      single mesure line          -->
+                <div class="line-mesure">
+                    <label class="input-label-white" for="armure">Armure : </label>
+                    <select id="armure">
+                        <option value=null disabled selected>Seléctionnez</option>
+                        <option value=-7>B (7 b)</option>
+                        <option value=-6>Gb (6 b)</option>
+                        <option value=-5>Db (5 b)</option>
+                        <option value=-4>Ab (4 b)</option>
+                        <option value=-3>Eb (3 b)</option>
+                        <option value=-2>Bb (2 b)</option>
+                        <option value=-1>F (1 b)</option>
+                        <option value=0>C (no accidental)</option>
+                        <option value=1>G (1 #)</option>
+                        <option value=2>D (2 #)</option>
+                        <option value=3>A (3 #)</option>
+                        <option value=4>E (4 #)</option>
+                        <option value=5>B (5 #)</option>
+                        <option value=6>F# (6 #)</option>
+                        <option value=7>C# (7 #)</option>
+
+                    </select>
+                </div>
+
+                <!--      single mesure line          -->
+                <div class="line-mesure">
+                    <label class="input-label-white" for="beat_mesure_time">Beat/mesure :</label>
+                    <select id="beat_mesure_time">
+                        <option value=null disabled selected>Seléctionnez</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4 selected>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                        <option value=7>7</option>
+                        <option value=8>8</option>
+                    </select>
+                </div>
+
+                <!--      single mesure line          -->
+                <div class="line-mesure">
+                    <label class="input-label-white" for="division_beat">Division du beat</label>
+                    <select id="division_beat">
+                        <option value=null disabled selected>Seléctionnez</option>
+                        <option value=1>Simple</option>
+                        <option value=2>Compound</option>
+                    </select>
+                </div>
+
+                <!--      single mesure line          -->
+                <div class="line-mesure">
+                    <label class="input-label-white" for="intensite">Intensité :</label>
+                    <select id="intensite">
+                        <option value=null disabled selected>Seléctionnez</option>
+                        <option value=0>piano</option>
+                        <option value=1>pp</option>
+                        <option value=2>p</option>
+                        <option value=3>mp</option>
+                        <option value=4>mf</option>
+                        <option value=5>f</option>
+                        <option value=6>ff</option>
+                        <option value=7>fff</option>
+                    </select>
+                </div>
+
+                <!--      single mesure line          -->
+                <div class="line-mesure">
+                    <label class="input-label-white" for="alerte">Alerte :</label>
+                    <select id="alerte">
+                        <option value=null disabled selected>Seléctionnez</option>
+                        <option value=0>piano</option>
+                        <option value=1>pp</option>
+                        <option value=2>p</option>
+                        <option value=3>mp</option>
+                        <option value=4>mf</option>
+                        <option value=5>f</option>
+                        <option value=6>ff</option>
+                        <option value=7>fff</option>
+                    </select>
+                </div>
+
+                <!--      single mesure line          -->
+                <div class="line-mesure">
+                    <label class="input-label-white" for="pupitre">Pupitre :</label>
+                    <select id="pupitre">
+                        <option value=null disabled selected>Seléctionnez</option>
+                        <option value=0>à completer</option>
+                        <option value=1>pp</option>
+                    </select>
+                </div>
+
+
+            </div>
+
+            <div id="grille" class="grille-controle-container">
+                <div class="grille-item">
+                    <div class="numero">1</div>
+                    <div><i class="material-icons left">replay</i></div>
+                    <span>GEB</span>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </div>
@@ -53,5 +297,6 @@
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>-->
 <!--<script type="text/javascript" src="assetss/materialize/js/materialize.min.js"></script>-->
 <!--<script type="text/javascript" src="js/ressource/source.js"></script>-->
+<script type="text/javascript" src="grilleComponent/grilleComponent.js"></script>
 
 </html>

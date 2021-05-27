@@ -1,0 +1,48 @@
+
+.navbar{
+    margin-bottom: 5px;
+}
+
+/*
+.container {
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 98%;
+}
+*/
+
+.brand-logo{
+    margin-left: 10%;
+}
+.logo{
+    color: black;
+}
+
+.btnblock{
+    margin-right: 10%;
+}
+
+.btndownload{
+    border-radius: 10px;
+    background-color: #0F56B3;
+    font-weight: bold;
+}
+
+.frequencela{
+    margin-left: 10%;
+}
+
+.start{
+    border-radius: 10px;
+    background-color: #0F56B3;
+    font-weight: bold;
+    margin-right: 205px;
+}
+
+.stop{
+    border-radius: 10px;
+    background-color: #0F56B3;
+    font-weight: bold;
+    margin-top: -60px;
+    margin-right: 205px;
+}
