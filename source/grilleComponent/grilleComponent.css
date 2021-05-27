@@ -107,18 +107,22 @@
     width: 100%;
     height: 100%;
     padding-left: 30px;
+    padding-top: 8px;
+    overflow-y: auto;
+
 }
 
 .grille-controle-container > .grille-item {
     display: flex;
     font-weight: bold;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     background-color: #00C853;
     border-radius: 3px;
     width: 100px;
     height: 60px;
+    margin: 0 30px 15px 0;
 }
 
 .grille-item > .numero {
@@ -134,4 +138,5 @@
     color: white;
     font-weight: bold;
     margin: 0 !important;
+
 }
