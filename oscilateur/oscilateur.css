@@ -1,0 +1,50 @@
+
+.oscilateur-section {
+margin-left: -300px;
+}
+
+.container {
+    background-color: black;
+    width: 2000px;
+    padding: 10px;
+    height: 130px;
+    margin-top: 20px;
+    border-radius: 0.5rem;
+ }
+
+ .container-p {
+    margin-top: 20px;
+ }
+
+ .oscilateur-input {
+    width: 19%;
+    padding: 0.7%;
+    border-radius: 0.5rem;
+    background-color: black;
+    margin-left: 8px;
+    border:solid white;
+ }
+
+ .btn-play-oscilateur {
+    color: black;
+    width: 0,3%;
+    height: 25%;
+    margin-left: 10px;
+    border-radius: 5px;
+ }
+
+ .btn-play-metronome {
+    color: black;
+    width: 0,3%;
+    height: 29%;
+    margin-left: 340px;
+    border-radius: 5px;
+ }
+
+ .btn-stop-metronome {
+    color: black;
+    width: 0,3%;
+    height: 29%;
+    margin-left: 750px;
+    border-radius: 5px;
+ }
