@@ -1,0 +1,111 @@
+.container {
+    padding: 20px 50px;
+    min-height: 600px
+}
+
+.btn-add {
+    background-color: cornflowerblue;
+    color: black;
+    border-radius: 20px;
+    border: cornflowerblue;
+    margin-top: 10px;
+}
+
+.btn-save {
+    background-color: cornflowerblue;
+    color: black;
+    border-radius: 20px;
+    border: cornflowerblue;
+    padding: 1%;
+}
+
+.btn-cancel {
+    background-color: cornflowerblue;
+    color: black;
+    margin-left: 670px;
+    margin-top: 30px;
+    border-radius: 20px;
+    border: cornflowerblue;
+    padding: 1%;
+
+}
+
+.wrapper {
+    width: 85%;
+    margin: 20px auto;
+    box-shadow: 1px 1px 30px 10px rgba(250, 250, 250, 0.8)
+}
+
+.h3 {
+    padding-top: 40px;
+    font-size: 34px
+}
+
+label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700
+}
+
+input {
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #ddd;
+    width: 100%;
+    padding-bottom: 10px
+}
+
+.wrapper .col-md-6:hover input,
+.wrapper .col-md-6:hover #country {
+    border-color:cornflowerblue;
+    cursor: pointer
+}
+
+.wrapper .col-md-6 input:focus {
+    border-color: cornflowerblue;
+}
+
+.wrapper .col-md-3:hover input,
+.wrapper .col-md-3:hover #country {
+    border-color:cornflowerblue;
+    cursor: pointer
+}
+
+.wrapper .col-md-3 input:focus {
+    border-color: cornflowerblue;
+}
+
+@media(max-width: 767px) {
+
+    .btn-save {
+        width: 100%
+    }
+
+    .btn-cancel {
+        width: 100%
+    }
+
+    .btn-add {
+        width: 100%
+    }
+
+    .h3 {
+        font-size: 25px
+    }
+
+    .brand {
+        text-align: center
+    }
+
+    .container {
+        padding: 20px;
+        margin-left: 0px
+    }
+
+}
+
+@media(max-width: 374px) {
+    .h3 {
+        font-size: 21px
+    }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="../server.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ressource/source.js"></script>
+    <script type="text/javascript" src="../Mediarecorder.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>
+    <script type="text/javascript" src="../assetss/materialize/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../assetss/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="mix-sounds.css" type="text/css">
+
+    <title>eMaestro</title>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <section class="mix-sounds-section">
+
+        <div class="container">
+
+            <div class="form-check">
+                <label for="chooserecord" class="form-check-label">
+                    <strong> Mixer avec d'autres sons </strong>
+                </label>
+                <input id="chooserecord" class="form-check-input" type="checkbox" value="" 
+                    onChange="readRecordNames()" />
+            </div>
+
+            <div class="button-upload">
+                <button id="btnsave" class="btn" type="button" onclick="">
+                    <i class="large material-icons">file_upload</i>
+                    Upload
+                </button>
+            </div>
+
+            <div class="list-mix">
+
+                <p class="list-mix-p"> <strong> Son1.mp3 </strong> </p>
+                <audio class="list-mix-audio" controls id="">
+                    <source src="../sons" type="audio/mp3">
+                </audio>
+                <input class="list-mix-input" type="checkbox" id="" name="sonmix" value="">
+
+                <p class="list-mix-p"> <strong> Son2.mp3 </strong> </p>
+                <audio class="list-mix-audio" controls id="">
+                    <source src="../sons" type="audio/mp3">
+                </audio>
+                <input class="list-mix-input" type="checkbox" id="" name="sonmix" value="">
+
+                <p class="list-mix-p"> <strong> Son3.mp3 </strong> </p>
+                <audio class="list-mix-audio" controls id="">
+                    <source src="../sons" type="audio/mp3">
+                </audio>
+                <input class="list-mix-input" type="checkbox" id="" name="sonmix" value="">
+
+                <p class="list-mix-p"> <strong> Son4.mp3 </strong> </p>
+                <audio class="list-mix-audio" controls id="">
+                    <source src="../sons" type="audio/mp3">
+                </audio>
+                <input class="list-mix-input" type="checkbox" id="" name="sonmix" value="">
+
+            </div>
+
+        </div>
+    </section>
+</body>
+
+</html>
