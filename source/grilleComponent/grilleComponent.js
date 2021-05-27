@@ -6,12 +6,13 @@ function handleChangeMesure() {
     const beat = $("#beat").val();
     const armure = $("#armure").val();
     const beat_mesure_time = $("#beat_mesure_time").val();
-    const divison_beat = $("#divison_beat").val();
+    const divison_beat = $("#division_beat").val();
 
     const intensite = $("#intensite").val();
     const alerte = $("#alerte").val();
+    const pupitre = $("#pupitre").val();
 
-    console.log(tempo, beat, armure, divison_beat, beat_mesure_time, intensite, alerte , " value");
+    console.log(tempo, beat, armure, divison_beat, beat_mesure_time, intensite, alerte, pupitre , " value");
 }
 
 

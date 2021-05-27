@@ -1,65 +1,91 @@
 
-.input-control--container > .input-field {
-    /*margin: 40px 1rem;*/
-}
-
-.input-button > button {
-    margin: 5px 0;
-    border-radius: 8px;
-}
-
-.mesure-control-container > .input-field .select-wrapper {
-    /*width: 30%;*/
-}
-
-.mesure-control-container > .line-mesure p {
-    display: inline-block;
-    margin-right: 16px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.mesure-control-container > .line-mesure > .input-field {
-    display: inline-block;
-    margin: 1px 0;
-}
-
-.mesure-control-container > .line-mesure > label {
-    font-size: 13px;
-    color: black;
-    font-weight: bold;
-}
-
-
-.mesure-control-container > .line-mesure > .input-field {
-    margin-top: 0px;
-    margin-bottom: 3px;
-}
-
-.mesure-control-container > .line-mesure > .input-field .dropdown-content li > a, .dropdown-content li > span, .select-wrapper input.select-dropdown {
-    font-size: 13px !important;
-}
-
-.ft-13 {
-    font-size: 13px !important;
-}
-
-.grille-controle-container > .layout {
-    padding: 10px;
+.grille--component {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    flex-wrap: wrap;
+    height: 320px;
+    padding: 8px;
 }
 
-.grille-controle-container > .layout > .grille-item {
+.grille--component > .input-control--container {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 8px;
+    justify-content: center;
+    align-items: stretch;
+    margin: 0 15px;
+}
+
+.grille--component > .input-control--container > .input-control > input {
+    width: 233px;
+    display: block;
+    font-size: 15px;
+    padding: 0 3px;
+    color: white;
+    height: 35px;
+    border: solid white 1.5px;
+    border-radius: 9px;
+}
+
+.input-label {
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
+.input-button {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+.input-button > button {
+    margin: 5px 0;
+    display: block;
+    background-color: white;
+    color: black;
+    height: auto;
+    padding: 0px 15px;
+    border-radius: 12px;
+}
+
+/* Mesure controle container*/
+.mesure-control-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 8px;
+    justify-content: space-around;
+    align-items: stretch;
+}
+.line-mesure {
+    display: flex;
     align-items: center;
-    width: 80px;
-    height: 80px;
-    border-radius: 20px;
-    background-color: #00C853;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.line-mesure > label{
+    font-size: 14px !important;
+    color: black;
+    font-weight: bold;
+}
+.line-mesure > input {
+    display: inline-block;
+    width: 100px !important;
+    font-size: 14px !important;
+    color: black;
+    margin: 0 !important;
+    height: 14px !important;
+    margin-left: 8px !important;
+    padding: 0 0 !important;
+}
+.line-mesure > select{
+    display: inline-block;
+    height: auto;
+    width: auto;
+    border: solid 0.5px;
+    border-radius: 3px;
+    margin-left: 8px;
 }

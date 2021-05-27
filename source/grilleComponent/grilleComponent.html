@@ -10,189 +10,172 @@
 </head>
 <body>
 
-<!--<div class="grille&#45;&#45;component">-->
-<div class="input-control--container">
-    <!--hh dd-->
-    <!--    </div>-->
 
-    <!--    <div class="mesure-control-container">-->
+<div class="grille--component">
 
-    <!--    </div>-->
-
-    <!--    <div class="grille-control-container">-->
-
-    <!--    </div>-->
-
-
-    <!--</div>-->
-
-    <div class="row">
-
-        <div class="col m2 s6 input-control--container">
-            <div class="input-field">
-                <input placeholder="12" id="delai_demarrage" type="text" class="validate">
-                <label for="delai_demarrage">Délai du démarrage</label>
-            </div>
-
-            <div class="input-field">
-                <input placeholder="" id="nombre_mesure" type="text" class="validate">
-                <label for="nombre_mesure">Nombre de mesure</label>
-            </div>
-
-            <div class="input-field">
-                <input placeholder="12" id="titre_partition" type="text" class="validate">
-                <label for="titre_partition">Titre de la partition</label>
-            </div>
-            <div class="input-button">
-
-                <button class="btn waves-effect waves-light" id="choose_morceau">Choisir un morceau</button>
-
-                <button id="sauvegarder_mesures" class="btn waves-effect waves-light">
-                    <i class="material-icons left">save</i>
-                    Sauvegarder
-                </button>
-
-            </div>
+    <div class="input-control--container">
+        <div class="input-control">
+            <label class="input-label" for="delai_demarrage">Délai du démarrage</label>
+            <input placeholder="12" id="delai_demarrage" type="text" class="">
         </div>
 
-        <div class="col m3 s6 mesure-control-container">
-            <!--      single mesure line          -->
-            <div class="line-mesure">
-                <p class="title">Tempo : </p>
-                <div class="input-field">
-                    <input placeholder="80" class="ft-13" id="tempo" type="text" class="validate">
-                </div>
-            </div>
-
-            <!--      single mesure line          -->
-            <div class="line-mesure">
-                <p class="title">Beat : </p>
-                <div class="input-field">
-                    <select class="" id="beat">
-                        <option value=null disabled selected>Seléctionnez</option>
-                        <option value=2>2nd</option>
-                        <option value=4>4th</option>
-                        <option value=8>8th</option>
-                        <option value=3>dotted 2nd</option>
-                        <option value=6>dotted 4th</option>
-                        <option value=12>dotted 8th</option>
-                    </select>
-                </div>
-            </div>
-
-            <!--      single mesure line          -->
-            <div class="line-mesure">
-                <p class="title">Armure : </p>
-                <div class="input-field">
-                    <select class="" id="armure">
-                        <option value=null disabled selected>Seléctionnez</option>
-                        <option value=-7>B (7 b)</option>
-                        <option value=-6>Gb (6 b)</option>
-                        <option value=-5>Db (5 b)</option>
-                        <option value=-4>Ab (4 b)</option>
-                        <option value=-3>Eb (3 b)</option>
-                        <option value=-2>Bb (2 b)</option>
-                        <option value=-1>F (1 b)</option>
-                        <option value=0>C (no accidental)</option>
-                        <option value=1>G (1 #)</option>
-                        <option value=2>D (2 #)</option>
-                        <option value=3>A (3 #)</option>
-                        <option value=4>E (4 #)</option>
-                        <option value=5>B (5 #)</option>
-                        <option value=6>F# (6 #)</option>
-                        <option value=7>C# (7 #)</option>
-
-                    </select>
-                </div>
-            </div>
-
-
-            <!--      single mesure line          -->
-            <div class="line-mesure">
-                <p class="title">beat/mesure :</p>
-                <div class="input-field">
-                    <select class="" id="beat_mesure_time">
-                        <option value=null disabled selected>Seléctionnez</option>
-                        <option value=2>2</option>
-                        <option value=3>3</option>
-                        <option value=4 selected>4</option>
-                        <option value=5>5</option>
-                        <option value=6>6</option>
-                        <option value=7>7</option>
-                        <option value=8>8</option>
-                    </select>
-                </div>
-            </div>
-
-            <!--      single mesure line          -->
-            <div class="line-mesure">
-                <p class="title">Division du beat : </p>
-                <div class="input-field">
-                    <select class="" id="divison_beat">
-                        <option value=null disabled selected>Seléctionnez</option>
-                        <option value=1>Simple</option>
-                        <option value=2>Compound</option>
-                    </select>
-                </div>
-            </div>
-
-
-            <!--      single mesure line          -->
-            <div class="line-mesure">
-                <p class="title">Intensité :</p>
-                <div class="input-field">
-                    <select class="" id="intensite">
-                        <option value=null disabled selected>Seléctionnez</option>
-                        <option value=0>piano</option>
-                        <option value=1>pp</option>
-                        <option value=2>p</option>
-                        <option value=3>mp</option>
-                        <option value=4>mf</option>
-                        <option value=5>f</option>
-                        <option value=6>ff</option>
-                        <option value=7>fff</option>
-                    </select>
-                </div>
-            </div>
-
-
-            <!--      single mesure line          -->
-            <div class="line-mesure">
-                <p class="title">Alerte :</p>
-                <div class="input-field">
-                    <select class="" id="alerte">
-                        <option value=null disabled selected>Seléctionnez</option>
-                        <option value=0>piano</option>
-                        <option value=1>pp</option>
-                        <option value=2>p</option>
-                        <option value=3>mp</option>
-                        <option value=4>mf</option>
-                        <option value=5>f</option>
-                        <option value=6>ff</option>
-                        <option value=7>fff</option>
-                    </select>
-                </div>
-            </div>
-
-
+        <div class="input-control">
+            <label class="input-label" for="nombre_mesure">Nombre de mesure</label>
+            <input placeholder="12" id="nombre_mesure" type="text" class="">
         </div>
-        <div class="col m7 s12 grille-controle-container">
-            <div class="layout">
-                <div class="grille-item">
-                    item
-                </div>
-            </div>
+
+        <div class="input-control">
+            <label class="input-label" for="titre_partition">Titre de la partition</label>
+            <input placeholder="mon titre.." id="titre_partition" type="text" class="">
+        </div>
+
+
+        <div class="input-button">
+            <button class="btn waves-effect waves-light" id="choose_morceau">
+                Choisir un morceau
+            </button>
+            <button id="sauvegarder_mesures" class="btn waves-effect waves-light">
+                <i class="material-icons left">save</i>
+                Sauvegarder
+            </button>
+
         </div>
     </div>
+
+    <div class="mesure-control-container">
+        <!--      single mesure line          -->
+        <div class="line-mesure">
+            <label class="input-label-white" for="tempo">Tempo : </label>
+            <input placeholder="80" class="ft-13" id="tempo" type="text" class="validate">
+        </div>
+
+        <!--      single mesure line          -->
+        <div class="line-mesure">
+            <label class="input-label-white" for="tempo">Beat : </label>
+            <select class="" id="beat">
+                <option value=null disabled selected>Seléctionnez</option>
+                <option value=2>2nd</option>
+                <option value=4>4th</option>
+                <option value=8>8th</option>
+                <option value=3>dotted 2nd</option>
+                <option value=6>dotted 4th</option>
+                <option value=12>dotted 8th</option>
+            </select>
+        </div>
+
+        <!--      single mesure line          -->
+        <div class="line-mesure">
+            <label class="input-label-white" for="armure">Armure : </label>
+            <select id="armure">
+                <option value=null disabled selected>Seléctionnez</option>
+                <option value=-7>B (7 b)</option>
+                <option value=-6>Gb (6 b)</option>
+                <option value=-5>Db (5 b)</option>
+                <option value=-4>Ab (4 b)</option>
+                <option value=-3>Eb (3 b)</option>
+                <option value=-2>Bb (2 b)</option>
+                <option value=-1>F (1 b)</option>
+                <option value=0>C (no accidental)</option>
+                <option value=1>G (1 #)</option>
+                <option value=2>D (2 #)</option>
+                <option value=3>A (3 #)</option>
+                <option value=4>E (4 #)</option>
+                <option value=5>B (5 #)</option>
+                <option value=6>F# (6 #)</option>
+                <option value=7>C# (7 #)</option>
+
+            </select>
+        </div>
+
+        <!--      single mesure line          -->
+        <div class="line-mesure">
+            <label class="input-label-white" for="beat_mesure_time">Beat/mesure :</label>
+            <select id="beat_mesure_time">
+                <option value=null disabled selected>Seléctionnez</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4 selected>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>
+                <option value=7>7</option>
+                <option value=8>8</option>
+            </select>
+        </div>
+
+        <!--      single mesure line          -->
+        <div class="line-mesure">
+            <label class="input-label-white" for="division_beat">Division du beat</label>
+            <select id="division_beat">
+                <option value=null disabled selected>Seléctionnez</option>
+                <option value=1>Simple</option>
+                <option value=2>Compound</option>
+            </select>
+        </div>
+
+        <!--      single mesure line          -->
+        <div class="line-mesure">
+            <label class="input-label-white" for="intensite">Intensité :</label>
+            <select id="intensite">
+                <option value=null disabled selected>Seléctionnez</option>
+                <option value=0>piano</option>
+                <option value=1>pp</option>
+                <option value=2>p</option>
+                <option value=3>mp</option>
+                <option value=4>mf</option>
+                <option value=5>f</option>
+                <option value=6>ff</option>
+                <option value=7>fff</option>
+            </select>
+        </div>
+
+        <!--      single mesure line          -->
+        <div class="line-mesure">
+            <label class="input-label-white" for="alerte">Alerte :</label>
+            <select id="alerte">
+                <option value=null disabled selected>Seléctionnez</option>
+                <option value=0>piano</option>
+                <option value=1>pp</option>
+                <option value=2>p</option>
+                <option value=3>mp</option>
+                <option value=4>mf</option>
+                <option value=5>f</option>
+                <option value=6>ff</option>
+                <option value=7>fff</option>
+            </select>
+        </div>
+
+        <!--      single mesure line          -->
+        <div class="line-mesure">
+            <label class="input-label-white" for="pupitre">Pupitre :</label>
+            <select id="pupitre">
+                <option value=null disabled selected>Seléctionnez</option>
+                <option value=0>à completer</option>
+                <option value=1>pp</option>
+            </select>
+        </div>
+
+
+    </div>
+
+    <!--    <div class="col m7 s12 grille-controle-container">-->
+    <!--        <div class="layout">-->
+    <!--            <div class="grille-item">-->
+    <!--                item-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+
+</div>
 
 </body>
 <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
 <script type="text/javascript" src="grilleComponent.js"></script>
 <script type="text/javascript" src="../../assetss/materialize/js/materialize.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('select').formSelect();
-    });
+    // $(document).ready(function () {
+    //     $('select').formSelect();
+    // });
 </script>
 
 </html>
