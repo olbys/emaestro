@@ -2,302 +2,314 @@
 <html>
 
 <head>
-    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
-    <script src="server.js" type="text/javascript"></script>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;subset=latin">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
-    <link rel="stylesheet" href="assetss/bootstrap-material-design-font/css/material.css">
-    <link rel="stylesheet" href="assetss/tether/tether.min.css">
-    <link rel="stylesheet" href="assetss/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assetss/animate.css/animate.min.css">
-    <link rel="stylesheet" href="assetss/theme/css/style.css">
-    <link rel="stylesheet" href="assetss/materialize/css/materialize.min.css">
-    <link rel="stylesheet" href="assetss/mobirise/css/mbr-additional.css" type="text/css">
+        <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+        <script src="server.js" type="text/javascript"></script>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;subset=latin">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+        <link rel="stylesheet" href="assetss/bootstrap-material-design-font/css/material.css">
+        <link rel="stylesheet" href="assetss/tether/tether.min.css">
+        <link rel="stylesheet" href="assetss/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assetss/animate.css/animate.min.css">
+        <link rel="stylesheet" href="assetss/theme/css/style.css">
+<!--        <link rel="stylesheet" href="assetss/materialize/css/materialize.min.css">-->
+        <link rel="stylesheet" href="assetss/mobirise/css/mbr-additional.css" type="text/css">
 
-    <script type="text/javascript" src="Mediarecorder.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>
+        <script type="text/javascript" src="Mediarecorder.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>
 
-    <title>eMaestro</title>
-    <meta charset="UTF-8" />
+
+        <meta charset="UTF-8"/>
+    </head>
+
+
+</head>
+
+<title>eMaestro</title>
+<meta charset="utf-8"/>
 </head>
 
 <body style="background-color:#d1c2c2;">
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <h1>eMaestro</h1>
-        </div>
 
-        <div id="score">
-
-            <form>
-                <div class="form-group">
-                    <div id="chooseg">
-                        <label for="choosegroup">Choisir un groupe</label>
-                        <select class="form-control" id="choosegroup"></select>
-                    </div>
-                    <br>
-                    <div id="pagecreategroup">
-                        <input class="btn btn-primary" type="button"
-                            onclick="window.location.href = 'defineGroup.html';" value="Créer un nouveau groupe" />
-                    </div>
-                    <br>
-                    <div class="col col-lg-2">
-                        <label for="scoretitle">Titre de la partition</label>
-                        <input class="form-control" id="scoretitle" type="text"></input>
-                    </div>
-                    <div class="col col-lg-2">
-                        <label for="scorefilename">Nom du fichier</label>
-                        <input class="form-control" id="scorefilename" type="text"></input>
-                    </div>
-                    <div class="col col-lg-2">
-                        <label for="scoresize">Nombre de mesure</label>
-                        <input class="form-control" id="scoresize" type="number"></input>
-                    </div>
-                    <div class="col col-lg-2">
-                        <label for="currentbar">Selectionner une mesure</label>
-                        <input class="form-control" id="currentbar" type="number"></input>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-
-        <div id="bar">
-            <form>
-                <div class="col col-lg-2">
-                    <label for="tempo">Tempo (beat/min)</label>
-                    <input class="form-control" id="tempo"></input>
-                </div>
-                <div class="col col-lg-2">
-                    <label for="beat">Beat</label>
-                    <select class="form-control" id="beat">
-                        <option value="">...</option>
-                        <option value=2>2nd</option>
-                        <option value=4>4th</option>
-                        <option value=8>8th</option>
-                        <option value=3>dotted 2nd</option>
-                        <option value=6>dotted 4th</option>
-                        <option value=12>dotted 8th</option>
-                    </select>
-                </div>
-                <div class="col col-lg-2">
-                    <label for="key">Armure</label>
-                    <select class="form-control" id="key">
-                        <option value="">...</option>
-                        <option value=-7>B (7 b)</option>
-                        <option value=-6>Gb (6 b)</option>
-                        <option value=-5>Db (5 b)</option>
-                        <option value=-4>Ab (4 b)</option>
-                        <option value=-3>Eb (3 b)</option>
-                        <option value=-2>Bb (2 b)</option>
-                        <option value=-1>F (1 b)</option>
-                        <option value=0>C (no accidental)</option>
-                        <option value=1>G (1 #)</option>
-                        <option value=2>D (2 #)</option>
-                        <option value=3>A (3 #)</option>
-                        <option value=4>E (4 #)</option>
-                        <option value=5>B (5 #)</option>
-                        <option value=6>F# (6 #)</option>
-                        <option value=7>C# (7 #)</option>
-                    </select>
-                </div>
-                <div class="col col-lg-2">
-                    <label for="time">Nombre de beat par mesure</label>
-                    <select class="form-control" id="time">
-                        <option value="">...</option>
-                        <option value=2>2</option>
-                        <option value=3>3</option>
-                        <option value=4 selected>4</option>
-                        <option value=5>5</option>
-                        <option value=6>6</option>
-                        <option value=7>7</option>
-                        <option value=8>8</option>
-                    </select>
-                </div>
-                <div class="col col-lg-2">
-                    <label for="division">Division du beat</label>
-                    <select class="form-control" id="division">
-                        <option value="">...</option>
-                        <option value=1>Simple</option>
-                        <option value=2>Compound</option>
-                    </select>
-                </div>
-
-                <div class="col col-lg-2">
-                    <label for="intensity">Intensité</label>
-                    <select class="form-control" id="intensity" style="font-weight: bold;font-style: italic;">
-                        <option value="">...</option>
-                        <option value=0>ppp</option>
-                        <option value=1>pp</option>
-                        <option value=2>p</option>
-                        <option value=3>mp</option>
-                        <option value=4>mf</option>
-                        <option value=5>f</option>
-                        <option value=6>ff</option>
-                        <option value=7>fff</option>
-                    </select>
-                </div>
-                <div class="col col-lg-2">
-                    <label for="alert">Alerte</label>
-                    <select class="form-control" id="alert">
-                        <option value="-1">no alert</option>
-                        <option value="">...</option>
-                        <option value=0>Violet</option>
-                        <option value=1>Blue</option>
-                        <option value=2>Greenish Blue</option>
-                        <option value=3>Bluish Green</option>
-                        <option value=4>Green</option>
-                        <option value=5>Yellow</option>
-                        <option value=6>Orange</option>
-                        <option value=7>Red</option>
-                    </select>
-                </div>
-                <div class="col col-lg-2">
-                    <label for="instrument">Pupitre</label>
-                    <select class="form-control" id="instrument" style="font-weight: bold;font-style: italic;">
-                        <option value="">...</option>
-                        <!-- <option value=0>piano</option>-->
-                    </select>
-                </div>
-                <br>
-            </form>
-        </div>
-
-        <br>
-
-        <div id="cancel">
-            <button class="btn btn-primary">Annuler</button>
-        </div>
-
-        <br>
-        <div id="save">
-            <button class="btn btn-primary">Enregistrer les caractéristiques</button>
-        </div>
-        <br>
-
-        <div id="choose">
-            <button class="btn btn-primary" id="choosebutton" onclick="readScoreNames(); this.onclick=null;">Choisir un
-                morceau
-            </button>
-            <br>
-
-            <ul id="choosescore">
-                <li id="afterlastscore" style="display: none">After last score</li>
-            </ul>
-            <button class="btn btn-primary" id="chooserecord" onclick="readRecordNames(); this.onclick=null;">Mixer avec
-                d'autres sons
-            </button>
-            <form action="">
-                <ul id="recordchoose">
-                    <li id="afterlastrecord" style="display: none">After last score</li>
-                </ul>
-            </form>
-
-        </div>
-
-        <br>
-
-        <div id="accorder">
-            <div class="col col-lg-2">
-                <label for="valLa">Fréquence du la</label>
-                <input id="valLa" class="form-control" id="valLa"></input>
-            </div>
-        </div>
-        <br>
-        <div id="diapason">
-            <button class="btn btn-primary">Oscilateur</button>
-        </div>
-
-        <br>
-
-        <div style="border: dashed; border-width: 2px 4px;border-radius: 40px;">
-            <main>
-                <br><br> <br>
-                <div class="col col-lg-2">
-                    <p>
-                        <button class="btn btn-primary" id="btnStart" onclick="alertt();">Démarrer
-                            l'enregistrement</button>
-                        <br />
-                        <label id="lab1">l'enregistrement a démarré</label>
-                </div>
-
-                <div class="col col-lg-2">
-                    <button class="btn btn-primary" id="btnStop">Arrêter l'enregistrement</button>
-                </div>
-
-                <div class="col col-lg-2">
-                    <button class="btn btn-primary" id="btnsave">Télécharger</button>
-                </div>
-
-                <br>
-
-                <div class="col col-lg-2">
-                    <button class="btn btn-primary" id="btnmix" onclick="playmix()">Ecouter le mix</button>
-
-                </div>
-
-                <div class="col col-lg-2">
-                    <button class="btn btn-primary" id="btnmix" onclick="stopmix()">Arrêter le mix</button>
-
-                </div>
-
-                <video hidden controls></video>
-
-
-                <video id="vid2" controls></video>
-                <br> <br>
-
-                <form method="POST" enctype="multipart/form-data" action="/"
-                    onsubmit="alert('Le fichier a été téléversé !');  setTimeout(function(){window.location.reload();},1000); ">
-
-                    <div class="col col-lg-4">
-                        <label>Télécharger votre piste sur emaestro</label>
-                        <input class="form-control" type="file" name="file">
-                    </div>
-                    <div class="col col-lg-2">
-                        <br>
-                        <input class="form-control" type="submit" value="Upload">
-                    </div>
-                </form>
-
-            </main>
-        </div>
-
-        <br>
-
-        <div id="play">
-            <button class="btn btn-primary" id="playscore">Démarrer le métronome</button>
-            <button class="btn btn-primary" id="stopscore">Arrêter le métronome</button>
-
-
-            <br>
-            <br>
-            <button class="btn btn-primary" id="playscorerecord">Démarrer le métronome et l'enregistrement</button>
-            <button class="btn btn-primary" id="stopscorerecord">Arrêter le métronome et l'enregistrement</button>
-
-            <br>
-
-            <div class="d-flex justify-content-center">
-                <svg width="100%" height="50%" id="emaestrobox" viewBox="0 0 100 100"
-                    xmlns="http://www.w3.org/2000/svg"></svg>
-            </div>
-
-        </div>
-
-        <br>
-        <br>
-        <br>
-
+<div class="container">
+    <div class="row justify-content-center">
+        <h1>eMaestro</h1>
     </div>
+</div>
+
+
 </body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>
-<script type="text/javascript" src="assetss/materialize/js/materialize.min.js"></script>
-<script type="text/javascript" src="js/ressource/source.js"></script>
+<div id="score">
 
+    <form>
+        <div class="form-group">
+            <div id="chooseg">
+                <label for="choosegroup">Choisir un groupe</label>
+                <select class="form-control" id="choosegroup">
+                </select>
+            </div>
+            <br>
+            <div id="pagecreategroup">
+                <input class="btn btn-primary" type="button" onclick="window.location.href = 'defineGroup.html';"
+                       value="Créer un nouveau groupe"/>
+            </div>
+            <br>
+            <div class="col col-lg-2">
+                <label for="scoretitle">Titre de la partition</label>
+                <input class="form-control" id="scoretitle" type="text"></input>
+            </div>
+            <div class="col col-lg-2">
+                <label for="scorefilename">Nom du fichier</label>
+                <input class="form-control" id="scorefilename" type="text"></input>
+
+            </div>
+            <div class="col col-lg-2">
+                <label for="scoresize">Nombre de mesure</label>
+                <input class="form-control" id="scoresize" type="number"></input>
+            </div>
+            <div class="col col-lg-2">
+                <label for="currentbar">Selectionner une mesure</label>
+                <input class="form-control" id="currentbar" type="number"></input>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div id="bar">
+    <form>
+        <div class="col col-lg-2">
+            <label for="tempo">Tempo (beat/min)</label>
+            <input class="form-control" id="tempo"></input>
+        </div>
+        <div class="col col-lg-2">
+            <label for="beat">Beat</label>
+            <select class="form-control" id="beat">
+                <option value="">...</option>
+                <option value=2>2nd</option>
+                <option value=4>4th</option>
+                <option value=8>8th</option>
+                <option value=3>dotted 2nd</option>
+                <option value=6>dotted 4th</option>
+                <option value=12>dotted 8th</option>
+            </select>
+        </div>
+        <div class="col col-lg-2">
+            <label for="key">Armure</label>
+            <select class="form-control" id="key">
+                <option value="">...</option>
+                <option value=-7>B (7 b)</option>
+                <option value=-6>Gb (6 b)</option>
+                <option value=-5>Db (5 b)</option>
+                <option value=-4>Ab (4 b)</option>
+                <option value=-3>Eb (3 b)</option>
+                <option value=-2>Bb (2 b)</option>
+                <option value=-1>F (1 b)</option>
+                <option value=0>C (no accidental)</option>
+                <option value=1>G (1 #)</option>
+                <option value=2>D (2 #)</option>
+                <option value=3>A (3 #)</option>
+                <option value=4>E (4 #)</option>
+                <option value=5>B (5 #)</option>
+                <option value=6>F# (6 #)</option>
+                <option value=7>C# (7 #)</option>
+            </select>
+        </div>
+        <div class="col col-lg-2">
+            <label for="time">Nombre de beat par mesure</label>
+            <select class="form-control" id="time">
+                <option value="">...</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4 selected>4</option>
+                <option value=5>5</option>
+                <option value=6>6</option>
+                <option value=7>7</option>
+                <option value=8>8</option>
+            </select>
+        </div>
+        <div class="col col-lg-2">
+            <label for="division">Division du beat</label>
+            <select class="form-control" id="division">
+                <option value="">...</option>
+                <option value=1>Simple</option>
+                <option value=2>Compound</option>
+            </select>
+        </div>
+
+        <div class="col col-lg-2">
+            <label for="intensity">Intensité</label>
+            <select class="form-control" id="intensity" style="font-weight: bold;font-style: italic;">
+                <option value="">...</option>
+                <option value=0>piano</option>
+                <option value=1>pp</option>
+                <option value=2>p</option>
+                <option value=3>mp</option>
+                <option value=4>mf</option>
+                <option value=5>f</option>
+                <option value=6>ff</option>
+                <option value=7>fff</option>
+            </select>
+        </div>
+        <div class="col col-lg-2">
+            <label for="alert">Alerte</label>
+            <select class="form-control" id="alert">
+                <option value="-1">no alert</option>
+                <option value="">...</option>
+                <option value=0>Violet</option>
+                <option value=1>Blue</option>
+                <option value=2>Greenish Blue</option>
+                <option value=3>Bluish Green</option>
+                <option value=4>Green</option>
+                <option value=5>Yellow</option>
+                <option value=6>Orange</option>
+                <option value=7>Red</option>
+            </select>
+        </div>
+        <div class="col col-lg-2">
+            <label for="instrument">Pupitre</label>
+            <select class="form-control" id="instrument" style="font-weight: bold;font-style: italic;">
+                <option value="">...</option>
+                <!-- <option value=0>piano</option>-->
+            </select>
+        </div>
+        <br>
+    </form>
+</div>
+
+<br>
+
+<div id="cancel">
+    <button class="btn btn-primary">Annuler</button>
+</div>
+
+<br>
+<div id="save">
+    <button class="btn btn-primary">Enregistrer les caractéristiques</button>
+</div>
+<br>
+
+<div id="choose">
+    <button class="btn btn-primary" id="choosebutton" onclick="readScoreNames(); this.onclick=null;">Choisir un
+        morceau
+    </button>
+    <br>
+
+    <ul id="choosescore">
+        <li id="afterlastscore" style="display: none">After last score</li>
+    </ul>
+    <button class="btn btn-primary" id="chooserecord" onclick="readRecordNames(); this.onclick=null;">Mixer avec
+        d'autres sons
+    </button>
+    <form action="">
+        <ul id="recordchoose">
+            <li id="afterlastrecord" style="display: none">After last score</li>
+        </ul>
+    </form>
+
+</div>
+
+<br>
+
+<div id="accorder">
+    <div class="col col-lg-2">
+        <label for="valLa">Fréquence du la</label>
+        <input id="valLa" class="form-control" id="valLa"></input>
+    </div>
+</div>
+<br>
+<div id="diapason">
+    <button class="btn btn-primary">Oscilateur</button>
+</div>
+
+
+<br>
+
+
+<div style="border: dashed; border-width: 2px 4px;border-radius: 40px;">
+    <main>
+        <br><br> <br>
+        <div class="col col-lg-2">
+            <p>
+                <button class="btn btn-primary" id="btnStart" onclick="alertt();">Démarrer l'enregistrement</button>
+                <br/>
+                <label id="lab1">l'enregistrement a démarré</label>
+        </div>
+
+        <div class="col col-lg-2">
+            <button class="btn btn-primary" id="btnStop">Arrêter l'enregistrement</button>
+        </div>
+
+        <div class="col col-lg-2">
+            <button class="btn btn-primary" id="btnsave">Télécharger</button>
+        </div>
+
+        <br>
+
+        <div class="col col-lg-2">
+            <button class="btn btn-primary" id="btnmix" onclick="playmix()">Ecouter le mix</button>
+
+        </div>
+
+        <div class="col col-lg-2">
+            <button class="btn btn-primary" id="btnmix" onclick="stopmix()">Arrêter le mix</button>
+
+        </div>
+
+        <video hidden controls></video>
+
+
+        <video id="vid2" controls></video>
+        <br> <br>
+
+        <form method="POST" enctype="multipart/form-data" action="/"
+              onsubmit="alert('Le fichier a été téléversé !');  setTimeout(function(){window.location.reload();},1000); ">
+
+            <div class="col col-lg-4">
+                <label>Télécharger votre piste sur emaestro</label>
+                <input class="form-control" type="file" name="file">
+            </div>
+            <div class="col col-lg-2">
+                <br>
+                <input class="form-control" type="submit" value="Upload">
+            </div>
+        </form>
+
+    </main>
+</div>
+
+<br>
+
+<div id="play">
+    <button class="btn btn-primary" id="playscore">Démarrer le métronome</button>
+    <button class="btn btn-primary" id="stopscore">Arrêter le métronome</button>
+
+
+    <br>
+    <br>
+    <button class="btn btn-primary" id="playscorerecord">Démarrer le métronome et l'enregistrement</button>
+    <button class="btn btn-primary" id="stopscorerecord">Arrêter le métronome et l'enregistrement</button>
+
+    <br>
+    <center>
+        <svg width="75%" height="30%" id="emaestrobox" viewBox="0 0 100 100"
+             xmlns="http://www.w3.org/2000/svg">
+        </svg>
+    </center>
+</div>
+
+
+<br>
+
+
+<br>
+<br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>
+<!--<script type="text/javascript" src="assetss/materialize/js/materialize.min.js"></script>-->
+<script type="text/javascript" src="js/ressource/source.js"></script>
 
 </html>
