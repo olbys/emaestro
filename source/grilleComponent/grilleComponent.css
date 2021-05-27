@@ -35,12 +35,14 @@
     font-weight: bold;
     color: white;
 }
+
 .input-button {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
 .input-button > button {
     margin: 5px 0;
     display: block;
@@ -56,21 +58,25 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 400px;
     padding: 0 8px;
     justify-content: space-around;
     align-items: stretch;
 }
+
 .line-mesure {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 8px;
 }
-.line-mesure > label{
+
+.line-mesure > label {
     font-size: 14px !important;
     color: black;
     font-weight: bold;
 }
+
 .line-mesure > input {
     display: inline-block;
     width: 100px !important;
@@ -81,11 +87,51 @@
     margin-left: 8px !important;
     padding: 0 0 !important;
 }
-.line-mesure > select{
+
+.line-mesure > select {
     display: inline-block;
     height: auto;
     width: auto;
     border: solid 0.5px;
     border-radius: 3px;
     margin-left: 8px;
+}
+
+/**  Grille item*/
+.grille-controle-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    padding-left: 30px;
+}
+
+.grille-controle-container > .grille-item {
+    display: flex;
+    font-weight: bold;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #00C853;
+    border-radius: 3px;
+    width: 100px;
+    height: 60px;
+}
+
+.grille-item > .numero {
+    background-color: white;
+    width: auto;
+    padding: 2px 6px;
+    border-radius: 14px;
+    margin-top: -15px;
+    margin-left: -88px;
+}
+
+.grille-item i {
+    color: white;
+    font-weight: bold;
+    margin: 0 !important;
 }
