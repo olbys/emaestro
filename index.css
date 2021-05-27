@@ -1,0 +1,54 @@
+
+html, body{
+    height: 100%;
+}
+.global-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    border: #00C853 solid 1px;
+}
+.global-layout > .layout-main {
+    width: 100%;
+    border: slateblue 2px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding:  8px;
+}
+.layout-main > .layout-mix {
+    display: flex;
+    width: 40%;
+    flex-direction: column;
+    border: orange 2px solid;
+}
+
+.layout-main > .layout-metronome {
+    display: flex;
+    flex-direction: column;
+    border: gray 2px solid;
+    width: 58%;
+}
+
+.global-layout > .layout-bar {
+    margin-top: 2px;
+    width: 100%;
+    border: black 2px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.global-layout > .layout-mesures {
+    margin-top: 2px;
+    width: 100%;
+    border: yellow 2px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
