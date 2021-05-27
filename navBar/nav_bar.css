@@ -1,45 +1,65 @@
 
-.navbar{
-    margin-bottom: 5px;
+.navbar-custom {
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
 }
 
-/*
-.container {
-    margin: 0 auto;
-    max-width: 1280px;
-    width: 98%;
+.navbar-custom > .left-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
-*/
 
-.brand-logo{
+.navbar-custom > .right-item button {
+    display: flex;
+    align-items: center;
+    background-color: #0D47A1;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.navbar-custom > .left-item p {
+    font-weight: bold;
+}
+
+
+.brand-logo {
     margin-left: 10%;
 }
-.logo{
+
+.logo {
     color: black;
 }
 
-.btnblock{
+.btnblock {
     margin-right: 10%;
 }
 
-.btndownload{
+.btndownload {
     border-radius: 10px;
     background-color: #0F56B3;
     font-weight: bold;
 }
 
-.frequencela{
+.frequencela {
     margin-left: 10%;
 }
 
-.start{
+.start {
     border-radius: 10px;
     background-color: #0F56B3;
     font-weight: bold;
     margin-right: 205px;
 }
 
-.stop{
+.stop {
     border-radius: 10px;
     background-color: #0F56B3;
     font-weight: bold;

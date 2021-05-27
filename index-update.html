@@ -32,17 +32,19 @@
 <div class="global-layout">
 
     <div class="layout-nav">
-        <nav class="navbar">
-            <div class="nav-wrapper white">
-                <a href="#!" class="brand-logo"><div class="logo">eMastro</div></a>
-                <ul class="btnblock right hide-on-med-and-down">
-                    <a class="btndownload btn waves-effect waves-light" type="submit" name="action">
-                        <i class="material-icons left">file_download</i>
-                        Télécharger
-                    </a>
-                </ul>
+        <div class="navbar-custom">
+            <div class="left-item">
+                <p class="flow-text">Emaestro</p>
             </div>
-        </nav>
+            <div class="right-item">
+                <div>
+                    <button class="waves-effect waves-light">
+                        <i class="material-icons left">file_download</i>
+                        Télecharger
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="layout-main">
@@ -104,11 +106,9 @@
         <section class="oscilateur-section">
 
             <div class="input-control">
-                <div>
-                    <label for="valLa" class="oscilateur-label">
-                        <p class="container-p" style="color: white;"> <strong> Fréquence du La </strong> </p>
-                    </label>
-                    <input id="valLa" class="oscilateur-input" type="text" placeholder="Entrez la fréquence du La">
+                <div class="control">
+                    <label class="input-label" for="valLa">Fréquence du La</label>
+                    <input placeholder="entrez la fréquence ici " id="valLa" type="text" class="">
                 </div>
                 <button class="btn waves-effect waves-light" type="button" onclick="diaposon()">
                     <i class="large material-icons">play_circle_outline</i>
