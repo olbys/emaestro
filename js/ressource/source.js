@@ -24,8 +24,9 @@ var firstBarTemplate = {
     time: 4,
     division: 1,
     intensity: 4,
-    alert: ""
-};
+    alert: "",
+    "next": {"repeat":{"start": 2, "end": 5, "nb": 2}}
+}
 
 var otherBarTemplate = {
     tempo: "",
@@ -34,7 +35,8 @@ var otherBarTemplate = {
     time: "",
     division: "",
     intensity: "",
-    alert: ""
+    alert: "",
+    "next": {"repeat":{"start": 0, "end": 0, "nb": 2}}
 };
 
 var valLa = 440;
@@ -58,7 +60,8 @@ function instantiateJSScore(newScoreTemplate, firstBarTemplate) {
 
 
 function instantiateDOMScore(aScore) {
-    console.log("a")
+    console.log("aScore")
+    console.log(aScore)
     $("div#bar select#choosegroup option[value=" + aScore.choosegroup + "]").prop('selected', true);
     $("div#score input#scoretitle").val(aScore.scoretitle);
     $("div#score input#scorefilename").val(aScore.scorefilename);
@@ -173,7 +176,14 @@ $("#scoresize").change(setScoreSize);
 // changing the current bar do not modify the JS score, but the DOM bar must be updated
 function setCurrentBar() {
     theScore.currentbar = $("#currentbar").val() - 1;
+    if(theScore.currentbar < theScore.bars.length){
+        theScore.bars.splice(theScore.currentbar, 1);
+        console.log("---------------------- all bars --------------------------")
+        console.log(theScore.bars);
+    }else{
+    theScore.bars[theScore.currentbar] = otherBarTemplate;
     console.log("current bar: " + theScore.currentbar);
+    }
     instantiateDOMCurrentBar(theScore, theScore.currentbar);
 };
 $("#currentbar").change(setCurrentBar);
@@ -264,13 +274,18 @@ function makeCircle(cx, cy, r, style) {
 };
 
 $(function () {
-    console.log('log')
+    var data= null;
+   console.log('log chargement ...')
+
+    console.log(data)
     theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
     instantiateDOMScore(theScore);
     instantiateMaestroBox();
     readGroupNames();
     instantiateLa();
     theScore.choosegroup = "Caroline & Dominique";
+    console.log('test')
+    console.log(theScore)
 
 });
 
@@ -315,7 +330,7 @@ function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse) {
                 onoff == "on" ? intensityColors[completedBar.intensity] : "black");
     }
     ;
-    socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
+   // socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
 };
 
 function mySetTimeout(fun, time) {
@@ -540,11 +555,15 @@ function playScore() {
 // a completed bar is created to remember what does not change
 // it is cloned then updated while reading each bar in turn
     var completedBar = theScore.bars[0];
+    console.log("---------------- jouer partition ---------------- ");
+    console.log(completedBar);
+    console.log("---------------- jouer partition theScore.scoresize ---------------- ");
+    console.log(theScore.scoresize);
     for (var i = 0; i < theScore.scoresize; i++) {
         // starts the bar handler
         // the bar handler will start the beats and pulses handlers
         // and return an updated time
-        console.log("play bar num:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
+        console.log("play bar num test:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
         // do not forget to clone the completed bar
         completedBar = JSON.parse(JSON.stringify(completedBar));
         theClock = playBar(theClock, completedBar, i);
@@ -615,7 +634,7 @@ function playScoreRecord() {
         theClock = playBar(theClock, completedBar, i);
     }
     ;
-    theClock = playEnd(theClock);
+    theClock =  (theClock);
 };
 $("div#play button#playscorerecord").click(playScoreRecord);
 
@@ -668,7 +687,7 @@ function saveScore() {
         }
     };
 
-    req.open("PUT", "/SCORES/" + fileName, true);
+    req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
     req.send(JSON.stringify(theScore));
 };
 $("#save button").click(saveScore);
