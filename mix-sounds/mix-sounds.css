@@ -1,36 +1,25 @@
-.container {
-   margin-left: 20px;
-   margin-top: 20px;
-}
-
 .form-check-label {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    margin-left: 30px;
-    margin-right: 10px;
-}
-
-.btn {
-    background-color:cornflowerblue;
+    margin-top: 15px;
+    margin-left: -100px;
+    font-size: 15px;
+    font-weight: bold;
     color: black;
-    border-radius:20px;
-    margin-left: 285px;
-    margin-top: -110px;
-}
-
-.list-mix-p {
-    margin-left: 45px;
-    margin-bottom: 5px;
 }
 
 .list-mix-audio {
-    margin-left: 25px;
+    margin-left: -105px;
     margin-bottom: -20px;
 }
 
-.list-mix-input {
+.list-mix-input
+{
     margin-bottom: 20px;
+    border-color: black;
+    color: black;
+
 }
+
+
 
 
 
