@@ -1,6 +1,6 @@
 
 .oscilateur-section {
-    display : flex;
+    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -13,6 +13,9 @@
 .oscilateur-section > .input-control {
     display: flex;
     flex-direction: row;
+    width: 300px;
+    align-items: center;
+    justify-content: space-between;
 }
 .oscilateur-section > .button-control {
     display: flex;
@@ -28,6 +31,20 @@
     height: auto;
     padding: 0px 15px;
     border-radius: 12px;
+}
+.oscilateur-section > .input-control button{
+    align-self: stretch;
+}
+
+.oscilateur-section > .input-control .control input {
+    width: 233px;
+    display: block;
+    font-size: 15px;
+    padding: 0 3px;
+    color: white;
+    height: 35px;
+    border: solid white 1.5px;
+    border-radius: 9px;
 }
 
 /*.container {*/

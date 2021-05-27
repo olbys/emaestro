@@ -7,11 +7,9 @@ html, body{
     flex-direction: column;
     height: 100%;
     width: 100%;
-    border: #00C853 solid 1px;
 }
 .global-layout > .layout-main {
     width: 100%;
-    border: slateblue 2px solid;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -44,9 +42,7 @@ html, body{
 
 
 .global-layout > .layout-mesures {
-    margin-top: 2px;
     width: 100%;
-    border: yellow 2px solid;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

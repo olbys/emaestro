@@ -5,6 +5,7 @@
     justify-content: flex-start;
     align-items: center;
     height: 320px;
+    width: 100%;
     /*padding: 8px;*/
 }
 
@@ -13,10 +14,9 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 0 8px;
+    padding: 0 15px;
     justify-content: center;
     align-items: stretch;
-    margin: 0 15px;
 }
 
 .grille--component > .input-control--container > .input-control > input {
@@ -60,7 +60,7 @@
     height: 100%;
     width: 400px;
     padding: 0 8px;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: stretch;
 }
 
@@ -68,7 +68,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    /*margin-bottom: 8px;*/
 }
 
 .line-mesure > label {
