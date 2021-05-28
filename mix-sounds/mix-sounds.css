@@ -1,23 +1,36 @@
 .form-check-label {
-    margin-top: 15px;
-    margin-left: -100px;
+   margin-left: -30px;
     font-size: 15px;
     font-weight: bold;
     color: black;
 }
 
+.form-check-input {
+    margin-left: -190px;
+}
+
+.btn {
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+    border-radius:20px;
+    margin-left: 285px;
+    margin-top: -110px;
+    height: auto;
+    padding: 0px 15px;
+}
+
 .list-mix-audio {
-    margin-left: -105px;
-    margin-bottom: -20px;
+    margin-left: -30px;
+    margin-bottom: -30px;
 }
 
 .list-mix-input
 {
-    margin-bottom: 20px;
-    border-color: black;
-    color: black;
-
+    margin-left: 50px;
 }
+
+
 
 
 
