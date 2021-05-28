@@ -13,6 +13,7 @@ let GLOBAL_score =
                 "division": 1,
                 "intensity": 4,
                 "alert": "",
+                "pupitre": "",
                 "repeat": {
                     "next": null,
                     "before": null,
@@ -59,14 +60,12 @@ function handleChangInputMesure() {
         bar_to_update = Array(nombre_mesure).fill(null).map(() => immutablaObject(bar_to_update[bar_to_update.length - 1]))
         GLOBAL_score.bars = immutablaObject(bar_to_update);
         buildGrilleDOM();
-        bar_to_update[0].tempo = 450;
-        console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, GLOBAL_score.bars);
+        // console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, GLOBAL_score.bars);
     }
 
 }
 
 $("#nombre_mesure").change(handleChangInputMesure)
-
 
 /**
  *
@@ -85,15 +84,26 @@ function handleChangeMesure() {
 
 
 function buildGrilleItemDOM(bar, index) {
-    return ` <div class="grille-item">
+    return ` <div class="grille-item"  data-index="${index}" id="grille-${index}">
                <div class="numero">${index}</div>
                ${bar.repeat.nbRepeat > 0 ?
         `<div><i className="material-icons left">replay</i></div>`
         : `<div></div>`
     }
               <span>GEB</span>
-           </div>
-          `
+           </div>       
+            `
+}
+
+/** When clicked select grille
+ *
+ */
+function selectGrilleItem() {
+    const bar_index = $(this).data('index') - 1;
+    GLOBAL_score.currentbar = bar_index;
+    if (!isNaN(bar_index)) {
+        updateMesureInputDOM(GLOBAL_score.bars[bar_index])
+    }
 }
 
 /**
@@ -101,18 +111,51 @@ function buildGrilleItemDOM(bar, index) {
  */
 function buildGrilleDOM() {
     let grilleElement = $("#grille");
-    console.log("global", GLOBAL_score.bars);
-
-    // for (let i=0 ; i < 60 ; i++){
-    //     const _grille = buildGrilleItemDOM(GLOBAL_score.bars[0], i + 1);
-    //     grilleElement.append(_grille);
-    //     console.log('toAppend', _grille);
-    // }
+    let innerGrille = '';
     GLOBAL_score.bars.forEach((bar, index) => {
         const _grille = buildGrilleItemDOM(bar, index + 1);
-        grilleElement.append(_grille);
-        console.log('toAppend', _grille);
+        innerGrille += _grille;
     })
+    grilleElement.html(innerGrille);
+    $('div.grille-item').click(selectGrilleItem)
+
 }
+
+
+function updateMesureInputDOM(bar) {
+    console.log('select Bar', bar);
+    $("#tempo").val(bar.tempo);
+    $("#beat").val(bar.beat);
+    $("#armure").val(bar.key);
+    $("#beat_mesure_time").val(bar.time);
+    $("#division_beat").val(bar.division);
+    $("#intensite").val(bar.intensity);
+    $("#alerte").val(bar.alert);
+    $("#pupitre").val(bar.pupitre);
+}
+
+
+/// Update GLOBAL SCORE
+/**
+ *
+ * @param object
+ * @param property
+ */
+
+function updateGlobalScore(value, property) {
+    const _value = parseInt(value);
+    if (!isNaN(_value)) {
+        GLOBAL_score.bars[GLOBAL_score.currentbar][property] = _value
+        console.log('updateHandle', GLOBAL_score.bars);
+    }
+}
+
+
+$("#tempo").change((object) => {
+    updateGlobalScore(object.target.value, "tempo");
+})
+
+
+
 
 
