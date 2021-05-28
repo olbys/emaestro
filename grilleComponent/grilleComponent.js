@@ -59,15 +59,13 @@ function handleChangInputMesure() {
         nombre_mesure = parseInt(nombre_mesure);
         bar_to_update = Array(nombre_mesure).fill(null).map(() => immutablaObject(bar_to_update[bar_to_update.length - 1]))
         GLOBAL_score.bars = immutablaObject(bar_to_update);
-        GLOBAL_score.bars[nombre_mesure - 1].tempo = 850;
         buildGrilleDOM();
-        console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, GLOBAL_score.bars);
+        // console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, GLOBAL_score.bars);
     }
 
 }
 
 $("#nombre_mesure").change(handleChangInputMesure)
-
 
 /**
  *
@@ -97,28 +95,15 @@ function buildGrilleItemDOM(bar, index) {
             `
 }
 
-/** When clicke select grille
+/** When clicked select grille
  *
  */
 function selectGrilleItem() {
-    const bar_index = $(this).data('index');
+    const bar_index = $(this).data('index') - 1;
     GLOBAL_score.currentbar = bar_index;
     if (!isNaN(bar_index)) {
-        updateMesureInputDOM(GLOBAL_score.bars[bar_index - 1])
+        updateMesureInputDOM(GLOBAL_score.bars[bar_index])
     }
-}
-
-function updateMesureInputDOM(bar) {
-    console.log('select Bar', bar);
-
-    $("#tempo").val(bar.tempo);
-    $("#beat").val(bar.beat);
-    $("#armure").val(bar.key);
-    $("#beat_mesure_time").val(bar.time);
-    $("#division_beat").val(bar.division);
-    $("#intensite").val(bar.intensity);
-    $("#alerte").val(bar.alert);
-    $("#pupitre").val(bar.pupitre);
 }
 
 /**
@@ -135,5 +120,42 @@ function buildGrilleDOM() {
     $('div.grille-item').click(selectGrilleItem)
 
 }
+
+
+function updateMesureInputDOM(bar) {
+    console.log('select Bar', bar);
+    $("#tempo").val(bar.tempo);
+    $("#beat").val(bar.beat);
+    $("#armure").val(bar.key);
+    $("#beat_mesure_time").val(bar.time);
+    $("#division_beat").val(bar.division);
+    $("#intensite").val(bar.intensity);
+    $("#alerte").val(bar.alert);
+    $("#pupitre").val(bar.pupitre);
+}
+
+
+/// Update GLOBAL SCORE
+/**
+ *
+ * @param object
+ * @param property
+ */
+
+function updateGlobalScore(value, property) {
+    const _value = parseInt(value);
+    if (!isNaN(_value)) {
+        GLOBAL_score.bars[GLOBAL_score.currentbar][property] = _value
+        console.log('updateHandle', GLOBAL_score.bars);
+    }
+}
+
+
+$("#tempo").change((object) => {
+    updateGlobalScore(object.target.value, "tempo");
+})
+
+
+
 
 
