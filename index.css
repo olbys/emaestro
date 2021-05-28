@@ -21,6 +21,7 @@ html, body{
     width: 40%;
     flex-direction: column;
     border: orange 2px solid;
+    height:90%;
 }
 
 .layout-main > .layout-metronome {
