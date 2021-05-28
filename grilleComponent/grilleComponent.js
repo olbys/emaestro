@@ -62,10 +62,10 @@ function handleChangInputMesure() {
         buildGrilleDOM();
         // console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, GLOBAL_score.bars);
     }
-
 }
 
-$("#nombre_mesure").change(handleChangInputMesure)
+$("#nombre_mesure").change(handleChangInputMesure);
+
 
 /**
  *
@@ -133,6 +133,14 @@ function updateMesureInputDOM(bar) {
     $("#alerte").val(bar.alert);
     $("#pupitre").val(bar.pupitre);
 }
+$(function (){
+    console.log("hey world");
+    updateMesureInputDOM(GLOBAL_score.bars[0]);
+    if (GLOBAL_score.bars.length > 0){
+        $("#nombre_mesure").val(GLOBAL_score.bars.length);
+        buildGrilleDOM();
+    }
+})
 
 
 /// Update GLOBAL SCORE
@@ -150,10 +158,17 @@ function updateGlobalScore(value, property) {
     }
 }
 
+$("#tempo").change((object) => updateGlobalScore(object.target.value, "tempo"));
+$("#beat").change((object) => updateGlobalScore(object.target.value, "beat"));
+$("#armure").change((object) => updateGlobalScore(object.target.value, "key"));
+$("#beat_mesure_time").change((object) => updateGlobalScore(object.target.value, "time"));
+$("#division_beat").change((object) => updateGlobalScore(object.target.value, "division"));
+$("#intensite").change((object) => updateGlobalScore(object.target.value, "intensity"));
+$("#alert").change((object) => updateGlobalScore(object.target.value, "alert"));
 
-$("#tempo").change((object) => {
-    updateGlobalScore(object.target.value, "tempo");
-})
+/**
+ * Load bar
+ */
 
 
 
