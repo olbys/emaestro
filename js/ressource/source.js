@@ -1,4 +1,4 @@
-document.getElementById("lab1").style.display = 'none';
+// document.getElementById("lab1").style.display = 'none';
 
 function alertt() {
     document.getElementById("lab1").style.display = 'block';
@@ -134,7 +134,8 @@ function stopmix() {
  */
 
 var svgns = "http://www.w3.org/2000/svg";
-var viewBox = "0 0 100 100";
+var viewBox = "0 1 69 62";
+// var viewBox = "0 0 100 100";
 var centerBox = 32.5;
 var boxRadius = 30;                          // must be coherent with previous declarations
 var nbCircles = 4;
@@ -225,7 +226,7 @@ function instantiateMaestroBox() {
 
     // create an encasing grey rectangle
     var rect = makeRect('0', '0', '65', '65', 'fill: grey');
-    svgPanel.appendChild(rect);
+    // svgPanel.appendChild(rect);
 
     // create a round black box
     var box = makeCircle(centerBox, centerBox, boxRadius, 'fill: black');

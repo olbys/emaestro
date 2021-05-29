@@ -21,10 +21,19 @@
     align-items: center;
     background-color: #0D47A1;
     color: white;
-    font-weight: bold;
-    border-radius: 4px;
+    padding: 8px;
+    font-weight: 400;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
+.navbar-custom > .right-item button:hover{
+    border:  #0D47A1;
+    background-color: whitesmoke !important;
+    color: #0D47A1;
 
+}
 .navbar-custom > .left-item p {
     font-weight: bold;
 }

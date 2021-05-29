@@ -1,40 +1,102 @@
-.form-check-label {
-   margin-left: -30px;
-    font-size: 15px;
-    font-weight: bold;
-    color: black;
+.button-primary {
+    display: flex;
+    align-items: center;
+    background-color: #0D47A1;
+    color: white;
+    padding: 8px;
+    font-weight: 400;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
 
-.form-check-input {
-    margin-left: -190px;
+.button-primary:hover {
+    border: #0D47A1;
+    background-color: whitesmoke !important;
+    color: #0D47A1;
+
 }
 
-.btn {
-    font-size: 15px;
-    font-weight: bold;
-    color: black;
-    border-radius:20px;
-    margin-left: 285px;
-    margin-top: -110px;
-    height: auto;
-    padding: 0px 15px;
+.layout-mix > .mix-control {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
 }
 
-.list-mix-audio {
-    margin-left: -30px;
-    margin-bottom: -30px;
+.layout-mix > .mix-control .checkbox-control > label {
+    min-width: 150px;
+    font-size: 16px;
 }
 
-.list-mix-input
-{
-    margin-left: 45px;
+.layout-mix > .mix-control .checkbox-control > input {
+    font-size: 16px;
+    height: 20px;
+}
+
+.layout-mix > .mix-control .checkbox-control {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    min-width: 200px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.layout-mix > .list-mix {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    /*min-width: 350px;*/
+    justify-content: space-between;
+}
+
+.layout-mix > .list-mix > .mix-item {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 7px;
+    padding: 5px;
+    width: auto;
+    align-items: center;
+    justify-content: flex-start;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+    border-radius: 8px;
 }
 
 
 
+.layout-mix > .list-mix > .mix-item > .mix-title {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    min-width: 160px;
+    align-items: center;
+    justify-content: center;
+}
+.layout-mix > .list-mix > .mix-item .select-music {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
 
-
-
-
-
-
+}
+.layout-mix > .list-mix > .mix-item > .select-music input {
+    height: 24px;
+    width: 24px;
+    margin-top: -8px;
+    margin-right: -6px;
+    float: right;
+    border: none !important;
+    outline: none !important;
+}
+/* Audio Mix */
+.layout-mix > .list-mix > .mix-item > .audio-mix > audio {
+    margin-top: 8px;
+    outline: none;
+    height: 45px;
+}

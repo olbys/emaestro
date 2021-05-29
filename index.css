@@ -1,6 +1,10 @@
-
+* {
+    font-family: 'Lato', sans-serif;
+}
 html, body{
     height: 100%;
+    margin: 0;
+    max-width: 1901px;
 }
 .global-layout {
     display: flex;
@@ -9,26 +13,29 @@ html, body{
     width: 100%;
 }
 .global-layout > .layout-main {
-    width: 100%;
+    /*width: 100%;*/
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    padding:  8px;
+    padding:  8px 0px 8px 8px;
 }
 .layout-main > .layout-mix {
     display: flex;
-    width: 40%;
+    width: 35%;
     flex-direction: column;
     border: orange 2px solid;
-    height:90%;
+    min-height: 50%;
+    padding: 8px;
+    box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
 }
 
 .layout-main > .layout-metronome {
     display: flex;
     flex-direction: column;
-    border: gray 2px solid;
-    width: 58%;
+    /*border: gray 2px solid;*/
+    width: 65%;
 }
 
 .global-layout > .layout-bar {
@@ -48,4 +55,8 @@ html, body{
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+#emaestrobox {
+    align-self: center;
+    width: 55%;
 }
