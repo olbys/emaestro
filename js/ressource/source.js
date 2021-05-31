@@ -660,9 +660,11 @@ function stopScoreRecord() {
     }
 
     ff();
+
     // Arrete l'enregistrement
-    let stop = document.getElementById('btnStop');
-    stop.click();
+   /* let stop = document.getElementById('btnStop');
+    stop.click();*/
+
     // Arrete le clock
     theClock = playEnd(theClock);
 };

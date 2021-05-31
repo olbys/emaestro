@@ -57,7 +57,7 @@
                     </label>
                     <input id="chooserecord" type="checkbox" class="form-check-input" onChange="readRecordNames()">
                 </div>
-                <button id="btnsave" class="button-primary waves-effect waves-light" onclick="">
+                <button id="btnsave" class="button-primary waves-effect waves-light" onclick="uploadSon()">
                     <i class="material-icons left">file_upload</i>
                     Téléverser un sons
                 </button>
@@ -92,6 +92,8 @@
                     </div>
                 </div>
 
+                <input class="form-control" type="file" name="file">
+
             </div>
         </div>
         <div class="layout-metronome">
@@ -106,19 +108,21 @@
             <div class="input-control">
                 <div class="control">
                     <label class="input-label" for="valLa">Fréquence du La</label>
-                    <input placeholder="entrez la fréquence ici " id="valLa" type="text" class="">
+                    <input placeholder="Entrez la fréquence ici " id="valLa" type="text" class="">
                 </div>
-                <button class="button-on-dark" type="button" onclick="diaposon()">
+                <div id="diapason">
+                <button class="button-on-dark" type="button">
                     <i class="large material-icons">play_circle_outline</i>
                 </button>
+                </div>
             </div>
 
             <div class="button-control">
-                <button class="button-on-dark" type="button" onclick="">
+                <button id="playscorerecord" class="button-on-dark" type="button">
                     <i class="large material-icons">mic_noneaudiotrack</i>
                     Lancer le métronome et l'enregistrement
                 </button>
-                <button class="button-on-dark" type="button" onclick="">
+                <button id="stopscorerecord" class="button-on-dark" type="button">
                     <i class="large material-icons"> stopaudiotrack</i>
                     Arrêter le métronome et l'enregistrement
                 </button>
@@ -297,5 +301,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.js"></script>
 <script type="text/javascript" src="/js/ressource/source.js"></script>
 <script type="text/javascript" src="grilleComponent/grilleComponent.js"></script>
+<script type="text/javascript" src="oscilateur/oscilateur.js"></script>
+<script type="text/javascript" src="mix-sounds/mix-sounds.js"></script>
 
 </html>
