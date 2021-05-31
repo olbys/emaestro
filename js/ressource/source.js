@@ -25,18 +25,18 @@ var firstBarTemplate = {
     division: 1,
     intensity: 4,
     alert: "",
-    "next": {"repeat":{"start": 2, "end": 5, "nb": 2}}
+    "next": {"repeat":{"start": null, "end": null, "nb": 2}}
 }
 
 var otherBarTemplate = {
-    tempo: "",
-    beat: "",
-    key: "",
-    time: "",
-    division: "",
-    intensity: "",
+    tempo: 80,
+    beat: 4,
+    key: 1,
+    time: 4,
+    division: 1,
+    intensity: 4,
     alert: "",
-    "next": {"repeat":{"start": 0, "end": 0, "nb": 2}}
+    "next": {"repeat":{"start": null, "end": null, "nb": 2}}
 };
 
 var valLa = 440;
@@ -176,12 +176,17 @@ $("#scoresize").change(setScoreSize);
 // changing the current bar do not modify the JS score, but the DOM bar must be updated
 function setCurrentBar() {
     theScore.currentbar = $("#currentbar").val() - 1;
-    if(theScore.currentbar < theScore.bars.length){
-        theScore.bars.splice(theScore.currentbar, 1);
+   
+    if(theScore.currentbar < theScore.bars.length && theScore.currentbar > 0){
+        theScore.bars.splice(theScore.currentbar, 1); // on supprime 
         console.log("---------------------- all bars --------------------------")
         console.log(theScore.bars);
-    }else{
-    theScore.bars[theScore.currentbar] = otherBarTemplate;
+    }else {
+    theScore.bars[theScore.currentbar] = JSON.parse(JSON.stringify(otherBarTemplate));
+    if(theScore.currentbar == 2){
+        theScore.bars[theScore.currentbar].next.repeat.start = 0
+        theScore.bars[theScore.currentbar].next.repeat.end = 2
+    }
     console.log("current bar: " + theScore.currentbar);
     }
     instantiateDOMCurrentBar(theScore, theScore.currentbar);
@@ -317,12 +322,13 @@ const EMAESTRO_ON = 0x80
 const EMAESTRO_OFF = 0x81
 
 function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse) {
+    console.log('the pulse --> ', thePulse)
     var d = new Date();
     var clock = d.getTime() - startClock;
-//	console.log("light " + onoff + " pulse num:" + thePulse + " at " + clock);
+	console.log("light " + onoff + " pulse num:" + thePulse + " at " + clock);
     var nbLeds = nbLedsPerPulse[nbPulse - 1][completedBar.time];
     var firstLed = theBeat * nbLedsPerBeat[completedBar.time] + thePulse * nbLeds;
-//	console.log("led " + onoff + ": from " + firstLed + " to " + (firstLed+nbLeds));
+	console.log("led " + onoff + ": from " + firstLed + " to " + (firstLed+nbLeds));
     for (var i = 0; i < nbLeds; i++) {
         document
             .getElementById("led" + (firstLed + i))
@@ -361,6 +367,7 @@ function playStart(theClock, theBar) {
 };
 
 function completeBar(theCompletedBar, theBar) {
+    console.log('--------------------- méthode complete bar -----------------')
     console.log("old completed bar: " + JSON.stringify(theCompletedBar));
     console.log("the score bar: " + JSON.stringify(theScore.bars[theBar]));
     theCompletedBar.alert = "";
@@ -386,17 +393,21 @@ function completeBar(theCompletedBar, theBar) {
     }
     ;
     console.log("new completed bar: " + JSON.stringify(theCompletedBar));
+    console.log('--------------------------- end méthode complète bar -----------------')
     return theCompletedBar;
 }
 
 function lightKey(completedBar) {
     console.log("change in key");
+    console.log('test nouvel completedBar --> ', completedBar)
     var firstLed = circlesNbLeds[0] + circlesNbLeds[1];
     var nbLeds = circlesNbLeds[2];
-    console.log("switch off key circle: from " + firstLed + " to " + (firstLed + nbLeds));
+    console.log("nb leds switch off "+ nbLeds);
+    console.log("switch off key circle: from firstLed " + firstLed + " to " + (firstLed + nbLeds));
     for (var i = 0; i < nbLeds; i++) {
         document.getElementById("led" + (firstLed + i))
-            .setAttribute("fill", "black");
+            .setAttribute("fill", "black"); //red
+            console.log("led off  "+ (firstLed + i)+ " i "+i);
     }
     ;
 
@@ -410,22 +421,27 @@ function lightKey(completedBar) {
         firstLed = circlesNbLeds[0] + circlesNbLeds[1];
     }
     ;
+    console.log("nb leds switch on "+ nbLeds);
     console.log("first led = " + firstLed + " ; nbLeds = " + nbLeds);
     for (var i = 0; i < nbLeds; i++) {
         document
             .getElementById("led" + (firstLed + i))
             .setAttribute("fill", intensityColors[completedBar.intensity]);
+            console.log("led on  "+ (firstLed + i));
     }
     ;
+
 };
 
 
 function playKey(theClock, completedBar) {
+    console.log('----------- debut playKey ---------------')
     mySetTimeout(function () {
             lightKey(completedBar);
         },
         theClock
     );
+    console.log('----------- fin playKey ---------------')
 };
 
 var blinkProgram = [0, 200, 600, 800];
@@ -469,6 +485,7 @@ function playAlert(theClock, theCompletedBar) {
 };
 
 function playBeat(theClock, completedBar, theBeat) {
+    console.log('------------------------- debut playBeat ------------------')
     var nbPulse;
     if (completedBar.division == 1) {
         nbPulse = 1;
@@ -502,10 +519,18 @@ function playBeat(theClock, completedBar, theBeat) {
         })(i);
     }
     ;
+    console.log('------------------------- fin playBeat ------------------')
     return theClock;
 };
 
 function playBar(theClock, theCompletedBar, theBar) {
+    console.log('------------ the clock ----------------------');
+    console.log(theClock);
+    console.log('------------ the Completed Bar ----------------------');
+    console.log(theCompletedBar);
+    console.log('------------ the Bar ----------------------');
+    console.log("play bar i ==> ",theBar);
+    console.log('------------ end debug param play Bar ----------------------');
 // completion of the completed bar
     theCompletedBar = completeBar(theCompletedBar, theBar);
     playKey(theClock, theCompletedBar);
@@ -519,9 +544,11 @@ function playBar(theClock, theCompletedBar, theBar) {
 };
 
 function lightOff() {
+    console.log('------------------- play end lightOff --------------------')
     var nbLeds = 49;
     for (var i = 0; i < nbLeds; i++) {
         document.getElementById("led" + i).setAttribute("fill", "black");
+        console.log("---- play lightOff " +i +"-------------------------")
     }
     ;
 };
@@ -548,6 +575,7 @@ function playEnd(theClock) {
 
 function playScore() {
     var d = new Date();
+    var cpt = 1;
     startClock = d.getTime();
     var theClock = initClock;
     theClock = playStart(theClock, theScore.bars[0]);
@@ -557,19 +585,33 @@ function playScore() {
     var completedBar = theScore.bars[0];
     console.log("---------------- jouer partition ---------------- ");
     console.log(completedBar);
+    console.log('----------------------------------------------------')
     console.log("---------------- jouer partition theScore.scoresize ---------------- ");
     console.log(theScore.scoresize);
-    for (var i = 0; i < theScore.scoresize; i++) {
+    console.log('------------------------------------------------------------------------')
+    for (var i = 0; i < theScore.scoresize; ++i) {
+        j= i;
         // starts the bar handler
         // the bar handler will start the beats and pulses handlers
         // and return an updated time
         console.log("play bar num test:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
+        console.log("repetition mesure i : ==> ", i);
         // do not forget to clone the completed bar
         completedBar = JSON.parse(JSON.stringify(completedBar));
-        theClock = playBar(theClock, completedBar, i);
+        theClock = playBar(theClock, completedBar , i); //remplacer completedBar -> JSON.stringify(theScore.bars[i])
+        
+        if(i==theScore.bars[i].next.repeat.end && cpt < 2){
+            console.log("compteur repetition : ==> ", i);
+            i = theScore.bars[j].next.repeat.start;
+            cpt++;
+        }/*else{
+            i=j;
+        }*/
     }
     ;
+    console.log("-------------- END PLAY SCORE theCLOCK-----");
     theClock = playEnd(theClock);
+    console.log("-------------- END PLAY SCORE theCLOCK---"+theClock);
 };
 $("div#play button#playscore").click(playScore);
 
