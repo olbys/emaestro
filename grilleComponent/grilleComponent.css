@@ -15,17 +15,20 @@
     flex-direction: column;
     height: 100%;
     padding: 0 15px;
-    justify-content: center;
+    justify-content: space-around;
     align-items: stretch;
 }
 
 .grille--component > .input-control--container > .input-control > input {
-    width: 233px;
+    width: auto;
+    margin-top: 6px;
+    min-width: 233px;
     display: block;
     font-size: 15px;
     padding: 0 3px;
-    color: black;
+    color: white;
     height: 35px;
+    background-color: black;
     border: solid white 1.5px;
     border-radius: 9px;
 }
@@ -43,15 +46,6 @@
     justify-content: center;
 }
 
-.input-button > button {
-    margin: 5px 0;
-    display: block;
-    background-color: white;
-    color: black;
-    height: auto;
-    padding: 0px 15px;
-    border-radius: 12px;
-}
 
 /* Mesure controle container*/
 .mesure-control-container {
@@ -59,9 +53,10 @@
     flex-direction: column;
     height: 100%;
     width: 400px;
-    padding: 0 8px;
+    padding: 8px 8px;
     justify-content: space-between;
     align-items: stretch;
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.9) 0px 0px 0px 1px;
 }
 
 .line-mesure {

@@ -1,3 +1,22 @@
+.button-on-dark {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: white;
+    outline: none;
+    color: black;
+    height: auto;
+    border-radius: 12px;
+    border: .5px solid transparent;
+    margin: 2px 0;
+}
+.button-on-dark:hover{
+    border: .5px solid white;
+    background: transparent;
+    color: white;
+}
+
 
 .oscilateur-section {
     display: flex;
@@ -13,8 +32,9 @@
 .oscilateur-section > .input-control {
     display: flex;
     flex-direction: row;
-    width: 300px;
-    align-items: center;
+    width: auto;
+    min-width: 305px;
+    align-items: flex-end;
     justify-content: space-between;
 }
 .oscilateur-section > .button-control {
@@ -23,72 +43,20 @@
     justify-content: space-between;
 }
 
-.oscilateur-section > .input-control button, .button-control> button {
-    margin: 5px 0;
-    display: block;
-    background-color: white;
-    color: black;
-    height: auto;
-    padding: 0px 15px;
-    border-radius: 12px;
-}
 .oscilateur-section > .input-control button{
-    align-self: stretch;
+    margin: 0 !important;
 }
 
 .oscilateur-section > .input-control .control input {
-    width: 233px;
+    width: auto;
+    margin-top: 6px;
+    min-width: 233px;
     display: block;
     font-size: 15px;
     padding: 0 3px;
-    color: black;
+    color: white;
     height: 35px;
+    background-color: black;
     border: solid white 1.5px;
     border-radius: 9px;
 }
-
-/*.container {*/
-/*    background-color: black;*/
-/*    width: 2000px;*/
-/*    padding: 10px;*/
-/*    height: 130px;*/
-/*    margin-top: 20px;*/
-/*    border-radius: 0.5rem;*/
-/* }*/
-
-/* .container-p {*/
-/*    margin-top: 20px;*/
-/* }*/
-
- /*.oscilateur-input {
-    width: 19%;
-    padding: 0.7%;
-    border-radius: 0.5rem;
-    background-color: black;
-    margin-left: 8px;
-    border:solid white;
- }*/
-
-/* .btn-play-oscilateur {*/
-/*    color: black;*/
-/*    width: 0,3%;*/
-/*    height: 25%;*/
-/*    margin-left: 10px;*/
-/*    border-radius: 5px;*/
-/* }*/
-
-/* .btn-play-metronome {*/
-/*    color: black;*/
-/*    width: 0,3%;*/
-/*    height: 29%;*/
-/*    margin-left: 340px;*/
-/*    border-radius: 5px;*/
-/* }*/
-
-/* .btn-stop-metronome {*/
-/*    color: black;*/
-/*    width: 0,3%;*/
-/*    height: 29%;*/
-/*    margin-left: 750px;*/
-/*    border-radius: 5px;*/
-/* }*/
