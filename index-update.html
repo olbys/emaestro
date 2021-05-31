@@ -55,9 +55,9 @@
                     <label for="chooserecord" class="form-check-label">
                         Mixer avec d'autres sons
                     </label>
-                    <input id="chooserecord" type="checkbox" class="form-check-input">
+                    <input id="chooserecord" type="checkbox" class="form-check-input" onChange="readRecordNames()">
                 </div>
-                <button class="button-primary waves-effect waves-light">
+                <button id="btnsave" class="button-primary waves-effect waves-light" onclick="">
                     <i class="material-icons left">file_upload</i>
                     Téléverser un sons
                 </button>
@@ -66,13 +66,13 @@
             <div class="list-mix">
                 <div class="mix-item">
                     <div class="select-music">
-                        <input  data-mix="1" type="checkbox">
+                        <input  data-mix="1" type="checkbox" id="" name="sonmix" value="">
                     </div>
                     <div class="mix-title">
                         <div>Trapmix.mp3</div>
                     </div>
                     <div class="audio-mix">
-                        <audio class="" controls>
+                        <audio class="" controls id="">
                             <source src="sons/diapason.mp3" type="audio/mp3">
                         </audio>
                     </div>
@@ -80,7 +80,7 @@
 
                 <div class="mix-item">
                     <div class="select-music">
-                        <input  data-mix="1" type="checkbox">
+                        <input  data-mix="1" type="checkbox" id="" name="sonmix" value="">
                     </div>
                     <div class="mix-title">
                         <div>Trapmix.mp3</div>
