@@ -835,7 +835,8 @@ function readGroupNames() {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
-                buildGroupSelector(JSON.parse(this.responseText));
+                // TODO Olivier à revoir
+                // buildGroupSelector(JSON.parse(this.responseText));
             } else {
                 console.log("Status de la réponse: %d (%s)",
                     this.status, this.statusText);
@@ -966,7 +967,8 @@ var nbmembre = 1;
 
 $(function () {
     group = instantiateGroup(ensembleTemplate, firstMusicienTemplate);
-    instantiateDOMGroup(group);
+    // TODO à revoir
+    //  instantiateDOMGroup(group);
 });
 
 function cancelGroup() {

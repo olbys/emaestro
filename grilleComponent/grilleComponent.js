@@ -84,7 +84,7 @@ function handleChangeMesure() {
 
 
 function buildGrilleItemDOM(bar, index) {
-    return ` <div class="grille-item"  data-index="${index}" id="grille-${index}">
+    return ` <div class="grille-item" data-selected="false" data-index="${index}" id="grille-${index}">
                <div class="numero">${index}</div>
                ${bar.repeat.nbRepeat > 0 ?
         `<div><i className="material-icons left">replay</i></div>`
@@ -99,6 +99,12 @@ function buildGrilleItemDOM(bar, index) {
  *
  */
 function selectGrilleItem() {
+
+    $('div[data-selected="true"]').each((index, dom)=>{
+        $(dom).attr("data-selected", false);
+    });
+
+    $(this).attr("data-selected", true);
     const bar_index = $(this).data('index') - 1;
     GLOBAL_score.currentbar = bar_index;
     if (!isNaN(bar_index)) {
@@ -133,12 +139,15 @@ function updateMesureInputDOM(bar) {
     $("#alerte").val(bar.alert);
     $("#pupitre").val(bar.pupitre);
 }
-$(function (){
+
+$(function () {
     console.log("hey world");
     updateMesureInputDOM(GLOBAL_score.bars[0]);
-    if (GLOBAL_score.bars.length > 0){
+    if (GLOBAL_score.bars.length > 0) {
         $("#nombre_mesure").val(GLOBAL_score.bars.length);
         buildGrilleDOM();
+        console.clear();
+        console.log("build dom");
     }
 })
 
