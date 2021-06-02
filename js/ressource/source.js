@@ -7,40 +7,43 @@ function alertt() {
 
 var socket;
 var theScore;
-// var newScore = newScoreTemplate("","Mon premier morceau","premiermorceau",4,0,[],[])
+var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,0,[]);
 
-var newScoreTemplate = {
-    choosegroup: "",
-    scoretitle: "Mon premier morceau",
-    scorefilename: "premiermorceau",
-    scoresize: 4,
-    currentbar: 0, // warning ! the user must see bar numbers starting at 1
-    bars: []//,
-    //repeat:[]
-};
+// var newScoreTemplate = {
+//     choosegroup: "",
+//     scoretitle: "Mon premier morceau",
+//     scorefilename: "premiermorceau",
+//     scoresize: 4,
+//     currentbar: 0, // warning ! the user must see bar numbers starting at 1
+//     bars: []//,
+//     //repeat:[]
+// };
 
-//var firstBarTemplate = barTemplate(80,4,1,4,1,4,"",null,null)
-var firstBarTemplate = {
-    tempo: 80,
-    beat: 4,
-    key: 1,
-    time: 4,
-    division: 1,
-    intensity: 4,
-    alert: "",
-    "next": {"repeat":{"start": null, "end": null, "nb": 2}}
-}
-//var otherBarTemplate = barTemplate(80,4,1,4,1,4,null,null)
-var otherBarTemplate = {
-    tempo: 80,
-    beat: 4,
-    key: 1,
-    time: 4,
-    division: 1,
-    intensity: 4,
-    alert: "",
-    "next": {"repeat":{"start": null, "end": null, "nb": 2}}
-};
+var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",{"repeat":{"start": null, "end": null, "nb": 2}});
+
+// var firstBarTemplate = {
+//     tempo: 80,
+//     beat: 4,
+//     key: 1,
+//     time: 4,
+//     division: 1,
+//     intensity: 4,
+//     alert: "",
+//     next: {"repeat":{"start": null, "end": null, "nb": 2}}
+// };
+
+var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",{"repeat":{"start": null, "end": null, "nb": 2}});
+
+// var otherBarTemplate = {
+//     tempo: 80,
+//     beat: 4,
+//     key: 1,
+//     time: 4,
+//     division: 1,
+//     intensity: 4,
+//     alert: "",
+//     "next": {"repeat":{"start": null, "end": null, "nb": 2}}
+// };
 
 var valLa = 440;
 
