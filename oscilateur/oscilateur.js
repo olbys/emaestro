@@ -43,7 +43,7 @@ function playScoreRecord() {
         theClock = playBar(theClock, completedBar, i);
     }
     ;
-    theClock =  (theClock);
+    theClock = (theClock);
 };
 $("#playscorerecord").click(playScoreRecord);
 
@@ -111,4 +111,8 @@ function playEnd(theClock) {
     return theClock + 10;
 };
 
-$("#chooserecord").change(function() { console.log("Object est :",$(this).attr("checked"));});
+$("#chooserecord").change(function () {
+    const want_mix =  $(this).get(0).checked;
+    console.log("Object est : ",  want_mix)
+    ;
+});
