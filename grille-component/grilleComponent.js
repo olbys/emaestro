@@ -114,8 +114,11 @@ function handleRightClickGrilleItem() {
             // TODO active la grille et met current bar à l'index de la grille right cliker
             activeGrilleItemDOM(indexInBars - 1, $(object))
 
+
             // TODO update modal container
             buildOptionRepriseDOM(indexInBars);
+            // Warning ORDer is important
+            updateRepriseInputDOM(theScore.bars[indexInBars - 1])
 
             // TODO
             $("#mesure-modal").css('display', 'block');
@@ -142,7 +145,7 @@ function buildGrilleDOM() {
 
 
 function updateMesureInputDOM(bar) {
-    console.log('select Bar', bar);
+    // console.log('select Bar', bar);
     $("#tempo").val(bar.tempo);
     $("#beat").val(bar.beat);
     $("#armure").val(bar.key);
@@ -194,6 +197,20 @@ $("#alert").change((object) => updateGlobalScore(object.target.value, "alert"));
 $("#mesure-modal-close").click(function () {
     $("#mesure-modal").css('display', 'none');
 })
+
+function updateRepriseInputDOM(bar) {
+    console.log('select Bar', bar);
+    if (bar && bar.repeat !== null) {
+
+        let repeat = repetions[bar.repeat];
+        console.log('repeat ', repeat.begin, repeat.end, repeat.nbrepeats)
+        $("#debut-reprise-select").val(repeat.begin);
+        $("#fin-reprise-select").val(repeat.end);
+        $("#reprise-input-repeat").val(repeat.nbrepeats);
+    }
+
+}
+
 $("#save_rep").click(function () {
 
     const begin = parseInt($('#debut-reprise-select').val());
@@ -203,9 +220,15 @@ $("#save_rep").click(function () {
         alert("une erreur à été détecté dans le formulaire de reprise")
         return
     }
-    let repeat = new Repeats(begin, fin, nombre_repeat)
-    console.log('valider content', repeat, theScore.currentbar);
-    repe
+    let repeat = new Repeats(begin, fin, nombre_repeat);
+    let currentBar = theScore.bars[theScore.currentbar];
+    // console.log('currentBar', currentBar.repeat, currentBar);
+    if (!currentBar.repeat) {
+        repetions.push(repeat);
+        currentBar.repeat = repetions.length - 1;
+    } else {
+        repetions[currentBar.repeat] = repeat;
+    }
 })
 
 

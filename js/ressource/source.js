@@ -9,7 +9,8 @@ function alertt() {
 
 
 var theScore;
-
+var repetions = [];
+var execrepetitions = [];
 var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,0,[]);
 var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
 var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
