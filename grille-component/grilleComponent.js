@@ -1,4 +1,3 @@
-
 function immutablaObject(object) {
     return JSON.parse(JSON.stringify(object));
 }
@@ -58,7 +57,7 @@ function handleChangeMesure() {
 function buildGrilleItemDOM(bar, index) {
     return ` <div class="grille-item" data-selected="false" data-index="${index}" id="grille-${index}">
                <div class="numero">${index}</div>
-               ${bar.repeat !=null ?
+               ${bar.repeat != null ?
         `<div><i className="material-icons left">replay</i></div>`
         : `<div></div>`
     }
@@ -67,23 +66,62 @@ function buildGrilleItemDOM(bar, index) {
             `
 }
 
+
+/**
+ * Active DOM ELEMENT AND Current bar
+ * @param index
+ * @param domElement
+ */
+function activeGrilleItemDOM(index, domElement) {
+    if (!isNaN(index)) {
+        theScore.currentbar = index;
+        $('div[data-selected="true"]').each((index, dom) => {
+            $(dom).attr("data-selected", false);
+        });
+        $(domElement).attr("data-selected", true);
+        console.log('index', index)
+        updateMesureInputDOM(theScore.bars[index])
+    }
+}
+
 /** When clicked select grille
  *
  */
 function selectGrilleItem() {
-
-
     const bar_index = $(this).data('index') - 1;
-    theScore.currentbar = bar_index;
-    console.log('bar, index', bar_index)
-    if (!isNaN(bar_index)) {
-        $('div[data-selected="true"]').each((index, dom) => {
-            $(dom).attr("data-selected", false);
-        });
-        $(this).attr("data-selected", true);
-        updateMesureInputDOM(theScore.bars[bar_index])
-        $("#mesure-modal").css('display', 'block');
+    activeGrilleItemDOM(bar_index, $(this))
+}
+
+
+function buildOptionRepriseDOM(indexStop) {
+    let options = `<option value=null>sélectionnez</option>`
+    if (theScore.bars.length !== 0) {
+        for (let i = 0; i < indexStop; i++) {
+            options += `<option  value="${i + 1}"> ${i + 1}</option>`
+        }
     }
+    $('#debut-reprise-select').html(options)
+    $('#fin-reprise-select').html(options)
+}
+
+function handleRightClickGrilleItem() {
+    $('div.grille-item').each((index, object) => {
+        var btn_sauvegarder_mesures = $(object).get(0);
+        btn_sauvegarder_mesures.addEventListener('contextmenu', ev => {
+            ev.preventDefault();
+            let indexInBars = $(object).data('index');
+
+            // TODO active la grille et met current bar à l'index de la grille right cliker
+            activeGrilleItemDOM(indexInBars - 1, $(object))
+
+            // TODO update modal container
+            buildOptionRepriseDOM(indexInBars);
+
+            // TODO
+            $("#mesure-modal").css('display', 'block');
+
+        })
+    })
 }
 
 /**
@@ -98,10 +136,9 @@ function buildGrilleDOM() {
     })
     grilleElement.html(innerGrille);
     $('div.grille-item').click(selectGrilleItem)
+    handleRightClickGrilleItem();
 
 }
-// TODO à enlever
-$('div.grille-item').click(selectGrilleItem)
 
 
 function updateMesureInputDOM(bar) {
@@ -118,13 +155,11 @@ function updateMesureInputDOM(bar) {
 
 $(function () {
     console.log("hey world bar", theScore);
-    // updateMesureInputDOM(theScore.bars[0]);
-    // if (theScore.bars.length > 0) {
-    //     $("#nombre_mesure").val(theScore.bars.length);
-    //     buildGrilleDOM();
-    //     console.clear();
-    //     console.log("build dom");
-    // }
+    updateMesureInputDOM(theScore.bars[0]);
+    if (theScore.bars.length > 0) {
+        $("#nombre_mesure").val(theScore.bars.length);
+        buildGrilleDOM();
+    }
 })
 
 
@@ -158,6 +193,19 @@ $("#alert").change((object) => updateGlobalScore(object.target.value, "alert"));
 
 $("#mesure-modal-close").click(function () {
     $("#mesure-modal").css('display', 'none');
+})
+$("#save_rep").click(function () {
+
+    const begin = parseInt($('#debut-reprise-select').val());
+    const fin = parseInt($('#fin-reprise-select').val());
+    const nombre_repeat = parseInt($('#reprise-input-repeat').val());
+    if (isNaN(begin) || isNaN(fin) || isNaN(nombre_repeat)) {
+        alert("une erreur à été détecté dans le formulaire de reprise")
+        return
+    }
+    let repeat = new Repeats(begin, fin, nombre_repeat)
+    console.log('valider content', repeat, theScore.currentbar);
+    repe
 })
 
 

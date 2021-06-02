@@ -275,21 +275,28 @@
         <div class="modal-body">
             <div class="input-control">
                 <div class="label">Début de la reprise :</div>
-                <select class="list-mesure">
+                <select id="debut-reprise-select">
                     <option value=null>sélectionnez</option>
                 </select>
             </div>
 
             <div class="input-control">
                 <div class="label">Fin de la reprise :</div>
-                <select class="list-mesure">
+                <select id="fin-reprise-select">
                     <option value=null>sélectionnez</option>
                 </select>
             </div>
 
             <div class="input-control">
                 <div class="label">Nombre de fois :</div>
-                <input type="text" placeholder="ex :2"  value="2">
+                <input type="text" placeholder="ex :2"  id="reprise-input-repeat" value="2">
+            </div>
+
+            <div class="input-button">
+                <button id="save_rep" class="button-primary waves-effect waves-light">
+                    <i class="material-icons left">repeat</i>
+                    Valider
+                </button>
             </div>
 
         </div>

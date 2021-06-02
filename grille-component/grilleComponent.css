@@ -159,7 +159,7 @@
 
 /* -------------------------------- MODAL ----------------------------------------------------------*/
 #mesure-modal {
-    display: block;
+    display: none;
     position: fixed;
     z-index: 1;
     padding-top: 200px;
@@ -214,6 +214,7 @@
     align-items: center;
     justify-content: center;
 }
+
 #mesure-modal > .modal-content > .modal-body > .input-control {
     display: flex;
     font-weight: 500;
@@ -223,12 +224,28 @@
     align-items: center;
     justify-content: space-between;
 }
+
 #mesure-modal > .modal-content > .modal-body > .input-control > select, input {
     width: auto;
     min-width: 200px;
     padding: 9px;
     outline: none;
 }
-#mesure-modal > .modal-content > .modal-body > .input-control >  input {
- padding: 0 !important;
+
+#mesure-modal > .modal-content > .modal-body > .input-control > input {
+    padding: 0 !important;
 }
+
+#mesure-modal > .modal-content > .modal-body > .input-button {
+    margin-top: 20px;
+    min-width: 150px;
+    width: auto;
+}
+
+#mesure-modal > .modal-content > .modal-body > .input-button > button {
+    display: flex !important;
+    font-weight: bold;
+    font-size: 18px;
+    justify-content: space-around !important;
+}
+
