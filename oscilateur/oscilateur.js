@@ -1,5 +1,4 @@
-
-// Start score record
+// Fonctions liées aux boutons de lancement et d'arrét du métronome
 function playScoreRecord() {
 
     console.log("Bouton Lancer l'enreg et le métro");
@@ -13,7 +12,7 @@ function playScoreRecord() {
             if (sonmix[i].checked) {
 
 
-                document.getElementById(sonmix[i].value + '1').play();
+                document.getElementById(sonmix[i].value).play();
 
 
             }
@@ -23,8 +22,8 @@ function playScoreRecord() {
     ff();
 
     // Démarre juste l'engistrement
-   /* let btnstart = document.getElementById('btnStart');
-    btnstart.click();*/
+    /* let btnstart = document.getElementById('btnStart');
+     btnstart.click();*/
 
     var d = new Date();
     startClock = d.getTime();
@@ -32,7 +31,7 @@ function playScoreRecord() {
     theClock = playStart(theClock, theScore.bars[0]);
     // bars in theScore only mark changes
     // a completed bar is created to remember what does not change
-   // it is cloned then updated while reading each bar in turn
+    // it is cloned then updated while reading each bar in turn
     var completedBar = theScore.bars[0];
     for (var i = 0; i < theScore.scoresize; i++) {
         // starts the bar handler
@@ -111,3 +110,5 @@ function playEnd(theClock) {
     }, theClock);
     return theClock + 10;
 };
+
+$("#chooserecord").change(function() { console.log("Object est :",$(this).attr("checked"));});

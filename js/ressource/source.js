@@ -606,7 +606,8 @@ function playScoreRecord() {
             if (sonmix[i].checked) {
 
 
-                document.getElementById(sonmix[i].value + '1').play();
+                console.log("son mix valeur :",sonmix[i].value);
+                document.getElementById(sonmix[i].value).play();
 
 
             }
@@ -762,7 +763,6 @@ function readRecordNames() {
 
 function buildRecordSelector(recordList) {
 
-    console.log("Liste des records",recordList);
     /*for (var i in recordList.scores) {
         $("#afterlastrecord").before('<li class="onerecord">' + "<p>" + recordList.scores[i] + "</p>" + "</li>" +
             '<audio controls id="' + recordList.scores[i] + '1">' + '<source src="sons/' + recordList.scores[i] + '"' + 'type="audio/mp3">' + '</audio> <input type="checkbox" id="' + recordList.scores[i] + '" name="sonmix" value="' + recordList.scores[i] + '">   <label >Selectionner!</label>');
@@ -779,24 +779,23 @@ function buildRecordSelector(recordList) {
 
         listeAudioMixDom += buildMixSelector(recordList.scores[i],i);
     }
-    console.log("ListeAudioMixDom",listeAudioMixDom);
-    $('div.list-mix').html(listeAudioMixDom)
+    $('div.list-mix-file').html(listeAudioMixDom)
 }
 
 function buildMixSelector(soundName, index) {
 
     var srcSound="sons/"+soundName;
-   return ` <div className="mix-item">
-        <div className="select-music">
-            <input data-mix="${index}" type="checkbox" id="audio-${index}" name="sonmix" value="">
-        </div>
-        <div className="mix-title">
+   return ` <div class="mix-item">
+
+        <div class="mix-title">
             <div> ${soundName} </div>
         </div>
-        <div className="audio-mix">
-            <audio className="" controls id="">
-                <source src="${srcSound}" type="audio/mp3">
+        <div class="audio-mix">
+            <audio controls id="${soundName}"> 
+            
+                <source src="${srcSound}" type="audio/mp3"> 
             </audio>
+            <input data-mix="${index}" type="checkbox" id="audio-${index}" name="sonmix" value="${soundName}">
         </div>
     </div> `
 }
