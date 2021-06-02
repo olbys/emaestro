@@ -8,38 +8,45 @@ function alertt() {
 }
 
 
-var socket;
-// var theScore;
-var newScoreTemplate = {
-    choosegroup: "",
-    scoretitle: "Mon premier morceau",
-    scorefilename: "premiermorceau",
-    scoresize: 4,
-    currentbar: 0, // warning ! the user must see bar numbers starting at 1
-    bars: []
-};
+// var socket;
+var theScore;
 
-var firstBarTemplate = {
-    tempo: 80,
-    beat: 4,
-    key: 1,
-    time: 4,
-    division: 1,
-    intensity: 4,
-    alert: "",
-    "next": {"repeat":{"start": 2, "end": 5, "nb": 2}}
-}
+var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,0,[]);
 
-var otherBarTemplate = {
-    tempo: "",
-    beat: "",
-    key: "",
-    time: "",
-    division: "",
-    intensity: "",
-    alert: "",
-    "next": {"repeat":{"start": 0, "end": 0, "nb": 2}}
-};
+// var newScoreTemplate = {
+//     choosegroup: "",
+//     scoretitle: "Mon premier morceau",
+//     scorefilename: "premiermorceau",
+//     scoresize: 4,
+//     currentbar: 0, // warning ! the user must see bar numbers starting at 1
+//     bars: []
+// };
+
+var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
+
+// var firstBarTemplate = {
+//     tempo: 80,
+//     beat: 4,
+//     key: 1,
+//     time: 4,
+//     division: 1,
+//     intensity: 4,
+//     alert: "",
+//     "next": {"repeat":{"start": 2, "end": 5, "nb": 2}}
+// }
+
+var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
+
+// var otherBarTemplate = {
+//     tempo: "",
+//     beat: "",
+//     key: "",
+//     time: "",
+//     division: "",
+//     intensity: "",
+//     alert: "",
+//     "next": {"repeat":{"start": 0, "end": 0, "nb": 2}}
+// };
 
 var valLa = 440;
 

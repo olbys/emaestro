@@ -1,31 +1,3 @@
-// let theScore =
-//     {
-//         "scoretitle": "Ceci est un test",
-//         "scorefilename": "fichiera",
-//         "scoresize": "5",
-//         "currentbar": 0,
-//         "bars": [
-//             {
-//                 "tempo": "80",
-//                 "beat": 4,
-//                 "key": 1,
-//                 "time": 4,
-//                 "division": 1,
-//                 "intensity": 4,
-//                 "alert": "",
-//                 "pupitre": "",
-//                 "repeat": {
-//                     "next": null,
-//                     "before": null,
-//                     "nbRepeat": 0
-//                 }
-//             },
-//         ]
-//     }
-
-/**
- *
- */
 
 function immutablaObject(object) {
     return JSON.parse(JSON.stringify(object));
@@ -86,7 +58,7 @@ function handleChangeMesure() {
 function buildGrilleItemDOM(bar, index) {
     return ` <div class="grille-item" data-selected="false" data-index="${index}" id="grille-${index}">
                <div class="numero">${index}</div>
-               ${bar.repeat.nbRepeat > 0 ?
+               ${bar.repeat !=null ?
         `<div><i className="material-icons left">replay</i></div>`
         : `<div></div>`
     }
