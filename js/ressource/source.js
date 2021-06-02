@@ -7,6 +7,7 @@ function alertt() {
 
 var socket;
 var theScore;
+var repetions = [];
 var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,0,[]);
 
 // var newScoreTemplate = {
@@ -19,7 +20,8 @@ var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premi
 //     //repeat:[]
 // };
 
-var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",{"repeat":{"start": null, "end": null, "nb": 2}});
+// var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",{"repeat":{"start": null, "end": null, "nb": 2}});
+var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
 
 // var firstBarTemplate = {
 //     tempo: 80,
@@ -32,7 +34,7 @@ var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",{"repeat":{"start": null,
 //     next: {"repeat":{"start": null, "end": null, "nb": 2}}
 // };
 
-var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",{"repeat":{"start": null, "end": null, "nb": 2}});
+var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
 
 // var otherBarTemplate = {
 //     tempo: 80,
@@ -190,10 +192,25 @@ function setCurrentBar() {
     }else {
     theScore.bars[theScore.currentbar] = JSON.parse(JSON.stringify(otherBarTemplate));
     if(theScore.currentbar == 2){
+        temprep = new Repeats(0,2,0)
         console.log("je rentre dans le if")
-        theScore.bars[theScore.currentbar].next.repeat.start = 0
-        theScore.bars[theScore.currentbar].next.repeat.end = 2
+        repetions.push(temprep);
+        theScore.bars[theScore.currentbar].repeat = 0
+
     }
+    // if(theScore.currentbar == 3){
+    //     temprep = new Repeats(1,3,0)
+    //     console.log("je rentre dans le if")
+    //     repetions.push(temprep);
+    //     // repetions[0].begin = 0
+    //     // repetions[0].end = 2
+    //     // repetions[0].nbrepeats = 2
+    //     theScore.bars[theScore.currentbar].repeat = 1
+    //     // theScore.bars[theScore.currentbar].next.repeat.start = 0
+    //     // theScore.bars[theScore.currentbar].next.repeat.end = 2
+    //     // 0 1 2 0 1 2 3 1 2 3
+    // }
+    
     console.log("current bar: " + theScore.currentbar);
     }
     instantiateDOMCurrentBar(theScore, theScore.currentbar);
@@ -596,7 +613,31 @@ function playScore() {
     console.log("---------------- jouer partition theScore.scoresize ---------------- ");
     console.log(theScore.scoresize);
     console.log('------------------------------------------------------------------------')
-    for (var i = 0; i < theScore.scoresize; ++i) {
+    // for (var i = 0; i < theScore.scoresize; ++i) {
+    //     j= i;
+    //     // starts the bar handler
+    //     // the bar handler will start the beats and pulses handlers
+    //     // and return an updated time
+    //     console.log("play bar num test:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
+    //     console.log("repetition mesure i : ==> ", i);
+    //     // do not forget to clone the completed bar
+    //     completedBar = JSON.parse(JSON.stringify(completedBar));
+    //     r = repetions[theScore.bars[i].repeat];
+    //     // if(i==theScore.bars[i].next.repeat.end && cpt <2){
+    //         if(r!=null && i==r.end && cpt <2){
+
+    //         console.log("compteur repetition : ==> ", i);
+    //         i = r.begin;
+    //         // i = theScore.bars[j].next.repeat.start;
+    //         cpt++;
+    //     }/*else{
+    //         i=j;
+    //     }*/
+
+    //     theClock = playBar(theClock, completedBar , i); //remplacer completedBar -> JSON.stringify(theScore.bars[i])
+    // }
+    var i = 0;
+    while(i < theScore.scoresize){
         j= i;
         // starts the bar handler
         // the bar handler will start the beats and pulses handlers
@@ -605,16 +646,19 @@ function playScore() {
         console.log("repetition mesure i : ==> ", i);
         // do not forget to clone the completed bar
         completedBar = JSON.parse(JSON.stringify(completedBar));
-        
-        if(i==theScore.bars[i].next.repeat.end && cpt <2){
-            console.log("compteur repetition : ==> ", i);
-            i = theScore.bars[j].next.repeat.start;
-            cpt++;
-        }/*else{
-            i=j;
-        }*/
-
+        r = repetions[theScore.bars[i].repeat];
         theClock = playBar(theClock, completedBar , i); //remplacer completedBar -> JSON.stringify(theScore.bars[i])
+
+        // if(i==theScore.bars[i].next.repeat.end && cpt <2){
+            if(r!=null && i==r.end && cpt <2){
+
+            console.log("compteur repetition : ==> ", i);
+            i = r.begin;
+            // i = theScore.bars[j].next.repeat.start;
+            cpt++;
+        }else{
+            i++;
+        }
     }
     ;
     console.log("-------------- END PLAY SCORE theCLOCK-----");

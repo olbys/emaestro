@@ -18,6 +18,7 @@ class newScoreTemplateClass {
 }
 
 class barTemplate{
+
     tempo;
     beat;
     key;
@@ -26,7 +27,8 @@ class barTemplate{
     intensity;
     alert;
     next;
-    constructor(tempo,beat,key,time,division,intensity,alert,next){
+    repeat;
+    constructor(tempo,beat,key,time,division,intensity,alert,repeat){
         this.tempo= tempo,
         this.beat= beat,
         this.key= key,
@@ -34,9 +36,34 @@ class barTemplate{
         this.division= division,
         this.intensity=intensity,
         this.alert= alert,
-        this.next= next
+        this.repeat = repeat
     }
 
         // this.beginRepeat= beginRepeat,
         // this.endRepeat=endRepeat
+}
+
+class Repeats{
+
+    begin;
+    end;
+    nbrepeats;
+
+    constructor(begin,end,nbrepeats){
+        this.begin= begin,
+        this.end= end,
+        this.nbrepeats= nbrepeats
     }
+}
+
+class ExecRepeats{
+
+
+    nbrepeats;
+
+    constructor(nbrepeats){
+
+        this.nbrepeats= nbrepeats
+    }
+
+}
