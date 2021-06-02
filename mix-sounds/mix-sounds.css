@@ -57,7 +57,8 @@
 }
 
 .layout-mix > .list-mix > .list-mix-file {
-    display: flex;
+   /* display: flex;*/
+    display:none;
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
