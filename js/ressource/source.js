@@ -726,7 +726,6 @@ function readScoreNames() {
 var a = "";
 
 function buildScoreSelector(scoreList) {
-    console.log("buildScoreSelector " + scoreList);
     for (var i in scoreList.scores) {
         $("#afterlastscore").before('<li class="onescore">' + "<button>" + scoreList.scores[i] + "</button>" + "</li>");
         console.log("onclick: " + scoreList.scores[i]);
@@ -763,8 +762,8 @@ function readRecordNames() {
 
 function buildRecordSelector(recordList) {
 
-
-    for (var i in recordList.scores) {
+    console.log("Liste des records",recordList);
+    /*for (var i in recordList.scores) {
         $("#afterlastrecord").before('<li class="onerecord">' + "<p>" + recordList.scores[i] + "</p>" + "</li>" +
             '<audio controls id="' + recordList.scores[i] + '1">' + '<source src="sons/' + recordList.scores[i] + '"' + 'type="audio/mp3">' + '</audio> <input type="checkbox" id="' + recordList.scores[i] + '" name="sonmix" value="' + recordList.scores[i] + '">   <label >Selectionner!</label>');
 
@@ -773,7 +772,33 @@ function buildRecordSelector(recordList) {
             $("#recordchoose button:contains('" + recordList.scores[target] + "')").attr('value', recordList.scores[target]);
         })(i);
     }
-    ;
+    ;*/
+
+    var listeAudioMixDom="";
+    for (var i in recordList.scores) {
+
+        listeAudioMixDom += buildMixSelector(recordList.scores[i],i);
+    }
+    console.log("ListeAudioMixDom",listeAudioMixDom);
+    $('div.list-mix').html(listeAudioMixDom)
+}
+
+function buildMixSelector(soundName, index) {
+
+    var srcSound="sons/"+soundName;
+   return ` <div className="mix-item">
+        <div className="select-music">
+            <input data-mix="${index}" type="checkbox" id="audio-${index}" name="sonmix" value="">
+        </div>
+        <div className="mix-title">
+            <div> ${soundName} </div>
+        </div>
+        <div className="audio-mix">
+            <audio className="" controls id="">
+                <source src="${srcSound}" type="audio/mp3">
+            </audio>
+        </div>
+    </div> `
 }
 
 function test() {
@@ -971,6 +996,7 @@ var otherMembreTemplate = {
 var nbmembre = 1;
 
 $(function () {
+    readRecordNames();
     group = instantiateGroup(ensembleTemplate, firstMusicienTemplate);
     // TODO à revoir
     //  instantiateDOMGroup(group);
