@@ -28,6 +28,7 @@ class barTemplate{
     alert;
     next;
     repeat;
+    
     constructor(tempo,beat,key,time,division,intensity,alert,repeat){
         this.tempo= tempo,
         this.beat= beat,
