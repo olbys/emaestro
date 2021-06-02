@@ -64,7 +64,7 @@
             </div>
 
             <div class="list-mix">
-                <div class="list-mix-file" id="show-list-mix-file"> </div>
+                <div class="list-mix-file" id="show-list-mix-file"></div>
                 <input class="form-control" type="file" name="file">
 
             </div>
@@ -268,8 +268,32 @@
 
 <div id="mesure-modal" class="modal">
     <div class="modal-content">
-        <span id="mesure-modal-close" class="close">&times;</span>
-        <p>Some text in the Modal..</p>
+        <div class="modal-title">
+            <h4>Configuration d'une reprise et autres phénomènes </h4>
+            <div id="mesure-modal-close" class="close">&times;</div>
+        </div>
+        <div class="modal-body">
+            <div class="input-control">
+                <div class="label">Début de la reprise :</div>
+                <select class="list-mesure">
+                    <option value=null>sélectionnez</option>
+                </select>
+            </div>
+
+            <div class="input-control">
+                <div class="label">Fin de la reprise :</div>
+                <select class="list-mesure">
+                    <option value=null>sélectionnez</option>
+                </select>
+            </div>
+
+            <div class="input-control">
+                <div class="label">Nombre de fois :</div>
+                <input type="text" placeholder="ex :2"  value="2">
+            </div>
+
+        </div>
+
     </div>
 </div>
 

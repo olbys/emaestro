@@ -8,46 +8,11 @@ function alertt() {
 }
 
 
-// var socket;
 var theScore;
 
 var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,0,[]);
-
-// var newScoreTemplate = {
-//     choosegroup: "",
-//     scoretitle: "Mon premier morceau",
-//     scorefilename: "premiermorceau",
-//     scoresize: 4,
-//     currentbar: 0, // warning ! the user must see bar numbers starting at 1
-//     bars: []
-// };
-
 var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
-
-// var firstBarTemplate = {
-//     tempo: 80,
-//     beat: 4,
-//     key: 1,
-//     time: 4,
-//     division: 1,
-//     intensity: 4,
-//     alert: "",
-//     "next": {"repeat":{"start": 2, "end": 5, "nb": 2}}
-// }
-
 var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
-
-// var otherBarTemplate = {
-//     tempo: "",
-//     beat: "",
-//     key: "",
-//     time: "",
-//     division: "",
-//     intensity: "",
-//     alert: "",
-//     "next": {"repeat":{"start": 0, "end": 0, "nb": 2}}
-// };
-
 var valLa = 440;
 
 
@@ -769,18 +734,6 @@ function readRecordNames() {
 //  $('#chooserecord').on('click', readRecordNames);
 
 function buildRecordSelector(recordList) {
-
-    /*for (var i in recordList.scores) {
-        $("#afterlastrecord").before('<li class="onerecord">' + "<p>" + recordList.scores[i] + "</p>" + "</li>" +
-            '<audio controls id="' + recordList.scores[i] + '1">' + '<source src="sons/' + recordList.scores[i] + '"' + 'type="audio/mp3">' + '</audio> <input type="checkbox" id="' + recordList.scores[i] + '" name="sonmix" value="' + recordList.scores[i] + '">   <label >Selectionner!</label>');
-
-        (function (target) {
-            $("#recordchoose button:contains('" + recordList.scores[target] + "')").on('click', readScoreByName(recordList.scores[target]));
-            $("#recordchoose button:contains('" + recordList.scores[target] + "')").attr('value', recordList.scores[target]);
-        })(i);
-    }
-    ;*/
-
     var listeAudioMixDom="";
     for (var i in recordList.scores) {
 
