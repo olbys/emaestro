@@ -1,27 +1,27 @@
-let GLOBAL_score =
-    {
-        "scoretitle": "Ceci est un test",
-        "scorefilename": "fichiera",
-        "scoresize": "5",
-        "currentbar": 0,
-        "bars": [
-            {
-                "tempo": "80",
-                "beat": 4,
-                "key": 1,
-                "time": 4,
-                "division": 1,
-                "intensity": 4,
-                "alert": "",
-                "pupitre": "",
-                "repeat": {
-                    "next": null,
-                    "before": null,
-                    "nbRepeat": 0
-                }
-            },
-        ]
-    }
+// let theScore =
+//     {
+//         "scoretitle": "Ceci est un test",
+//         "scorefilename": "fichiera",
+//         "scoresize": "5",
+//         "currentbar": 0,
+//         "bars": [
+//             {
+//                 "tempo": "80",
+//                 "beat": 4,
+//                 "key": 1,
+//                 "time": 4,
+//                 "division": 1,
+//                 "intensity": 4,
+//                 "alert": "",
+//                 "pupitre": "",
+//                 "repeat": {
+//                     "next": null,
+//                     "before": null,
+//                     "nbRepeat": 0
+//                 }
+//             },
+//         ]
+//     }
 
 /**
  *
@@ -53,14 +53,14 @@ $("#sauvegarder_mesures").click(() => {
  * Listener des mesures saisie
  */
 function handleChangInputMesure() {
-    let bar_to_update = immutablaObject(GLOBAL_score.bars)
+    let bar_to_update = immutablaObject(theScore.bars)
     let nombre_mesure = $("#nombre_mesure").val();
     if (!isNaN(nombre_mesure) && Array.isArray(bar_to_update)) {
         nombre_mesure = parseInt(nombre_mesure);
         bar_to_update = Array(nombre_mesure).fill(null).map(() => immutablaObject(bar_to_update[bar_to_update.length - 1]))
-        GLOBAL_score.bars = immutablaObject(bar_to_update);
+        theScore.bars = immutablaObject(bar_to_update);
         buildGrilleDOM();
-        // console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, GLOBAL_score.bars);
+        // console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, theScore.bars);
     }
 }
 
@@ -100,15 +100,17 @@ function buildGrilleItemDOM(bar, index) {
  */
 function selectGrilleItem() {
 
-    $('div[data-selected="true"]').each((index, dom)=>{
-        $(dom).attr("data-selected", false);
-    });
 
-    $(this).attr("data-selected", true);
     const bar_index = $(this).data('index') - 1;
-    GLOBAL_score.currentbar = bar_index;
+    theScore.currentbar = bar_index;
+    console.log('bar, index', bar_index)
     if (!isNaN(bar_index)) {
-        updateMesureInputDOM(GLOBAL_score.bars[bar_index])
+        $('div[data-selected="true"]').each((index, dom) => {
+            $(dom).attr("data-selected", false);
+        });
+        $(this).attr("data-selected", true);
+        updateMesureInputDOM(theScore.bars[bar_index])
+        $("#mesure-modal").css('display', 'block');
     }
 }
 
@@ -118,7 +120,7 @@ function selectGrilleItem() {
 function buildGrilleDOM() {
     let grilleElement = $("#grille");
     let innerGrille = '';
-    GLOBAL_score.bars.forEach((bar, index) => {
+    theScore.bars.forEach((bar, index) => {
         const _grille = buildGrilleItemDOM(bar, index + 1);
         innerGrille += _grille;
     })
@@ -126,6 +128,8 @@ function buildGrilleDOM() {
     $('div.grille-item').click(selectGrilleItem)
 
 }
+// TODO à enlever
+$('div.grille-item').click(selectGrilleItem)
 
 
 function updateMesureInputDOM(bar) {
@@ -141,14 +145,14 @@ function updateMesureInputDOM(bar) {
 }
 
 $(function () {
-    console.log("hey world");
-    updateMesureInputDOM(GLOBAL_score.bars[0]);
-    if (GLOBAL_score.bars.length > 0) {
-        $("#nombre_mesure").val(GLOBAL_score.bars.length);
-        buildGrilleDOM();
-        console.clear();
-        console.log("build dom");
-    }
+    console.log("hey world bar", theScore);
+    // updateMesureInputDOM(theScore.bars[0]);
+    // if (theScore.bars.length > 0) {
+    //     $("#nombre_mesure").val(theScore.bars.length);
+    //     buildGrilleDOM();
+    //     console.clear();
+    //     console.log("build dom");
+    // }
 })
 
 
@@ -162,8 +166,8 @@ $(function () {
 function updateGlobalScore(value, property) {
     const _value = parseInt(value);
     if (!isNaN(_value)) {
-        GLOBAL_score.bars[GLOBAL_score.currentbar][property] = _value
-        console.log('updateHandle', GLOBAL_score.bars);
+        theScore.bars[theScore.currentbar][property] = _value
+        console.log('updateHandle', theScore.bars);
     }
 }
 
@@ -178,6 +182,12 @@ $("#alert").change((object) => updateGlobalScore(object.target.value, "alert"));
 /**
  * Load bar
  */
+
+
+$("#mesure-modal-close").click(function () {
+    $("#mesure-modal").css('display', 'none');
+})
+
 
 
 

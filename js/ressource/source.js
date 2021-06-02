@@ -2,12 +2,14 @@
 
 function alertt() {
     document.getElementById("lab1").style.display = 'block';
+    // TODO à enlever
+    console.log('----- alerte ----')
 
 }
 
 
 var socket;
-var theScore;
+// var theScore;
 var newScoreTemplate = {
     choosegroup: "",
     scoretitle: "Mon premier morceau",
@@ -280,7 +282,8 @@ $(function () {
 
     console.log(data)
     theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
-    instantiateDOMScore(theScore);
+   // TODO à decommenter
+   // instantiateDOMScore(theScore);
     instantiateMaestroBox();
     readGroupNames();
     instantiateLa();
