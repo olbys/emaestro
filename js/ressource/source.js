@@ -639,8 +639,8 @@ function stopScoreRecord() {
     ff();
 
     // Arrete l'enregistrement
-   /* let stop = document.getElementById('btnStop');
-    stop.click();*/
+    let stop = document.getElementById('btnStop');
+    stop.click();
 
     // Arrete le clock
     theClock = playEnd(theClock);
@@ -684,6 +684,7 @@ function readScoreNames() {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
                 buildScoreSelector(JSON.parse(this.responseText));
+
             } else {
                 console.log("Status de la réponse: %d (%s)",
                     this.status, this.statusText);
@@ -722,6 +723,7 @@ function readRecordNames() {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
                 buildRecordSelector(JSON.parse(this.responseText));
+
             } else {
                 console.log("Status de la réponse: %d (%s)",
                     this.status, this.statusText);
@@ -736,6 +738,7 @@ function readRecordNames() {
 
 function buildRecordSelector(recordList) {
     var listeAudioMixDom="";
+
     for (var i in recordList.scores) {
 
         listeAudioMixDom += buildMixSelector(recordList.scores[i],i);
@@ -1078,3 +1081,9 @@ function setInstrument() {
     group.membres[group.currentmembre].instrument = $("#player").val();
 };
 $("#player").change(setInstrument);
+
+function uploadSon () {
+    var x = document.getElementById("fileInput").value;
+    console.log("** Le nom de file est :",x);
+    //alert('Le fichier a été téléversé !');  setTimeout(function(){window.location.reload();},1000);
+}
