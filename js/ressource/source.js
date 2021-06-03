@@ -11,9 +11,9 @@ var repetions = [];
 var execrepetitions = [];
 var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,0,[]);
 
-var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
+var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
 
-var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
+var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
 
 var valLa = 440;
 
@@ -159,27 +159,17 @@ function setCurrentBar() {
         console.log(theScore.bars);
     }else {
     theScore.bars[theScore.currentbar] = JSON.parse(JSON.stringify(otherBarTemplate));
-    if(theScore.currentbar == 2){
-        temprep = new Repeats(0,2,2)
-        tempexec = new ExecRepeats(2)
+    if(theScore.currentbar == 1){
+        temprep = new Repeats(1,2,2)
+        tempexec = new ExecRepeats(0)
         console.log("je rentre dans le if")
         repetions.push(temprep);
         execrepetitions.push(tempexec)
-        theScore.bars[theScore.currentbar].repeat = 0
-
+        theScore.bars[theScore.currentbar].BeginRepeat = 0
     }
-    // if(theScore.currentbar == 3){
-    //     temprep = new Repeats(1,3,0)
-    //     console.log("je rentre dans le if")
-    //     repetions.push(temprep);
-    //     // repetions[0].begin = 0
-    //     // repetions[0].end = 2
-    //     // repetions[0].nbrepeats = 2
-    //     theScore.bars[theScore.currentbar].repeat = 1
-    //     // theScore.bars[theScore.currentbar].next.repeat.start = 0
-    //     // theScore.bars[theScore.currentbar].next.repeat.end = 2
-    //     // 0 1 2 0 1 2 3 1 2 3
-    // }
+    if(theScore.currentbar == 2){
+        theScore.bars[theScore.currentbar].EndRepeat = 0
+    }
 
     console.log("current bar: " + theScore.currentbar);
     }
@@ -594,19 +584,87 @@ function playScore() {
         console.log("repetition mesure i : ==> ", i);
         // do not forget to clone the completed bar
         completedBar = JSON.parse(JSON.stringify(completedBar));
-        r = repetions[theScore.bars[i].repeat];
+        // r = repetions[theScore.bars[i].repeat];
+        // er = execrepetitions[theScore.bars[i].repeat];
+        beginr = repetions[theScore.bars[i].BeginRepeat];
+        endr= repetions[theScore.bars[i].EndRepeat];
+        er = execrepetitions[theScore.bars[i].repeat];
         theClock = playBar(theClock, completedBar , i); //remplacer completedBar -> JSON.stringify(theScore.bars[i])
 
-        // if(i==theScore.bars[i].next.repeat.end && cpt <2){
-            if(r!=null && i==r.end && cpt <2){
+        if(theScore.bars[i].BeginRepeat!=null || theScore.bars[i].EndRepeat!= null){
 
-            console.log("compteur repetition : ==> ", i);
-            i = r.begin;
-            // i = theScore.bars[j].next.repeat.start;
-            cpt++;
-        }else{
+            if( theScore.bars[i].BeginRepeat!=null && theScore.bars[i].EndRepeat==null ){
+                r = repetions[theScore.bars[i].BeginRepeat];
+                er = execrepetitions[theScore.bars[i].BeginRepeat];
+                if( r.nbrepeats!=er.nbrepeats){
+                    er.nbrepeats++;
+                    i++;
+                }
+                else if(r.nbrepeats==er.nbrepeats){
+                    i++;
+                }
+
+            }
+            else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat==null){
+                r = repetions[theScore.bars[i].EndRepeat];
+                er = execrepetitions[theScore.bars[i].EndRepeat];
+                if (r.nbrepeats!=er.nbrepeats){
+                    er.nbrepeats++;
+                    i = r.begin;
+                }
+                else if (r.nbrepeats==er.nbrepeats){
+                    er.nbrepeats=0;
+
+                    i++;
+                }
+
+            }
+            else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat!=null){
+                r_begin = repetions[theScore.bars[i].BeginRepeat];
+                er_begin = execrepetitions[theScore.bars[i].BeginRepeat];
+
+                r_end = repetions[theScore.bars[i].EndRepeat];
+                er_end = execrepetitions[theScore.bars[i].EndRepeat];
+
+                if (r_end.nbrepeats!=er_end.nbrepeats){
+                    er_end.nbrepeats++;
+                    i = r_end.begin;
+                }
+                else if (r_end.nbrepeats==er_end.nbrepeats){
+                    er_end.nbrepeats=0;
+                    er_begin.nbrepeats++;
+                    i++;
+                }
+
+            }
+            
+        }
+        else{
             i++;
         }
+
+        // if(r!=null){
+        //     if(i == r.begin && r.nbrepeats!=er.nbrepeats){
+        //         er.nbrepeats++;
+        //         i++;
+        //     }
+        //     else if(i == r.begin && r.nbrepeats==er.nbrepeats){
+        //         i++;
+        //     }
+        //     else if (i == r.end && r.nbrepeats!=er.nbrepeats){
+        //         console.log("compteur repetition : ==> ", i);
+        //         er.nbrepeats++;
+        //         i = r.begin;
+        //     }
+        //     else if (i == r.end && r.nbrepeats==er.nbrepeats){
+        //         er.nbrepeats=0;
+        //         i++;
+        //     }
+        // }
+        // else{
+        //     i++;
+        // }
+
     }
     ;
     console.log("-------------- END PLAY SCORE theCLOCK-----");

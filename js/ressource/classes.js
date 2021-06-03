@@ -26,10 +26,12 @@ class barTemplate{
     division;
     intensity;
     alert;
-    next;
-    repeat;
+    // next;
+    // repeat;
+    BeginRepeat;
+    EndRepeat;
     
-    constructor(tempo,beat,key,time,division,intensity,alert,repeat){
+    constructor(tempo,beat,key,time,division,intensity,alert,BeginRepeat,EndRepeat){
         this.tempo= tempo,
         this.beat= beat,
         this.key= key,
@@ -37,11 +39,11 @@ class barTemplate{
         this.division= division,
         this.intensity=intensity,
         this.alert= alert,
-        this.repeat = repeat
+        // this.repeat = repeat
+        this.BeginRepeat= BeginRepeat,
+        this.EndRepeat=EndRepeat
     }
-
-        // this.beginRepeat= beginRepeat,
-        // this.endRepeat=endRepeat
+    
 }
 
 class Repeats{
