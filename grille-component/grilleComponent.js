@@ -28,8 +28,14 @@ function handleChangInputMesure() {
     let nombre_mesure = $("#nombre_mesure").val();
     if (!isNaN(nombre_mesure) && Array.isArray(bar_to_update)) {
         nombre_mesure = parseInt(nombre_mesure);
-        bar_to_update = Array(nombre_mesure).fill(null).map(() => immutablaObject(bar_to_update[bar_to_update.length - 1]))
-        theScore.bars = immutablaObject(bar_to_update);
+        var difference =  nombre_mesure-theScore.bars.length;
+        console.log(difference)
+        if(difference > 0){
+            bar_to_update = Array(difference).fill(null).map(() => immutablaObject(new barTemplate(80,4,1,4,1,4,"",null,null)))
+            console.log(" this is bar to update",bar_to_update)
+            theScore.bars.push(...immutablaObject(bar_to_update));
+        }
+        
         buildGrilleDOM();
         // console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, theScore.bars);
     }
@@ -57,7 +63,7 @@ function handleChangeMesure() {
 function buildGrilleItemDOM(bar, index) {
     return ` <div class="grille-item" data-selected="false" data-index="${index}" id="grille-${index}">
                <div class="numero">${index}</div>
-               ${bar.repeat != null ?
+               ${bar.BeginRepeat != null || bar.EndRepeat != null  ?
         `<div><i className="material-icons left">replay</i></div>`
         : `<div></div>`
     }
@@ -200,35 +206,52 @@ $("#mesure-modal-close").click(function () {
 
 function updateRepriseInputDOM(bar) {
     console.log('select Bar', bar);
-    if (bar && bar.repeat !== null) {
+    if (bar && bar.BeginRepeat !== null) {
 
-        let repeat = repetions[bar.repeat];
-        console.log('repeat ', repeat.begin, repeat.end, repeat.nbrepeats)
+        let repeat = repetions[bar.BeginRepeat];
+        // console.log('repeat ', repeat.begin, repeat.end, repeat.nbrepeats)
         $("#debut-reprise-select").val(repeat.begin);
-        $("#fin-reprise-select").val(repeat.end);
         $("#reprise-input-repeat").val(repeat.nbrepeats);
+    }
+    if (bar && bar.EndRepeat !== null) {
+
+        let repeat = repetions[bar.EndRepeat];
+        // console.log('repeat ', repeat.begin, repeat.end, repeat.nbrepeats)
+        $("#fin-reprise-select").val(repeat.end);
     }
 
 }
 
 $("#save_rep").click(function () {
 
-    const begin = parseInt($('#debut-reprise-select').val());
-    const fin = parseInt($('#fin-reprise-select').val());
+    const begin = parseInt($('#debut-reprise-select').val())-1;
+    const fin = parseInt($('#fin-reprise-select').val())-1;
     const nombre_repeat = parseInt($('#reprise-input-repeat').val());
     if (isNaN(begin) || isNaN(fin) || isNaN(nombre_repeat)) {
         alert("une erreur à été détecté dans le formulaire de reprise")
         return
     }
     let repeat = new Repeats(begin, fin, nombre_repeat);
-    let currentBar = theScore.bars[theScore.currentbar];
-    // console.log('currentBar', currentBar.repeat, currentBar);
-    if (!currentBar.repeat) {
-        repetions.push(repeat);
-        currentBar.repeat = repetions.length - 1;
-    } else {
-        repetions[currentBar.repeat] = repeat;
+    let execrepeats = new ExecRepeats(0);
+    let BarBegin = theScore.bars[begin];
+    let BarEnd = theScore.bars[fin];
+    
+    if(BarBegin.BeginRepeat == null && BarEnd.EndRepeat == null){
+        repetions.push(repeat)
+        execrepetitions.push(execrepeats)
+        console.log(" exec repetiion dans grille ",execrepetitions)
     }
+    else{
+        repetions[BarBegin.BeginRepeat] = repeat;
+        execrepetitions [BarBegin.BeginRepeat] = execrepeats;
+    }
+
+    if (!BarBegin.BeginRepeat) {
+        BarBegin.BeginRepeat = repetions.length - 1;
+    } 
+    if (!BarEnd.EndRepeat) {
+        BarEnd.EndRepeat = repetions.length - 1;
+    } 
 })
 
 

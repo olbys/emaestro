@@ -2,8 +2,6 @@
 
 function alertt() {
     document.getElementById("lab1").style.display = 'block';
-    // TODO à enlever
-    console.log('----- alerte ----')
 
 }
 
@@ -12,8 +10,8 @@ var theScore;
 var repetions = [];
 var execrepetitions = [];
 var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,0,[]);
-var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
-var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null);
+var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
+var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
 var valLa = 440;
 
 
@@ -82,7 +80,6 @@ function source() {
         }
     }
     document.getElementById("vid2").play();
-    // document.getElementById("order").value = "You ordered a coffee with: " + txt;
 }
 
 function stopmix() {
@@ -483,6 +480,9 @@ function playBeat(theClock, completedBar, theBeat) {
 };
 
 function playBar(theClock, theCompletedBar, theBar) {
+
+    console.log("play bar i ==> ",theBar);
+    
 // completion of the completed bar
     theCompletedBar = completeBar(theCompletedBar, theBar);
     playKey(theClock, theCompletedBar);
@@ -524,29 +524,92 @@ function playEnd(theClock) {
 };
 
 function playScore() {
+
+    console.log (" repetitions ", repetions )
+    console.log (" exec repetitions ", JSON.stringify(execrepetitions))
+    console.log (" theScore.bars ", theScore.bars )
+
     var d = new Date();
+    var cpt = 1;
     startClock = d.getTime();
     var theClock = initClock;
     theClock = playStart(theClock, theScore.bars[0]);
-// bars in theScore only mark changes
-// a completed bar is created to remember what does not change
-// it is cloned then updated while reading each bar in turn
+    // bars in theScore only mark changes
+    // a completed bar is created to remember what does not change
+    // it is cloned then updated while reading each bar in turn
     var completedBar = theScore.bars[0];
-    console.log("---------------- jouer partition ---------------- ");
-    console.log(completedBar);
-    console.log("---------------- jouer partition theScore.scoresize ---------------- ");
-    console.log(theScore.scoresize);
-    for (var i = 0; i < theScore.scoresize; i++) {
+    
+    var i = 0;
+    while(i < theScore.bars.length){
+    
         // starts the bar handler
         // the bar handler will start the beats and pulses handlers
         // and return an updated time
         console.log("play bar num test:" + i + JSON.stringify(theScore.bars[i]) + " at " + theClock);
+        console.log("repetition mesure i : ==> ", i);
         // do not forget to clone the completed bar
-        completedBar = JSON.parse(JSON.stringify(completedBar));
-        theClock = playBar(theClock, completedBar, i);
+        completedBar = JSON.parse(JSON.stringify(theScore.bars[i]));
+
+        theClock = playBar(theClock, completedBar , i); //remplacer completedBar -> JSON.stringify(theScore.bars[i])
+
+        if(theScore.bars[i].BeginRepeat!=null || theScore.bars[i].EndRepeat!= null){
+
+            if( theScore.bars[i].BeginRepeat!=null && theScore.bars[i].EndRepeat==null ){
+
+                r = repetions[theScore.bars[i].BeginRepeat];
+                er = execrepetitions[theScore.bars[i].BeginRepeat];
+                console.log("r=", r)
+                console.log("er=", er)
+                if( r.nbrepeats!=er.nbrepeats){
+                    er.nbrepeats++;
+                    i++;
+                }
+                else if(r.nbrepeats==er.nbrepeats){
+                    i++;
+                }
+
+            }
+            else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat==null){
+
+                r = repetions[theScore.bars[i].EndRepeat];
+                er = execrepetitions[theScore.bars[i].EndRepeat];
+                if (r.nbrepeats!=er.nbrepeats){
+                    er.nbrepeats++;
+                    i = r.begin;
+                }
+                else if (r.nbrepeats==er.nbrepeats){
+
+                    er.nbrepeats=0;
+
+                    i++;
+                }
+
+            }
+            else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat!=null){
+                r_begin = repetions[theScore.bars[i].BeginRepeat];
+                er_begin = execrepetitions[theScore.bars[i].BeginRepeat];
+
+                r_end = repetions[theScore.bars[i].EndRepeat];
+                er_end = execrepetitions[theScore.bars[i].EndRepeat];
+
+                if (r_end.nbrepeats!=er_end.nbrepeats){
+                    er_end.nbrepeats++;
+                    i = r_end.begin;
+                }
+                else if (r_end.nbrepeats==er_end.nbrepeats){
+                    er_end.nbrepeats=0;
+                    er_begin.nbrepeats++;
+                    i++;
+                }
+
+            }
+            
+        }
+        else{
+            i++;
+        }
+
     }
-    ;
-    theClock = playEnd(theClock);
 };
 $("div#play button#playscore").click(playScore);
 
@@ -614,7 +677,8 @@ function playScoreRecord() {
     ;
     theClock =  (theClock);
 };
-$("div#play button#playscorerecord").click(playScoreRecord);
+// TODO : A CONNECTER AVEC L'ENREGISTREMENT 
+$("#playscore").click(playScore);
 
 
 function stopScoreRecord() {
