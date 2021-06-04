@@ -212,6 +212,8 @@ $("#mesure-modal-close").click(function () {
 
 function updateRepriseInputDOM(bar) {
     console.log('select Bar', bar);
+    console.log("isbegin of repet", repetions[bar.BeginRepeat]);
+    console.log("isEnd of repet", repetions[bar.EndRepeat]);
     if (bar && bar.BeginRepeat !== null) {
 
         let repeat = repetions[bar.BeginRepeat];
