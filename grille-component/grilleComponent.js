@@ -70,11 +70,10 @@ function handleChangeMesure() {
 function buildGrilleItemDOM(bar, index) {
     return ` <div class="grille-item" data-selected="false" data-index="${index}" id="grille-${index}">
                <div class="numero">${index}</div>
-               ${bar.BeginRepeat != null || bar.EndRepeat != null ?
-        `<div><i className="material-icons left">replay</i></div>`
-        : `<div></div>`
-    }
-              <span>GEB</span>
+               ${ (bar.BeginRepeat != null) ? 
+                `<div><img src="../assetss/images/repeat-open.png" width="25"></div>` 
+                :  (bar.EndRepeat !== null) ?  `<div><img src="../assetss/images/repeat-close.png" width="25"></div>`  : `<div></div>`
+             }
            </div>       
             `
 }
@@ -258,7 +257,8 @@ $("#save_rep").click(function () {
     if (!BarEnd.EndRepeat) {
         BarEnd.EndRepeat = repetions.length - 1;
     }
-    alert('repetition effectuée')
+    buildGrilleDOM()
+    $("#mesure-modal").css('display', 'none');
 })
 
 
