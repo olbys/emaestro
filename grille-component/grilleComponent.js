@@ -40,7 +40,7 @@ function handleChangInputMesure() {
             for (let i = 0; i < nombre_mesure; i++) {
                 tmp.push(immutablaObject(theScore.bars[i]));
             }
-            theScore.bars = tmptmp;
+            theScore.bars = tmp;
         }
 
         buildGrilleDOM();
