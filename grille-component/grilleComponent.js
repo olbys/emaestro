@@ -258,6 +258,7 @@ $("#save_rep").click(function () {
     if (!BarEnd.EndRepeat) {
         BarEnd.EndRepeat = repetions.length - 1;
     }
+    alert('repetition effectuée')
 })
 
 
