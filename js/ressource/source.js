@@ -555,13 +555,14 @@ function playScore() {
         if(theScore.bars[i].BeginRepeat!=null || theScore.bars[i].EndRepeat!= null){
 
             if( theScore.bars[i].BeginRepeat!=null && theScore.bars[i].EndRepeat==null ){
+                console.log("begin uniquement")
 
                 r = repetions[theScore.bars[i].BeginRepeat];
                 er = execrepetitions[theScore.bars[i].BeginRepeat];
                 console.log("r=", r)
                 console.log("er=", er)
                 if( r.nbrepeats!=er.nbrepeats){
-                    er.nbrepeats++;
+                    // er.nbrepeats++;
                     i++;
                 }
                 else if(r.nbrepeats==er.nbrepeats){
@@ -570,19 +571,29 @@ function playScore() {
 
             }
             else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat==null){
+                console.log("end uniquement")
 
                 r = repetions[theScore.bars[i].EndRepeat];
                 er = execrepetitions[theScore.bars[i].EndRepeat];
+                console.log("r=", r)
+                console.log("er=", er)
                 if (r.nbrepeats!=er.nbrepeats){
                     er.nbrepeats++;
-                    i = r.begin;
+                    if(r.nbrepeats==er.nbrepeats){
+                        console.log("mise a zero et fin de reprise")
+                        er.nbrepeats=0;
+                        i++;
+                    }
+                    else{
+                        i = r.begin;
+                    }
                 }
-                else if (r.nbrepeats==er.nbrepeats){
+                // else if (r.nbrepeats==er.nbrepeats){
+                //     console.log("mise a zero et fin de reprise")
+                //     er.nbrepeats=0;
 
-                    er.nbrepeats=0;
-
-                    i++;
-                }
+                //     i++;
+                // }
 
             }
             else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat!=null){
