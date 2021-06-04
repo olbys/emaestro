@@ -35,7 +35,12 @@ function handleChangInputMesure() {
             console.log(" this is bar to update", bar_to_update)
             theScore.bars.push(...immutablaObject(bar_to_update));
         } else {
-            theScore.bars = immutablaObject(theScore.bars.slice(0, Math.abs(difference) + 1));
+            theScore.bars.slice(0, Math.abs(difference) + 1);
+            const tmp = [];
+            for (let i = 0; i < nombre_mesure; i++) {
+                tmp.push(immutablaObject(theScore.bars[i]));
+            }
+            theScore.bars = tmptmp;
         }
 
         buildGrilleDOM();
