@@ -769,11 +769,12 @@ function readScoreNames() {
             }
         }
     };
-    req.open("GET", "/SCORES/" + theScore.choosegroup + "/", true);
+    //req.open("GET", "/SCORES/" + theScore.choosegroup + "/", true);
+    req.open("GET", "/SCORES/" + "Caroline & Dominique" + "/", true);
     req.send(null);
 }
 
-// $('#choosebutton').on('click', readScoreNames);
+$('#choose_morceau').on('click', readScoreNames);
 
 
 var a = "";
