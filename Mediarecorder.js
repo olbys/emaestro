@@ -55,18 +55,21 @@ navigator.mediaDevices.getUserMedia(constraintObj)
         };
 
         //add listeners for saving video/audio
-        let start = document.getElementById('btnStart');
-        let stop = document.getElementById('btnStop');
-        let playscore = document.getElementById('playscore');
-        let  save= document.getElementById('btnsave');
+
+        console.log("**** Test ****");
+        let start = document.getElementById('playscore');
+        let stop = document.getElementById('stopscorerecord');
+        //let playscore = document.getElementById('playscore');
+        //let  save= document.getElementById('btnsave');
         let vidSave = document.getElementById('vid2');
         let mediaRecorder = new MediaRecorder(mediaStreamObj);
         let chunks = [];
 
         start.addEventListener('click', (ev)=>{
 
+            console.log("**** Test Start  :");
             mediaRecorder.start();
-            console.log(mediaRecorder.state);
+            console.log("**** State de media recorder :",mediaRecorder.state);
 
 
         })
@@ -114,7 +117,7 @@ navigator.mediaDevices.getUserMedia(constraintObj)
         }
 
 
-        save.addEventListener('click',(ev)=>{
+       /* save.addEventListener('click',(ev)=>{
 
 
             var a = document.createElement('a');
@@ -124,16 +127,17 @@ navigator.mediaDevices.getUserMedia(constraintObj)
             a.download = 'track.mp4';
             a.click();
             window.URL.revokeObjectURL(link);
-        });
+        });*/
 
 
     })
     .catch(function(err) {
+        console.log("Erreur recorder marche pas");
         console.log(err.name, err.message);
     });
 
 
-const express=require('express');
+/*const express=require('express');
 const upload=require('express-fileupload');
 const app=express()
 app.use(upload())
@@ -156,10 +160,10 @@ app.post('/',(req,res)=>{
                     }
                 })
                 */
-        console.log(req.files)
+       /* console.log(req.files)
     }
 
-})
+})*/
 
      
 

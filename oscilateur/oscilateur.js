@@ -1,8 +1,6 @@
 // Fonctions liées aux boutons de lancement et d'arrét du métronome
 function playScoreRecord() {
 
-    console.log("Bouton Lancer l'enreg et le métro");
-
     // On joue la des musiques qu'on veut mixer avec la l'enregistrement
     function ff() {
         var sonmix = document.getElementsByName("sonmix");
@@ -22,8 +20,8 @@ function playScoreRecord() {
     ff();
 
     // Démarre juste l'engistrement
-    /* let btnstart = document.getElementById('btnStart');
-     btnstart.click();*/
+    let start = document.getElementById('playscore');
+    start.click();
 
     var d = new Date();
     startClock = d.getTime();
@@ -75,7 +73,7 @@ function mySetTimeout(fun, time) {
 
 
 // Stop score record
-function stopScoreRecord() {
+/*function stopScoreRecord() {
 
     //  Arrete les mix joués
     function ff() {
@@ -96,8 +94,8 @@ function stopScoreRecord() {
     ff();
 
     // Arrete l'enregistrement
-    /*let stop = document.getElementById('btnStop');
-    stop.click();*/
+    let stop = document.getElementById('stopscorerecord');
+    stop.click();
 
     // Arrete le clock
     theClock = playEnd(theClock);
@@ -120,4 +118,4 @@ $("#chooserecord").change(function () {
     else
         document.getElementById("show-list-mix-file").style.display = "none";
 
-});
+});*/
