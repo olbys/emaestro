@@ -714,7 +714,7 @@ function stopScoreRecord() {
     ff();
 
     // Arrete l'enregistrement
-    let stop = document.getElementById('btnStop');
+    let stop = document.getElementById('stopscorerecord');
     stop.click();
 
     // Arrete le clock
@@ -1156,9 +1156,3 @@ function setInstrument() {
     group.membres[group.currentmembre].instrument = $("#player").val();
 };
 $("#player").change(setInstrument);
-
-function uploadSon () {
-    var x = document.getElementById("fileInput").value;
-    console.log("** Le nom de file est :",x);
-    //alert('Le fichier a été téléversé !');  setTimeout(function(){window.location.reload();},1000);
-}
