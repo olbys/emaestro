@@ -870,7 +870,8 @@ function readScoreByName(name) {
             }
         };
 
-        req.open("GET", "/SCORES/" + theScore.choosegroup + "/" + name, true);
+        //req.open("GET", "/SCORES/" + theScore.choosegroup + "/" + name, true);
+        req.open("GET", "/SCORES/" + "Caroline & Dominique" + "/" + name, true);
         req.send(null);
     };
 }
