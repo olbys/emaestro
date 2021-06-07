@@ -726,7 +726,8 @@ $("div#play button#stopscorerecord").click(stopScoreRecord);
 var fileContent = "";
 
 function saveScore() {
-    var fileName = $("div#score input#scorefilename").val();
+    //var fileName = $("div#score input#scorefilename").val();
+    var fileName = "Partition"
     var req = new XMLHttpRequest();
     var fileContent = JSON.stringify(theScore);
 
@@ -742,10 +743,12 @@ function saveScore() {
         }
     };
 
-    req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
+    //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
+
+    req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
     req.send(JSON.stringify(theScore));
 };
-$("#save button").click(saveScore);
+$("#sauvegarder_mesures").click(saveScore);
 
 
 var affichage = false;
