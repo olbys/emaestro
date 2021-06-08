@@ -724,29 +724,33 @@ $("div#play button#stopscorerecord").click(stopScoreRecord);
 
 
 var fileContent = "";
-
 function saveScore() {
-    //var fileName = $("div#score input#scorefilename").val();
-    var fileName = "Partition"
-    var req = new XMLHttpRequest();
-    var fileContent = JSON.stringify(theScore);
+    
+    var fileName = $("#titre_partition").val();
+    if(fileName){
+        var req = new XMLHttpRequest();
+        var fileContent = JSON.stringify(theScore);
 
-    req.onreadystatechange = function (event) {
-// XMLHttpRequest.DONE === 4
-        if (this.readyState === XMLHttpRequest.DONE) {
-            if (this.status === 200) {
-                console.log("Réponse reçue: %s", this.responseText);
-            } else {
-                console.log("Status de la réponse: %d (%s)",
-                    this.status, this.statusText);
+        req.onreadystatechange = function (event) {
+        // XMLHttpRequest.DONE === 4
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    console.log("Réponse reçue: %s", this.responseText);
+                } else {
+                    console.log("Status de la réponse: %d (%s)",
+                        this.status, this.statusText);
+                }
             }
-        }
-    };
+        };
 
-    //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
+        //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
 
-    req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
-    req.send(JSON.stringify(theScore));
+        req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
+        req.send(JSON.stringify(theScore));
+    } else{
+        alert("Veuillez entrer un titre de partition pour la sauvegarde")
+    }
+    
 };
 $("#sauvegarder_mesures").click(saveScore);
 
@@ -761,7 +765,8 @@ function readScoreNames() {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
-                buildScoreSelector(JSON.parse(this.responseText));
+                //buildScoreSelector(JSON.parse(this.responseText));
+                buildOptionChooseMorceauDOM(JSON.parse(this.responseText));
 
             } else {
                 console.log("Status de la réponse: %d (%s)",
@@ -772,6 +777,7 @@ function readScoreNames() {
     //req.open("GET", "/SCORES/" + theScore.choosegroup + "/", true);
     req.open("GET", "/SCORES/" + "Caroline & Dominique" + "/", true);
     req.send(null);
+    $(".morceau").css('display', 'block');
 }
 
 $('#choose_morceau').on('click', readScoreNames);
@@ -780,6 +786,7 @@ $('#choose_morceau').on('click', readScoreNames);
 var a = "";
 
 function buildScoreSelector(scoreList) {
+    console.log("scorelist", scoreList);
     for (var i in scoreList.scores) {
         $("#afterlastscore").before('<li class="onescore">' + "<button>" + scoreList.scores[i] + "</button>" + "</li>");
         console.log("onclick: " + scoreList.scores[i]);
@@ -791,6 +798,18 @@ function buildScoreSelector(scoreList) {
         })(i);
     }
     ;
+}
+
+function buildOptionChooseMorceauDOM(scoreList) {
+    console.log("scorelist", scoreList);
+    let options = `<option value=null>sélectionnez</option>`
+    if (scoreList.scores.length !== 0) {
+        for (let i = 0; i < scoreList.scores.length; i++) {
+            options += `<option  value="${i + 1}"> ${scoreList.scores[i]}</option>`
+        }
+    }
+    console.log("option", options);
+    $('#morceau-select').html(options)
 }
 
 function readRecordNames() {
