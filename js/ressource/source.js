@@ -555,13 +555,14 @@ function playScore() {
         if(theScore.bars[i].BeginRepeat!=null || theScore.bars[i].EndRepeat!= null){
 
             if( theScore.bars[i].BeginRepeat!=null && theScore.bars[i].EndRepeat==null ){
+                console.log("begin uniquement")
 
                 r = repetions[theScore.bars[i].BeginRepeat];
                 er = execrepetitions[theScore.bars[i].BeginRepeat];
                 console.log("r=", r)
                 console.log("er=", er)
                 if( r.nbrepeats!=er.nbrepeats){
-                    er.nbrepeats++;
+                    // er.nbrepeats++;
                     i++;
                 }
                 else if(r.nbrepeats==er.nbrepeats){
@@ -570,19 +571,29 @@ function playScore() {
 
             }
             else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat==null){
+                console.log("end uniquement")
 
                 r = repetions[theScore.bars[i].EndRepeat];
                 er = execrepetitions[theScore.bars[i].EndRepeat];
+                console.log("r=", r)
+                console.log("er=", er)
                 if (r.nbrepeats!=er.nbrepeats){
                     er.nbrepeats++;
-                    i = r.begin;
+                    if(r.nbrepeats==er.nbrepeats){
+                        console.log("mise a zero et fin de reprise")
+                        er.nbrepeats=0;
+                        i++;
+                    }
+                    else{
+                        i = r.begin;
+                    }
                 }
-                else if (r.nbrepeats==er.nbrepeats){
+                // else if (r.nbrepeats==er.nbrepeats){
+                //     console.log("mise a zero et fin de reprise")
+                //     er.nbrepeats=0;
 
-                    er.nbrepeats=0;
-
-                    i++;
-                }
+                //     i++;
+                // }
 
             }
             else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat!=null){
@@ -703,7 +714,7 @@ function stopScoreRecord() {
     ff();
 
     // Arrete l'enregistrement
-    let stop = document.getElementById('btnStop');
+    let stop = document.getElementById('stopscorerecord');
     stop.click();
 
     // Arrete le clock
@@ -715,7 +726,8 @@ $("div#play button#stopscorerecord").click(stopScoreRecord);
 var fileContent = "";
 
 function saveScore() {
-    var fileName = $("div#score input#scorefilename").val();
+    //var fileName = $("div#score input#scorefilename").val();
+    var fileName = "Partition"
     var req = new XMLHttpRequest();
     var fileContent = JSON.stringify(theScore);
 
@@ -731,10 +743,12 @@ function saveScore() {
         }
     };
 
-    req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
+    //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
+
+    req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
     req.send(JSON.stringify(theScore));
 };
-$("#save button").click(saveScore);
+$("#sauvegarder_mesures").click(saveScore);
 
 
 var affichage = false;
@@ -755,11 +769,12 @@ function readScoreNames() {
             }
         }
     };
-    req.open("GET", "/SCORES/" + theScore.choosegroup + "/", true);
+    //req.open("GET", "/SCORES/" + theScore.choosegroup + "/", true);
+    req.open("GET", "/SCORES/" + "Caroline & Dominique" + "/", true);
     req.send(null);
 }
 
-// $('#choosebutton').on('click', readScoreNames);
+$('#choose_morceau').on('click', readScoreNames);
 
 
 var a = "";
@@ -855,7 +870,8 @@ function readScoreByName(name) {
             }
         };
 
-        req.open("GET", "/SCORES/" + theScore.choosegroup + "/" + name, true);
+        //req.open("GET", "/SCORES/" + theScore.choosegroup + "/" + name, true);
+        req.open("GET", "/SCORES/" + "Caroline & Dominique" + "/" + name, true);
         req.send(null);
     };
 }
@@ -1145,9 +1161,3 @@ function setInstrument() {
     group.membres[group.currentmembre].instrument = $("#player").val();
 };
 $("#player").change(setInstrument);
-
-function uploadSon () {
-    var x = document.getElementById("fileInput").value;
-    console.log("** Le nom de file est :",x);
-    //alert('Le fichier a été téléversé !');  setTimeout(function(){window.location.reload();},1000);
-}

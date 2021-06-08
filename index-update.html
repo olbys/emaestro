@@ -50,6 +50,8 @@
 
     <div class="layout-main">
         <div class="layout-mix">
+            <form method="POST" enctype="multipart/form-data" action="/"
+                  onsubmit="alert('Le fichier a été téléversé !');  setTimeout(function(){window.location.reload();},1000); ">
             <div class="mix-control">
                 <div class="checkbox-control">
                     <label for="chooserecord" class="form-check-label">
@@ -57,9 +59,9 @@
                     </label>
                     <input id="chooserecord" type="checkbox" value="mix">
                 </div>
-                <button id="btnsave" class="button-primary waves-effect waves-light" onclick="uploadSon()">
+                <button id="btnsave" class="button-primary waves-effect waves-light" type="submit">
                     <i class="material-icons left">file_upload</i>
-                    Téléverser un sons
+                    Téléverser un son
                 </button>
             </div>
 
@@ -68,7 +70,10 @@
                 <input class="form-control" type="file" name="file" id="fileInput">
 
             </div>
+                <video id="vid2" controls></video>
+            </form>
         </div>
+
         <div class="layout-metronome">
             <svg width="75%" height="30%" id="emaestrobox" viewBox="0 0 69 62"
                  xmlns="http://www.w3.org/2000/svg">
@@ -302,6 +307,7 @@
         </div>
 
     </div>
+
 </div>
 
 </body>

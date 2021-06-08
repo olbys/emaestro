@@ -28,14 +28,21 @@ function handleChangInputMesure() {
     let nombre_mesure = $("#nombre_mesure").val();
     if (!isNaN(nombre_mesure) && Array.isArray(bar_to_update)) {
         nombre_mesure = parseInt(nombre_mesure);
-        var difference =  nombre_mesure-theScore.bars.length;
+        var difference = nombre_mesure - theScore.bars.length;
         console.log(difference)
-        if(difference > 0){
-            bar_to_update = Array(difference).fill(null).map(() => immutablaObject(new barTemplate(80,4,1,4,1,4,"",null,null)))
-            console.log(" this is bar to update",bar_to_update)
+        if (difference > 0) {
+            bar_to_update = Array(difference).fill(null).map(() => immutablaObject(new barTemplate(80, 4, 1, 4, 1, 4, "", null, null)))
+            console.log(" this is bar to update", bar_to_update)
             theScore.bars.push(...immutablaObject(bar_to_update));
+        } else {
+            theScore.bars.slice(0, Math.abs(difference) + 1);
+            const tmp = [];
+            for (let i = 0; i < nombre_mesure; i++) {
+                tmp.push(immutablaObject(theScore.bars[i]));
+            }
+            theScore.bars = tmp;
         }
-        
+
         buildGrilleDOM();
         // console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, theScore.bars);
     }
@@ -63,11 +70,10 @@ function handleChangeMesure() {
 function buildGrilleItemDOM(bar, index) {
     return ` <div class="grille-item" data-selected="false" data-index="${index}" id="grille-${index}">
                <div class="numero">${index}</div>
-               ${bar.BeginRepeat != null || bar.EndRepeat != null  ?
-        `<div><i className="material-icons left">replay</i></div>`
-        : `<div></div>`
-    }
-              <span>GEB</span>
+               ${ (bar.BeginRepeat != null) ? 
+                `<div><img src="../assetss/images/repeat-open.png" width="25"></div>` 
+                :  (bar.EndRepeat !== null) ?  `<div><img src="../assetss/images/repeat-close.png" width="25"></div>`  : `<div></div>`
+             }
            </div>       
             `
 }
@@ -206,6 +212,8 @@ $("#mesure-modal-close").click(function () {
 
 function updateRepriseInputDOM(bar) {
     console.log('select Bar', bar);
+    console.log("isbegin of repet", repetions[bar.BeginRepeat]);
+    console.log("isEnd of repet", repetions[bar.EndRepeat]);
     if (bar && bar.BeginRepeat !== null) {
 
         let repeat = repetions[bar.BeginRepeat];
@@ -224,8 +232,8 @@ function updateRepriseInputDOM(bar) {
 
 $("#save_rep").click(function () {
 
-    const begin = parseInt($('#debut-reprise-select').val())-1;
-    const fin = parseInt($('#fin-reprise-select').val())-1;
+    const begin = parseInt($('#debut-reprise-select').val()) - 1;
+    const fin = parseInt($('#fin-reprise-select').val()) - 1;
     const nombre_repeat = parseInt($('#reprise-input-repeat').val());
     if (isNaN(begin) || isNaN(fin) || isNaN(nombre_repeat)) {
         alert("une erreur à été détecté dans le formulaire de reprise")
@@ -235,23 +243,24 @@ $("#save_rep").click(function () {
     let execrepeats = new ExecRepeats(0);
     let BarBegin = theScore.bars[begin];
     let BarEnd = theScore.bars[fin];
-    
-    if(BarBegin.BeginRepeat == null && BarEnd.EndRepeat == null){
+
+    if (BarBegin.BeginRepeat == null && BarEnd.EndRepeat == null) {
         repetions.push(repeat)
         execrepetitions.push(execrepeats)
-        console.log(" exec repetiion dans grille ",execrepetitions)
-    }
-    else{
+        console.log(" exec repetiion dans grille ", execrepetitions)
+    } else {
         repetions[BarBegin.BeginRepeat] = repeat;
         execrepetitions [BarBegin.BeginRepeat] = execrepeats;
     }
 
     if (!BarBegin.BeginRepeat) {
         BarBegin.BeginRepeat = repetions.length - 1;
-    } 
+    }
     if (!BarEnd.EndRepeat) {
         BarEnd.EndRepeat = repetions.length - 1;
-    } 
+    }
+    buildGrilleDOM()
+    $("#mesure-modal").css('display', 'none');
 })
 
 
