@@ -501,7 +501,7 @@ function lightOff() {
     for (var i = 0; i < nbLeds; i++) {
         document.getElementById("led" + i).setAttribute("fill", "black");
     }
-    ;
+   ;
 };
 
 function stopScore() {
@@ -739,7 +739,7 @@ function stopScoreRecord() {
 
     // Arrete l'enregistrement
     let stop = document.getElementById('stopscorerecord');
-   // stop.click();
+   //stop.click();
 
     // Arrete le clock
     theClock = playEnd(globalClock);
@@ -882,8 +882,30 @@ function buildMixSelector(soundName, index) {
                 <source src="${srcSound}" type="audio/mp3"> 
             </audio>
             <input data-mix="${index}" type="checkbox" id="audio-${index}" name="sonmix" value="${soundName}">
+            <i class="large material-icons" onclick="editSound(${index})">edit</i>
+            <i class="large material-icons" onclick="deleteSound(${index})">delete_forever</i>
         </div>
     </div> `
+}
+
+function editSound(index) {
+    console.log("** Edit sound clicked **",index);
+    $(".son").css('display', 'block');
+
+}
+
+$("#mesure-modal-close-sound").click(function () {
+    $(".son").css('display', 'none');
+})
+
+$("#save_sound-title").click(function () {
+    $(".son").css('display', 'none');
+})
+
+function deleteSound (index) {
+    console.log("** Delete sound clicked **",index);
+    var sonmix = document.getElementsByName("sonmix");
+    console.log("** Sound to edit : ",sonmix[index].value);
 }
 
 function test() {
