@@ -13,6 +13,7 @@ var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premi
 var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
 var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
 var valLa = 440;
+var globalClock;
 
 
 $("#add button").click(add);
@@ -523,17 +524,41 @@ function playEnd(theClock) {
     return theClock + 10;
 };
 
+function playListSons () {
+    function ff() {
+        var sonmix = document.getElementsByName("sonmix");
+        var txt = "";
+        var i;
+        for (i = 0; i < sonmix.length; i++) {
+            if (sonmix[i].checked) {
+
+
+                console.log("son mix valeur :",sonmix[i].value);
+                document.getElementById(sonmix[i].value).play();
+
+
+            }
+        }
+        // document.getElementById("order").value = "You ordered a coffee with: " + txt;
+    }
+
+    ff();
+}
+
 function playScore() {
 
     console.log (" repetitions ", repetions )
     console.log (" exec repetitions ", JSON.stringify(execrepetitions))
     console.log (" theScore.bars ", theScore.bars )
 
+    playListSons();
+
     var d = new Date();
     var cpt = 1;
     startClock = d.getTime();
     var theClock = initClock;
     theClock = playStart(theClock, theScore.bars[0]);
+    globalClock = theClock;
     // bars in theScore only mark changes
     // a completed bar is created to remember what does not change
     // it is cloned then updated while reading each bar in turn
@@ -622,7 +647,7 @@ function playScore() {
 
     }
 };
-$("div#play button#playscore").click(playScore);
+//$("div#play button#playscore").click(playScore);
 
 
 function playScoreRecord() {
@@ -688,7 +713,6 @@ function playScoreRecord() {
     ;
     theClock =  (theClock);
 };
-// TODO : A CONNECTER AVEC L'ENREGISTREMENT 
 $("#playscore").click(playScore);
 
 
@@ -703,7 +727,7 @@ function stopScoreRecord() {
             if (sonmix[i].checked) {
 
 
-                document.getElementById(sonmix[i].value + '1').pause();
+                document.getElementById(sonmix[i].value).pause();
 
 
             }
@@ -715,38 +739,42 @@ function stopScoreRecord() {
 
     // Arrete l'enregistrement
     let stop = document.getElementById('stopscorerecord');
-    stop.click();
+   // stop.click();
 
     // Arrete le clock
-    theClock = playEnd(theClock);
+    theClock = playEnd(globalClock);
 };
-$("div#play button#stopscorerecord").click(stopScoreRecord);
+//$("#stopscorerecord").click(stopScoreRecord);
 
 
 var fileContent = "";
-
 function saveScore() {
-    //var fileName = $("div#score input#scorefilename").val();
-    var fileName = "Partition"
-    var req = new XMLHttpRequest();
-    var fileContent = JSON.stringify(theScore);
+    
+    var fileName = $("#titre_partition").val();
+    if(fileName){
+        var req = new XMLHttpRequest();
+        var fileContent = JSON.stringify(theScore);
 
-    req.onreadystatechange = function (event) {
-// XMLHttpRequest.DONE === 4
-        if (this.readyState === XMLHttpRequest.DONE) {
-            if (this.status === 200) {
-                console.log("Réponse reçue: %s", this.responseText);
-            } else {
-                console.log("Status de la réponse: %d (%s)",
-                    this.status, this.statusText);
+        req.onreadystatechange = function (event) {
+        // XMLHttpRequest.DONE === 4
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    console.log("Réponse reçue: %s", this.responseText);
+                } else {
+                    console.log("Status de la réponse: %d (%s)",
+                        this.status, this.statusText);
+                }
             }
-        }
-    };
+        };
 
-    //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
+        //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
 
-    req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
-    req.send(JSON.stringify(theScore));
+        req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
+        req.send(JSON.stringify(theScore));
+    } else{
+        alert("Veuillez entrer un titre de partition pour la sauvegarde")
+    }
+    
 };
 $("#sauvegarder_mesures").click(saveScore);
 
@@ -761,7 +789,8 @@ function readScoreNames() {
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
-                buildScoreSelector(JSON.parse(this.responseText));
+                //buildScoreSelector(JSON.parse(this.responseText));
+                buildOptionChooseMorceauDOM(JSON.parse(this.responseText));
 
             } else {
                 console.log("Status de la réponse: %d (%s)",
@@ -772,6 +801,7 @@ function readScoreNames() {
     //req.open("GET", "/SCORES/" + theScore.choosegroup + "/", true);
     req.open("GET", "/SCORES/" + "Caroline & Dominique" + "/", true);
     req.send(null);
+    $(".morceau").css('display', 'block');
 }
 
 $('#choose_morceau').on('click', readScoreNames);
@@ -780,6 +810,7 @@ $('#choose_morceau').on('click', readScoreNames);
 var a = "";
 
 function buildScoreSelector(scoreList) {
+    console.log("scorelist", scoreList);
     for (var i in scoreList.scores) {
         $("#afterlastscore").before('<li class="onescore">' + "<button>" + scoreList.scores[i] + "</button>" + "</li>");
         console.log("onclick: " + scoreList.scores[i]);
@@ -791,6 +822,18 @@ function buildScoreSelector(scoreList) {
         })(i);
     }
     ;
+}
+
+function buildOptionChooseMorceauDOM(scoreList) {
+    console.log("scorelist", scoreList);
+    let options = `<option value=null>sélectionnez</option>`
+    if (scoreList.scores.length !== 0) {
+        for (let i = 0; i < scoreList.scores.length; i++) {
+            options += `<option  value="${i + 1}"> ${scoreList.scores[i]}</option>`
+        }
+    }
+    console.log("option", options);
+    $('#morceau-select').html(options)
 }
 
 function readRecordNames() {
@@ -813,7 +856,7 @@ function readRecordNames() {
     req.send(null);
 }
 
-//  $('#chooserecord').on('click', readRecordNames);
+//$('#chooserecord').on('click', readRecordNames);
 
 function buildRecordSelector(recordList) {
     var listeAudioMixDom="";

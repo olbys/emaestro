@@ -70,7 +70,8 @@
                 <input class="form-control" type="file" name="file" id="fileInput">
 
             </div>
-                <video id="vid2" controls></video>
+
+               <audio id="audiosave" controls></audio>
             </form>
         </div>
 
@@ -233,7 +234,7 @@
                     <label class="input-label-white" for="alerte">Alerte :</label>
                     <select id="alerte">
                         <option value=null disabled selected>Seléctionnez</option>
-                        <option value=0>piano</option>
+                        <option value=0>ppp</option>
                         <option value=1>pp</option>
                         <option value=2>p</option>
                         <option value=3>mp</option>
@@ -299,6 +300,35 @@
 
             <div class="input-button">
                 <button id="save_rep" class="button-primary waves-effect waves-light">
+                    <i class="material-icons left">repeat</i>
+                    Valider
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- choisir un morceau --> 
+
+<div id="mesure-modal" class="modal morceau">
+    <div class="modal-content">
+        <div class="modal-title">
+            <h4>Liste des morceaux</h4>
+            <div id="mesure-modal-close" class="close">&times;</div>
+        </div>
+        <div class="modal-body">
+            <div class="input-control">
+                <div class="label">Choisir un morceau :</div>
+                <select id="morceau-select">
+                    <option value=null>sélectionnez</option>
+                </select>
+            </div>
+
+            <div class="input-button">
+                <button id="save_choose" class="button-primary waves-effect waves-light">
                     <i class="material-icons left">repeat</i>
                     Valider
                 </button>
