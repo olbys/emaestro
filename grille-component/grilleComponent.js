@@ -1,3 +1,8 @@
+let GLOBAL_SELECTED_BAR = {
+    begin: null,
+    end: null
+}
+
 function immutablaObject(object) {
     return JSON.parse(JSON.stringify(object));
 }
@@ -68,12 +73,19 @@ function handleChangeMesure() {
 
 
 function buildGrilleItemDOM(bar, index) {
-    return ` <div class="grille-item" data-selected="false" data-index="${index}" id="grille-${index}">
-               <div class="numero">${index}</div>
-               ${ (bar.BeginRepeat != null) ? 
-                `<div><img src="../assetss/images/repeat-open.png" width="25"></div>` 
-                :  (bar.EndRepeat !== null) ?  `<div><img src="../assetss/images/repeat-close.png" width="25"></div>`  : `<div></div>`
-             }
+    return ` <div class="grille-item" data-intensity="${bar.intensity}" data-selected="false" data-index="${index}" id="grille-${index}">
+                <div class="item-row-1">
+                  <div class="numero">${index}</div>
+                  ${Object.values(GLOBAL_SELECTED_BAR).includes(index) ?
+        `<div class="grille-item-selected"><i class="material-icons left">check_circle</i></div>`
+        : ``
+    }
+                 
+                </div>
+               ${(bar.BeginRepeat != null) ?
+        `<div><img src="../assetss/images/repeat-open.png" width="25"></div>`
+        : (bar.EndRepeat !== null) ? `<div><img src="../assetss/images/repeat-close.png" width="25"></div>` : `<div></div>`
+    }
            </div>       
             `
 }
@@ -116,24 +128,39 @@ function buildOptionRepriseDOM(indexStop) {
     $('#fin-reprise-select').html(options)
 }
 
+function setBarSelectedIndex(indexInBars) {
+    if (!GLOBAL_SELECTED_BAR.begin) {
+        GLOBAL_SELECTED_BAR.begin = indexInBars
+    } else {
+        if (GLOBAL_SELECTED_BAR.begin !== indexInBars)
+            GLOBAL_SELECTED_BAR.end = indexInBars;
+    }
+    console.log("ceux selected", GLOBAL_SELECTED_BAR);
+}
+
 function handleRightClickGrilleItem() {
     $('div.grille-item').each((index, object) => {
         var btn_sauvegarder_mesures = $(object).get(0);
         btn_sauvegarder_mesures.addEventListener('contextmenu', ev => {
             ev.preventDefault();
-            let indexInBars = $(object).data('index');
+            let indexInBars = $(object).data('index') - 1;
+
+            // Met a jour l'indice
+            setBarSelectedIndex(indexInBars + 1)
+
 
             // TODO active la grille et met current bar à l'index de la grille right cliker
-            activeGrilleItemDOM(indexInBars - 1, $(object))
+            activeGrilleItemDOM(indexInBars, $(object))
 
 
             // TODO update modal container
             buildOptionRepriseDOM(indexInBars);
             // Warning ORDer is important
-            updateRepriseInputDOM(theScore.bars[indexInBars - 1])
+            updateRepriseInputDOM(theScore.bars[indexInBars])
+            buildGrilleDOM()
 
             // TODO
-            $("#mesure-modal").css('display', 'block');
+            // $("#mesure-modal").css('display', 'block');
 
         })
     })
@@ -188,7 +215,15 @@ $(function () {
 function updateGlobalScore(value, property) {
     const _value = parseInt(value);
     if (!isNaN(_value)) {
-        theScore.bars[theScore.currentbar][property] = _value
+        if (GLOBAL_SELECTED_BAR.begin && GLOBAL_SELECTED_BAR.end) {
+            for (let i = GLOBAL_SELECTED_BAR.begin - 1; i < GLOBAL_SELECTED_BAR.end; i++) {
+                theScore.bars[i][property] = _value
+            }
+        } else {
+            theScore.bars[theScore.currentbar][property] = _value
+        }
+
+        buildGrilleDOM();
         console.log('updateHandle', theScore.bars);
     }
 }
