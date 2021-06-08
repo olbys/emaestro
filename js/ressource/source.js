@@ -501,7 +501,7 @@ function lightOff() {
     for (var i = 0; i < nbLeds; i++) {
         document.getElementById("led" + i).setAttribute("fill", "black");
     }
-    ;
+   ;
 };
 
 function stopScore() {
@@ -739,7 +739,7 @@ function stopScoreRecord() {
 
     // Arrete l'enregistrement
     let stop = document.getElementById('stopscorerecord');
-   // stop.click();
+   //stop.click();
 
     // Arrete le clock
     theClock = playEnd(globalClock);
@@ -829,12 +829,13 @@ function buildOptionChooseMorceauDOM(scoreList) {
     let options = `<option value=null>sélectionnez</option>`
     if (scoreList.scores.length !== 0) {
         for (let i = 0; i < scoreList.scores.length; i++) {
-            options += `<option  value="${i + 1}"> ${scoreList.scores[i]}</option>`
+            options += `<option  value="${scoreList.scores[i]}"> ${scoreList.scores[i]}</option>`
         }
     }
     console.log("option", options);
     $('#morceau-select').html(options)
 }
+
 
 function readRecordNames() {
     var req = new XMLHttpRequest();
@@ -882,8 +883,30 @@ function buildMixSelector(soundName, index) {
                 <source src="${srcSound}" type="audio/mp3"> 
             </audio>
             <input data-mix="${index}" type="checkbox" id="audio-${index}" name="sonmix" value="${soundName}">
+            <i class="large material-icons" onclick="editSound(${index})">edit</i>
+            <i class="large material-icons" onclick="deleteSound(${index})">delete_forever</i>
         </div>
     </div> `
+}
+
+function editSound(index) {
+    console.log("** Edit sound clicked **",index);
+    $(".son").css('display', 'block');
+
+}
+
+$("#mesure-modal-close-sound").click(function () {
+    $(".son").css('display', 'none');
+})
+
+$("#save_sound-title").click(function () {
+    $(".son").css('display', 'none');
+})
+
+function deleteSound (index) {
+    console.log("** Delete sound clicked **",index);
+    var sonmix = document.getElementsByName("sonmix");
+    console.log("** Sound to edit : ",sonmix[index].value);
 }
 
 function test() {
@@ -891,33 +914,6 @@ function test() {
 }
 
 $("#test button").click(test);
-
-
-function readScoreByName(name) {
-    console.log("readScoreByName:" + name);
-    return function readOneScore() {
-        console.log("readOneScore: " + name);
-        var req = new XMLHttpRequest();
-
-        req.onreadystatechange = function (event) {
-            // XMLHttpRequest.DONE === 4
-            if (this.readyState === XMLHttpRequest.DONE) {
-                if (this.status === 200) {
-                    console.log("Réponse reçue: %s", this.responseText);
-                    theScore = JSON.parse(this.responseText);
-                    instantiateDOMScore(theScore);
-                } else {
-                    console.log("Status de la réponse: %d (%s)",
-                        this.status, this.statusText);
-                }
-            }
-        };
-
-        //req.open("GET", "/SCORES/" + theScore.choosegroup + "/" + name, true);
-        req.open("GET", "/SCORES/" + "Caroline & Dominique" + "/" + name, true);
-        req.send(null);
-    };
-}
 
 function readRecordByName(name) {
     return function readOneRecord() {

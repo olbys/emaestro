@@ -182,6 +182,40 @@ function buildGrilleDOM() {
 
 }
 
+function loadConfSong(){
+    let scorefilename = $("#morceau-select").val();
+    console.log("scorefilename", scorefilename);
+    return readScoreByName(scorefilename)
+}
+
+$("#save_choose").click(loadConfSong);
+
+
+function readScoreByName(name) {
+    if(name !== "null"){
+        console.log("readOneScore: " + name);
+        var req = new XMLHttpRequest();
+
+        req.onreadystatechange = function (event) {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    console.log("Réponse reçue: %s", this.responseText);
+                    theScore = JSON.parse(this.responseText);
+                    
+                    buildGrilleDOM();
+                    $(".morceau").css('display', 'none');
+                } else {
+                    console.log("Status de la réponse: %d (%s)",
+                        this.status, this.statusText);
+                }
+            }
+        };
+        //req.open("GET", "/SCORES/" + theScore.choosegroup + "/" + name, true);
+        req.open("GET", "/SCORES/" + "Caroline & Dominique" + "/" + name, true);
+        req.send(null);
+    }
+}
+
 
 function updateMesureInputDOM(bar) {
     // console.log('select Bar', bar);
@@ -240,9 +274,15 @@ $("#alert").change((object) => updateGlobalScore(object.target.value, "alert"));
  * Load bar
  */
 
-
 $("#mesure-modal-close").click(function () {
     $("#mesure-modal").css('display', 'none');
+})
+
+/**
+ * fermer pop-up liste morceaux
+ */
+$("#morceau-modal-close").click(function () {
+    $(".morceau").css('display', 'none');
 })
 
 function updateRepriseInputDOM(bar) {
