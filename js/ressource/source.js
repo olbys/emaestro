@@ -829,12 +829,13 @@ function buildOptionChooseMorceauDOM(scoreList) {
     let options = `<option value=null>sélectionnez</option>`
     if (scoreList.scores.length !== 0) {
         for (let i = 0; i < scoreList.scores.length; i++) {
-            options += `<option  value="${i + 1}"> ${scoreList.scores[i]}</option>`
+            options += `<option  value="${scoreList.scores[i]}"> ${scoreList.scores[i]}</option>`
         }
     }
     console.log("option", options);
     $('#morceau-select').html(options)
 }
+
 
 function readRecordNames() {
     var req = new XMLHttpRequest();
@@ -891,33 +892,6 @@ function test() {
 }
 
 $("#test button").click(test);
-
-
-function readScoreByName(name) {
-    console.log("readScoreByName:" + name);
-    return function readOneScore() {
-        console.log("readOneScore: " + name);
-        var req = new XMLHttpRequest();
-
-        req.onreadystatechange = function (event) {
-            // XMLHttpRequest.DONE === 4
-            if (this.readyState === XMLHttpRequest.DONE) {
-                if (this.status === 200) {
-                    console.log("Réponse reçue: %s", this.responseText);
-                    theScore = JSON.parse(this.responseText);
-                    instantiateDOMScore(theScore);
-                } else {
-                    console.log("Status de la réponse: %d (%s)",
-                        this.status, this.statusText);
-                }
-            }
-        };
-
-        //req.open("GET", "/SCORES/" + theScore.choosegroup + "/" + name, true);
-        req.open("GET", "/SCORES/" + "Caroline & Dominique" + "/" + name, true);
-        req.send(null);
-    };
-}
 
 function readRecordByName(name) {
     return function readOneRecord() {
