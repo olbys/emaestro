@@ -9,9 +9,10 @@ function alertt() {
 var theScore;
 var repetions = [];
 var execrepetitions = [];
+var execdacapo = false;
 var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,0,[]);
-var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
-var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
+var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null);
+var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null);
 var valLa = 440;
 
 
@@ -72,11 +73,7 @@ function source() {
     var i;
     for (i = 0; i < sonmix.length; i++) {
         if (sonmix[i].checked) {
-
-
             document.getElementById(sonmix[i].value + '1').play();
-
-
         }
     }
     document.getElementById("vid2").play();
@@ -89,11 +86,7 @@ function stopmix() {
     var i;
     for (i = 0; i < sonmix.length; i++) {
         if (sonmix[i].checked) {
-
-
             document.getElementById(sonmix[i].value + '1').pause();
-
-
         }
     }
     document.getElementById("vid2").pause();
@@ -612,14 +605,20 @@ function playScore() {
                     er_begin.nbrepeats++;
                     i++;
                 }
-
             }
-            
+        }
+        else if(theScore.bars[i].dacapo==true && execdacapo==false){
+            console.log("play bar je rentre dans un dacapo pour la mesure", i)
+            execdacapo=true;
+            i=0;
+            console.log("play bar je défini i à 0")
+        }
+        else if(theScore.bars[i].fine==1 && execdacapo==true){
+            i= theScore.bars.length
         }
         else{
             i++;
         }
-
     }
 };
 $("div#play button#playscore").click(playScore);
