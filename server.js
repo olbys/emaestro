@@ -20,7 +20,7 @@ var server = http.createServer(function(request, response) {
     else
         respond(405, "Method " + request.method
             + " not allowed on " + request.url );
-}).listen(process.env.PORT || 8000);
+}).listen(process.env.PORT || 80);
 console.log('Node server running on port 80');
 
 function urlToPath(url) {
@@ -100,7 +100,7 @@ var moveFile = require('move-file');
 methods.POST = function(path, res, req) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-        if (files.file.path && files instanceof File ){
+        if (files instanceof File && files.file){
             var oldpath = files.file.path;
             var newpath = './sons/' + files.file.name;
             moveFile(oldpath, newpath, function (err) {
