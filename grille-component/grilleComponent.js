@@ -153,9 +153,14 @@ function handleRightClickGrilleItem() {
             ev.preventDefault();
             let indexInBars = $(object).data('index') - 1;
 
+            if(theScore.currentbar !== null){
+                resetBarSelected();
+                buildGrilleDOM()
+                theScore.currentbar = null
+            }
             // Met a jour l'indice
             setBarSelectedIndex(indexInBars + 1);
-            activeGrilleItemDOM(indexInBars, $(object))
+            updateMesureInputDOM(theScore.bars[indexInBars])
 
             buildGrilleDOM()
 
