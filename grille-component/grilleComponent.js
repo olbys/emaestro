@@ -205,7 +205,8 @@ function readScoreByName(name) {
                 if (this.status === 200) {
                     console.log("Réponse reçue: %s", this.responseText);
                     theScore = JSON.parse(this.responseText);
-
+                    repetions = theScore.repetions;
+                    execrepetitions = theScore.execrepetitions;
                     buildGrilleDOM();
                     $(".morceau").css('display', 'none');
                 } else {
