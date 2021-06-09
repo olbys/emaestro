@@ -50,8 +50,17 @@ class barTemplate{
     
 }
 
-class Repeats{
+class Fine{
+    repetition;
+    nbrepeatsbeforefine;
 
+    constructor(repetition,nbrepeatsbeforefine){
+        this.repetition=repetition,
+        this.nbrepeatsbeforefine=nbrepeatsbeforefine
+    }
+}
+
+class Repeats{
     begin;
     end;
     nbrepeats;
@@ -64,12 +73,9 @@ class Repeats{
 }
 
 class ExecRepeats{
-
     nbrepeats;
 
     constructor(nbrepeats){
-
         this.nbrepeats= nbrepeats
     }
-
 }

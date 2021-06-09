@@ -482,12 +482,8 @@ function playListSons () {
         var i;
         for (i = 0; i < sonmix.length; i++) {
             if (sonmix[i].checked) {
-
-
                 console.log("son mix valeur :",sonmix[i].value);
                 document.getElementById(sonmix[i].value).play();
-
-
             }
         }
         // document.getElementById("order").value = "You ordered a coffee with: " + txt;
@@ -537,14 +533,19 @@ function playScore() {
                 er = execrepetitions[theScore.bars[i].BeginRepeat];
                 console.log("r=", r)
                 console.log("er=", er)
-                if( r.nbrepeats!=er.nbrepeats){
+                if(r.nbrepeats!=er.nbrepeats){
                     // er.nbrepeats++;
                     i++;
                 }
                 else if(r.nbrepeats==er.nbrepeats){
                     i++;
                 }
-
+                
+                if (theScore.bars[i].fine != null){
+                    if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].BeginRepeat]==execrepetitions[theScore.bars[i].BeginRepeat]) {
+                        i= theScore.bars.length                                       
+                    } 
+                }
             }
             else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat==null){
                 console.log("end uniquement")
@@ -564,29 +565,11 @@ function playScore() {
                         i = r.begin;
                     }
                 }
-                // else if (r.nbrepeats==er.nbrepeats){
-                //     console.log("mise a zero et fin de reprise")
-                //     er.nbrepeats=0;
 
-                //     i++;
-                // }
-
-            }
-            else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat!=null){
-                r_begin = repetions[theScore.bars[i].BeginRepeat];
-                er_begin = execrepetitions[theScore.bars[i].BeginRepeat];
-
-                r_end = repetions[theScore.bars[i].EndRepeat];
-                er_end = execrepetitions[theScore.bars[i].EndRepeat];
-
-                if (r_end.nbrepeats!=er_end.nbrepeats){
-                    er_end.nbrepeats++;
-                    i = r_end.begin;
-                }
-                else if (r_end.nbrepeats==er_end.nbrepeats){
-                    er_end.nbrepeats=0;
-                    er_begin.nbrepeats++;
-                    i++;
+                if (theScore.bars[i].fine != null){
+                    if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].EndRepeat]==execrepetitions[theScore.bars[i].EndRepeat]) {
+                        i= theScore.bars.length                                       
+                    } 
                 }
             }
         }
@@ -596,11 +579,11 @@ function playScore() {
             i=0;
             console.log("play bar je défini i à 0")
         }
-        else if(theScore.bars[i].fine==1 && execdacapo==true){
+        else if( execdacapo==true && theScore.bars[i].fine != null && theScore.bars[i].fine.repetition==null ){
             i= theScore.bars.length
         }
         else{
-            i++;
+                i++;           
         }
     }
 };
