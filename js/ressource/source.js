@@ -846,9 +846,24 @@ $("#save_sound-title").click(function () {
 })
 
 function deleteSound (index) {
-    console.log("** Delete sound clicked **",index);
+    console.log("** Delete sound : ",index);
     var sonmix = document.getElementsByName("sonmix");
-    console.log("** Sound to edit : ",sonmix[index].value);
+
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function (event) {
+
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                console.log("Réponse reçue: %s", this.responseText);
+            } else {
+                console.log("Status de la réponse: %d (%s)",
+                    this.status, this.statusText);
+            }
+        }
+    };
+    req.open("DELETE", "/sons/" +sonmix[index].value, true);
+    req.send(null);
+
 }
 
 function test() {
