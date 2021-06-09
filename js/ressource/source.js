@@ -707,7 +707,8 @@ function saveScore() {
                 }
             }
         };
-
+        theScore.repetions= repetions;
+        theScore.execrepetitions= execrepetitions;
         //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
 
         req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
