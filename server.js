@@ -17,9 +17,11 @@ var server = http.createServer(function(request, response) {
     if (request.method in methods)
         methods[request.method](urlToPath(request.url),
             respond, request);
-    else
-        respond(405, "Method " + request.method
-            + " not allowed on " + request.url );
+    else{
+        console.log('out routes')
+        respond(405, "Method " + request.method + " not allowed on " + request.url );
+    }
+
 }).listen(process.env.PORT || 80);
 console.log('Node server running on port 80');
 
@@ -100,7 +102,8 @@ var moveFile = require('move-file');
 methods.POST = function(path, res, req) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-        if (files instanceof File && files.file){
+        console.log('files uploaded', files)
+        if (files.file && files.size > 0){
             var oldpath = files.file.path;
             var newpath = './sons/' + files.file.name;
             moveFile(oldpath, newpath, function (err) {
