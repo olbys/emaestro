@@ -70,7 +70,8 @@
                 <input class="form-control" type="file" name="file" id="fileInput">
 
             </div>
-                <video id="vid2" controls></video>
+
+               <audio id="audiosave" controls></audio>
             </form>
         </div>
 
@@ -95,6 +96,15 @@
                 </div>
             </div>
 
+            <div class="grille-control-item">
+                <button id="clear_selected" class="button-on-dark" type="button">
+                    <i class="large material-icons left">layers_clear</i>
+                </button>
+                <button id="add_repeat" class="button-on-dark" type="button">
+                    <i class="large material-icons left">repeat</i>
+                </button>
+            </div>
+
             <div class="button-control">
                 <button id="playscore" class="button-on-dark" type="button">
                     <i class="large material-icons">mic_noneaudiotrack</i>
@@ -109,6 +119,7 @@
 
         </section>
     </div>
+
     <div class="layout-mesures">
 
         <div class="grille--component">
@@ -260,9 +271,12 @@
             <div id="grille" class="grille-controle-container">
                 <!--            Load dynamically    -->
                 <div class="grille-item" data-index="1">
-                    <div class="numero">1</div>
-                    <div><i class="material-icons left">replay</i></div>
-                    <span>GEB</span>
+                    <div class="item-row-1">
+                        <div class="numero">1</div>
+                        <div class="grille-item-selected"><i class="material-icons left">check_circle</i></div>
+                    </div>
+
+
                 </div>
             </div>
 
@@ -299,6 +313,63 @@
 
             <div class="input-button">
                 <button id="save_rep" class="button-primary waves-effect waves-light">
+                    <i class="material-icons left">repeat</i>
+                    Valider
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- choisir un morceau --> 
+
+<div id="mesure-modal" class="modal morceau">
+    <div class="modal-content">
+        <div class="modal-title">
+            <h4>Liste des morceaux</h4>
+            <div id="morceau-modal-close" class="close">&times;</div>
+        </div>
+        <div class="modal-body">
+            <div class="input-control">
+                <div class="label">Choisir un morceau :</div>
+                <select id="morceau-select">
+                    <option value=null>sélectionnez</option>
+                </select>
+            </div>
+
+            <div class="input-button">
+                <button id="save_choose" class="button-primary waves-effect waves-light">
+                    <i class="material-icons left">repeat</i>
+                    Valider
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Changer le titre d'un son sélectionné -->
+
+<div id="mesure-modal" class="modal son">
+    <div class="modal-content">
+        <div class="modal-title">
+            <h4>Modification du titre d'un son</h4>
+            <div id="mesure-modal-close-sound" class="close">&times;</div>
+        </div>
+        <div class="modal-body">
+            <div class="input-control">
+                <div class="label"> Nouveau titre :</div>
+                <input type="text" placeholder="ex :2"  id="input-sound-title" value="Ecrire le nouveau titre">
+            </div>
+
+            <div class="input-button">
+                <button id="save_sound-title" class="button-primary waves-effect waves-light">
                     <i class="material-icons left">repeat</i>
                     Valider
                 </button>

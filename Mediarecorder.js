@@ -41,56 +41,49 @@ if (navigator.mediaDevices === undefined) {
 navigator.mediaDevices.getUserMedia(constraintObj)
     .then(function(mediaStreamObj) {
 
-        let video = document.querySelector('video');
-        if ("srcObject" in video) {
-            video.srcObject = mediaStreamObj;
-        } else {
-            //old version
-            video.src = window.URL.createObjectURL(mediaStreamObj);
-        }
-
-        video.onloadedmetadata = function(ev) {
-
-            // video.play();
-        };
-
         //add listeners for saving video/audio
 
-        console.log("**** Test ****");
         let start = document.getElementById('playscore');
         let stop = document.getElementById('stopscorerecord');
         //let playscore = document.getElementById('playscore');
         //let  save= document.getElementById('btnsave');
-        let vidSave = document.getElementById('vid2');
+        let audioSave = document.getElementById('audiosave');
         let mediaRecorder = new MediaRecorder(mediaStreamObj);
         let chunks = [];
 
         start.addEventListener('click', (ev)=>{
-
-            console.log("**** Test Start  :");
             mediaRecorder.start();
-            console.log("**** State de media recorder :",mediaRecorder.state);
+            console.log(mediaRecorder.state);
 
 
         })
         stop.addEventListener('click', (ev)=>{
+            try {
             mediaRecorder.stop();
+            stopScoreRecord();
             console.log(mediaRecorder.state);
+            }
+            catch (e) {
+                console.log("Stop marche pas",e.message);
+            }
         });
 
 
         mediaRecorder.ondataavailable = function(ev) {
             chunks.push(ev.data);
+            console.log("** Chunks is :", chunks);
         }
 
         let link='';
         mediaRecorder.onstop = (ev)=>{
-            let blob = new Blob(chunks, { 'type' : 'video/mp4;' });
+            let blob = new Blob(chunks, { 'type' : 'audio/webm;codecs=opus' });
             chunks = [];
-            let videoURL = window.URL.createObjectURL(blob);
+            let videoURL = URL.createObjectURL(blob);
             // window.ser
             link=videoURL;
-            vidSave.src = videoURL;
+            console.log("** Link is : ", link);
+            audioSave.controls = true;
+            audioSave.src = videoURL;
 
             let h = new Headers();
             h.append('Accept', 'video/mp4');
@@ -106,13 +99,13 @@ navigator.mediaDevices.getUserMedia(constraintObj)
                 body: fd
             });
 
-            fetch(req)
+          /*  fetch(req)
                 .then( (response)=>{
-                    console.log('sucsses');
+                    console.log('Success');
                 })
                 .catch( (err) =>{
                     console.log('ERROR:', err.message);
-                });
+                });*/
 
         }
 
