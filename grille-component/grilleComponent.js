@@ -113,19 +113,24 @@ function activeGrilleItemDOM(index, domElement) {
  */
 function selectGrilleItem() {
     const bar_index = $(this).data('index') - 1;
+
     activeGrilleItemDOM(bar_index, $(this))
+    resetBarSelected()
+
 }
 
 
 function buildOptionRepriseDOM(indexStop) {
     let options = `<option value=null>sélectionnez</option>`
-    if (theScore.bars.length !== 0) {
-        for (let i = 0; i < indexStop; i++) {
-            options += `<option  value="${i + 1}"> ${i + 1}</option>`
-        }
-    }
-    $('#debut-reprise-select').html(options)
-    $('#fin-reprise-select').html(options)
+    let option_debut_repet = options + `<option selected="true" value=${GLOBAL_SELECTED_BAR.begin}>${GLOBAL_SELECTED_BAR.begin}</option>`
+    let option_fin_repet = options + `<option selected="true" value=${GLOBAL_SELECTED_BAR.end}>${GLOBAL_SELECTED_BAR.end}</option>`
+    // if (theScore.bars.length !== 0) {
+    //     for (let i = 0; i < indexStop; i++) {
+    //         options += `<option  value="${i + 1}"> ${i + 1}</option>`
+    //     }
+    // }
+    $('#debut-reprise-select').html(option_debut_repet)
+    $('#fin-reprise-select').html(option_fin_repet)
 }
 
 function setBarSelectedIndex(indexInBars) {
@@ -136,6 +141,12 @@ function setBarSelectedIndex(indexInBars) {
             GLOBAL_SELECTED_BAR.end = indexInBars;
     }
     console.log("ceux selected", GLOBAL_SELECTED_BAR);
+}
+
+function resetBarSelected() {
+    GLOBAL_SELECTED_BAR.begin = null
+    GLOBAL_SELECTED_BAR.end = null
+    buildGrilleDOM()
 }
 
 function handleRightClickGrilleItem() {
@@ -153,8 +164,7 @@ function handleRightClickGrilleItem() {
             activeGrilleItemDOM(indexInBars, $(object))
 
 
-            // TODO update modal container
-            buildOptionRepriseDOM(indexInBars);
+
             // Warning ORDer is important
             updateRepriseInputDOM(theScore.bars[indexInBars])
             buildGrilleDOM()
@@ -179,7 +189,6 @@ function buildGrilleDOM() {
     grilleElement.html(innerGrille);
     $('div.grille-item').click(selectGrilleItem)
     handleRightClickGrilleItem();
-
 }
 
 function loadConfSong(){
@@ -201,7 +210,7 @@ function readScoreByName(name) {
                 if (this.status === 200) {
                     console.log("Réponse reçue: %s", this.responseText);
                     theScore = JSON.parse(this.responseText);
-                    
+
                     buildGrilleDOM();
                     $(".morceau").css('display', 'none');
                 } else {
@@ -270,6 +279,9 @@ $("#division_beat").change((object) => updateGlobalScore(object.target.value, "d
 $("#intensite").change((object) => updateGlobalScore(object.target.value, "intensity"));
 $("#alert").change((object) => updateGlobalScore(object.target.value, "alert"));
 
+
+
+
 /**
  * Load bar
  */
@@ -305,6 +317,18 @@ function updateRepriseInputDOM(bar) {
 
 }
 
+function addRepetion(){
+    if (GLOBAL_SELECTED_BAR.begin && GLOBAL_SELECTED_BAR.end) {
+      if (GLOBAL_SELECTED_BAR.begin < GLOBAL_SELECTED_BAR.end){
+          buildOptionRepriseDOM();
+          $("#mesure-modal").css('display', 'block');
+      }else
+          alert("L'ordre de réprise est incorrecte")
+    }else
+        alert("Veuillez selectionnez l'intervalle de reprise")
+}
+$("#add_repeat").click(addRepetion)
+
 $("#save_rep").click(function () {
 
     const begin = parseInt($('#debut-reprise-select').val()) - 1;
@@ -337,6 +361,9 @@ $("#save_rep").click(function () {
     buildGrilleDOM()
     $("#mesure-modal").css('display', 'none');
 })
+
+
+$("#clear_selected").click(resetBarSelected)
 
 
 
