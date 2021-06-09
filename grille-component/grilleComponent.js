@@ -38,7 +38,7 @@ function handleChangInputMesure() {
         if (difference > 0) {
             bar_to_update = Array(difference).fill(null).map(() => immutablaObject(new barTemplate(80, 4, 1, 4, 1, 4, "", null, null,false,null)))
             bar_to_update[4].dacapo=true;
-            bar_to_update[2].fine= new Fine(null,null);
+            bar_to_update[2].fine= new Fine([0],[2]);
             console.log(" this is bar to update", bar_to_update)
             theScore.bars.push(...immutablaObject(bar_to_update));
         } else {

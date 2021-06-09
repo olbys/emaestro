@@ -533,29 +533,38 @@ function playScore() {
                 er = execrepetitions[theScore.bars[i].BeginRepeat];
                 console.log("r=", r)
                 console.log("er=", er)
+
+                if (theScore.bars[i].fine != null){                       
+                    if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].BeginRepeat]-1== execrepetitions[theScore.bars[i].BeginRepeat].nbrepeats) {
+                        i= theScore.bars.length                                       
+                    } 
+                }
+
                 if(r.nbrepeats!=er.nbrepeats){
-                    // er.nbrepeats++;
                     i++;
                 }
                 else if(r.nbrepeats==er.nbrepeats){
                     i++;
                 }
                 
-                if (theScore.bars[i].fine != null){
-                    if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].BeginRepeat]==execrepetitions[theScore.bars[i].BeginRepeat]) {
-                        i= theScore.bars.length                                       
-                    } 
-                }
             }
             else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat==null){
                 console.log("end uniquement")
 
                 r = repetions[theScore.bars[i].EndRepeat];
                 er = execrepetitions[theScore.bars[i].EndRepeat];
+
                 console.log("r=", r)
                 console.log("er=", er)
                 if (r.nbrepeats!=er.nbrepeats){
                     er.nbrepeats++;
+
+                    if (theScore.bars[i].fine != null){                     
+                        if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].EndRepeat]== execrepetitions[theScore.bars[i].EndRepeat].nbrepeats) {
+                            i= theScore.bars.length                                       
+                        } 
+                    }
+
                     if(r.nbrepeats==er.nbrepeats){
                         console.log("mise a zero et fin de reprise")
                         er.nbrepeats=0;
@@ -566,11 +575,6 @@ function playScore() {
                     }
                 }
 
-                if (theScore.bars[i].fine != null){
-                    if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].EndRepeat]==execrepetitions[theScore.bars[i].EndRepeat]) {
-                        i= theScore.bars.length                                       
-                    } 
-                }
             }
         }
         else if(theScore.bars[i].dacapo==true && execdacapo==false){

@@ -45,9 +45,8 @@ class barTemplate{
         this.BeginRepeat= BeginRepeat,
         this.EndRepeat=EndRepeat,
         this.dacapo=dacapo,
-        this.fine=fine,
+        this.fine=fine
     }
-    
 }
 
 class Fine{
