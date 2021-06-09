@@ -103,7 +103,7 @@ function activeGrilleItemDOM(index, domElement) {
             $(dom).attr("data-selected", false);
         });
         $(domElement).attr("data-selected", true);
-        console.log('index', index)
+        console.log("nombre", theScore.currentbar);
         updateMesureInputDOM(theScore.bars[index])
     }
 }
@@ -113,9 +113,11 @@ function activeGrilleItemDOM(index, domElement) {
  */
 function selectGrilleItem() {
     const bar_index = $(this).data('index') - 1;
-
+    resetBarSelected();
+    setBarSelectedIndex(bar_index + 1);
     activeGrilleItemDOM(bar_index, $(this))
-    resetBarSelected()
+    buildGrilleDOM()
+
 
 }
 
@@ -124,11 +126,6 @@ function buildOptionRepriseDOM(indexStop) {
     let options = `<option value=null>sélectionnez</option>`
     let option_debut_repet = options + `<option selected="true" value=${GLOBAL_SELECTED_BAR.begin}>${GLOBAL_SELECTED_BAR.begin}</option>`
     let option_fin_repet = options + `<option selected="true" value=${GLOBAL_SELECTED_BAR.end}>${GLOBAL_SELECTED_BAR.end}</option>`
-    // if (theScore.bars.length !== 0) {
-    //     for (let i = 0; i < indexStop; i++) {
-    //         options += `<option  value="${i + 1}"> ${i + 1}</option>`
-    //     }
-    // }
     $('#debut-reprise-select').html(option_debut_repet)
     $('#fin-reprise-select').html(option_fin_repet)
 }
@@ -157,20 +154,11 @@ function handleRightClickGrilleItem() {
             let indexInBars = $(object).data('index') - 1;
 
             // Met a jour l'indice
-            setBarSelectedIndex(indexInBars + 1)
-
-
-            // TODO active la grille et met current bar à l'index de la grille right cliker
+            setBarSelectedIndex(indexInBars + 1);
             activeGrilleItemDOM(indexInBars, $(object))
 
-
-
-            // Warning ORDer is important
-            updateRepriseInputDOM(theScore.bars[indexInBars])
             buildGrilleDOM()
 
-            // TODO
-            // $("#mesure-modal").css('display', 'block');
 
         })
     })
@@ -191,7 +179,7 @@ function buildGrilleDOM() {
     handleRightClickGrilleItem();
 }
 
-function loadConfSong(){
+function loadConfSong() {
     let scorefilename = $("#morceau-select").val();
     console.log("scorefilename", scorefilename);
     return readScoreByName(scorefilename)
@@ -201,7 +189,7 @@ $("#save_choose").click(loadConfSong);
 
 
 function readScoreByName(name) {
-    if(name !== "null"){
+    if (name !== "null") {
         console.log("readOneScore: " + name);
         var req = new XMLHttpRequest();
 
@@ -227,7 +215,6 @@ function readScoreByName(name) {
 
 
 function updateMesureInputDOM(bar) {
-    // console.log('select Bar', bar);
     $("#tempo").val(bar.tempo);
     $("#beat").val(bar.beat);
     $("#armure").val(bar.key);
@@ -239,7 +226,6 @@ function updateMesureInputDOM(bar) {
 }
 
 $(function () {
-    console.log("hey world bar", theScore);
     updateMesureInputDOM(theScore.bars[0]);
     if (theScore.bars.length > 0) {
         $("#nombre_mesure").val(theScore.bars.length);
@@ -263,11 +249,16 @@ function updateGlobalScore(value, property) {
                 theScore.bars[i][property] = _value
             }
         } else {
-            theScore.bars[theScore.currentbar][property] = _value
+            console.log('the score bar avant de upfate', theScore.currentbar);
+            if (theScore.currentbar !== null) {
+                theScore.bars[theScore.currentbar][property] = _value;
+            } else {
+                alert('Sélectionnez une mesure à configurer')
+            }
+
         }
 
         buildGrilleDOM();
-        console.log('updateHandle', theScore.bars);
     }
 }
 
@@ -278,8 +269,6 @@ $("#beat_mesure_time").change((object) => updateGlobalScore(object.target.value,
 $("#division_beat").change((object) => updateGlobalScore(object.target.value, "division"));
 $("#intensite").change((object) => updateGlobalScore(object.target.value, "intensity"));
 $("#alert").change((object) => updateGlobalScore(object.target.value, "alert"));
-
-
 
 
 /**
@@ -297,36 +286,18 @@ $("#morceau-modal-close").click(function () {
     $(".morceau").css('display', 'none');
 })
 
-function updateRepriseInputDOM(bar) {
-    console.log('select Bar', bar);
-    console.log("isbegin of repet", repetions[bar.BeginRepeat]);
-    console.log("isEnd of repet", repetions[bar.EndRepeat]);
-    if (bar && bar.BeginRepeat !== null) {
 
-        let repeat = repetions[bar.BeginRepeat];
-        // console.log('repeat ', repeat.begin, repeat.end, repeat.nbrepeats)
-        $("#debut-reprise-select").val(repeat.begin);
-        $("#reprise-input-repeat").val(repeat.nbrepeats);
-    }
-    if (bar && bar.EndRepeat !== null) {
-
-        let repeat = repetions[bar.EndRepeat];
-        // console.log('repeat ', repeat.begin, repeat.end, repeat.nbrepeats)
-        $("#fin-reprise-select").val(repeat.end);
-    }
-
-}
-
-function addRepetion(){
+function addRepetion() {
     if (GLOBAL_SELECTED_BAR.begin && GLOBAL_SELECTED_BAR.end) {
-      if (GLOBAL_SELECTED_BAR.begin < GLOBAL_SELECTED_BAR.end){
-          buildOptionRepriseDOM();
-          $("#mesure-modal").css('display', 'block');
-      }else
-          alert("L'ordre de réprise est incorrecte")
-    }else
+        if (GLOBAL_SELECTED_BAR.begin < GLOBAL_SELECTED_BAR.end) {
+            buildOptionRepriseDOM();
+            $("#mesure-modal").css('display', 'block');
+        } else
+            alert("L'ordre de réprise est incorrecte")
+    } else
         alert("Veuillez selectionnez l'intervalle de reprise")
 }
+
 $("#add_repeat").click(addRepetion)
 
 $("#save_rep").click(function () {

@@ -141,10 +141,6 @@
     margin: 0 30px 15px 0;
 }
 
-.grille-controle-container > .grille-item[data-selected = "true"] {
-    background-color: #69c0ff !important;
-}
-
 
 .grille-controle-container > .grille-item[data-intensity = "0"] {
     background-color: #660099 ;
@@ -176,6 +172,9 @@
 
 .grille-controle-container > .grille-item[data-intensity = "7"] {
     background-color: #ff0000 ;
+}
+.grille-controle-container > .grille-item[data-selected = "true"] {
+    background-color: #69c0ff !important;
 }
 
 

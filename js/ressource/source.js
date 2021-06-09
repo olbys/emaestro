@@ -9,7 +9,7 @@ function alertt() {
 var theScore;
 var repetions = [];
 var execrepetitions = [];
-var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,0,[]);
+var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,null,[]);
 var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
 var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
 var valLa = 440;
@@ -147,49 +147,10 @@ function setScoreSize() {
 };
 $("#scoresize").change(setScoreSize);
 
-// changing the current bar do not modify the JS score, but the DOM bar must be updated
-function setCurrentBar() {
-    theScore.currentbar = $("#currentbar").val() - 1;
-    if(theScore.currentbar < theScore.bars.length){
-        theScore.bars.splice(theScore.currentbar, 1);
-        console.log("---------------------- all bars --------------------------")
-        console.log(theScore.bars);
-    }else{
-    theScore.bars[theScore.currentbar] = otherBarTemplate;
-    console.log("current bar: " + theScore.currentbar);
-    }
-    instantiateDOMCurrentBar(theScore, theScore.currentbar);
-};
-$("#currentbar").change(setCurrentBar);
-
-function setTempo() {
-    theScore.bars[theScore.currentbar].tempo = $("#tempo").val();
-};
-$("#tempo").change(setTempo);
-
-function setBeat() {
-    theScore.bars[theScore.currentbar].beat = $("#beat").val();
-};
-$("#beat").change(setBeat);
-
-function setKey() {
-    theScore.bars[theScore.currentbar].key = $("#key").val();
-};
-$("#key").change(setKey);
-
-function setTime() {
-    theScore.bars[theScore.currentbar].time = $("#time").val();
-};
-$("#time").change(setTime);
-
-function setDivision() {
-    theScore.bars[theScore.currentbar].division = $("#division").val();
-};
-$("#division").change(setDivision);
-
 function setFrequenceLa() {
     valLa = $("#valLa").val();
 };
+
 $("#valLa").change(setFrequenceLa);
 
 
@@ -372,8 +333,7 @@ function lightKey(completedBar) {
     for (var i = 0; i < nbLeds; i++) {
         document.getElementById("led" + (firstLed + i))
             .setAttribute("fill", "black");
-    }
-    ;
+    };
 
     var key = completedBar.key;
     console.log("switch on key circle with new key: " + key);
@@ -383,15 +343,13 @@ function lightKey(completedBar) {
     } else {
         nbLeds = key;
         firstLed = circlesNbLeds[0] + circlesNbLeds[1];
-    }
-    ;
+    };
     console.log("first led = " + firstLed + " ; nbLeds = " + nbLeds);
     for (var i = 0; i < nbLeds; i++) {
         document
             .getElementById("led" + (firstLed + i))
             .setAttribute("fill", intensityColors[completedBar.intensity]);
-    }
-    ;
+    };
 };
 
 
@@ -651,23 +609,6 @@ function playScore() {
 
 
 function playScoreRecord() {
-
-
-    /*   var{ exec } = require('childprocess');
-   exec("ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac output.mp4", (error, stdout, stderr) => {
-       if (error) {
-           console.log(`error: ${error.message}`);
-           return;
-       }
-       if (stderr) {
-           console.log(`stderr: ${stderr}`);
-           return;
-       }
-       console.log(`stdout: ${stdout}`);
-   });
-
-      */
-
 
     // On joue la des musiques qu'on veut mixer avec la l'enregistrement
     function ff() {
