@@ -14,6 +14,7 @@ var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
 var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
 var valLa = 440;
 var globalClock;
+var fermata = {'period': 0, 'time': 0}; // point d'orgue
 
 
 $("#add button").click(add);
@@ -259,15 +260,16 @@ function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse) {
     var nbLeds = nbLedsPerPulse[nbPulse - 1][completedBar.time];
     var firstLed = theBeat * nbLedsPerBeat[completedBar.time] + thePulse * nbLeds;
 //	console.log("led " + onoff + ": from " + firstLed + " to " + (firstLed+nbLeds));
+
     for (var i = 0; i < nbLeds; i++) {
+        console.log('led', i, (firstLed + i));
         document
             .getElementById("led" + (firstLed + i))
             .setAttribute("fill",
                 onoff == "on" ? intensityColors[completedBar.intensity] : "black");
-    }
-    ;
+    }   
    // socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
-};
+}
 
 function mySetTimeout(fun, time) {
     var timer = setTimeout(fun, time);
@@ -401,8 +403,34 @@ function playAlert(theClock, theCompletedBar) {
     ;
 };
 
-function playBeat(theClock, completedBar, theBeat) {
-    var nbPulse;
+function playFermata(theClock, completedBar, time , isFermata){
+    var nbPulse =  getNbPulse(completedBar);
+    var pulseTime = getPulseTime(completedBar, nbPulse);
+    for (var i = 0; i < nbPulse; i++) {
+        (function (thePulse) {
+            var lightPulseOn = function () {
+                lightPulse("on", completedBar, time, thePulse, nbPulse);
+            };
+        mySetTimeout(lightPulseOn, time > fermata.time ? theClock+ fermata.period : theClock);
+        })(i);
+        setTimeout(function(){
+        }, theClock+fermata.period)
+    }
+    for (var i = 0; i < nbPulse; i++) {
+        theClock += pulseTime;
+        (function (thePulse) {
+            var lightPulseOff = function () {
+                lightPulse("off", completedBar, time, thePulse, nbPulse);
+            };
+            mySetTimeout(lightPulseOff, isFermata ? theClock+ fermata.period : theClock);
+        })(i);
+    }
+    ;
+    return theClock;
+}
+
+function getNbPulse(completedBar){
+    let nbPulse = 1;
     if (completedBar.division == 1) {
         nbPulse = 1;
     } else if (completedBar.beat == 2 || completedBar.beat == 4 || completedBar.beat == 8) {
@@ -410,17 +438,25 @@ function playBeat(theClock, completedBar, theBeat) {
     } else {
         nbPulse = 3;
     }
-    ;
 
-    var beatTime = (1000 * 60) / completedBar.tempo;
-    var pulseTime = beatTime / nbPulse;
+  return nbPulse;
+}
+
+function getPulseTime(completedBar, nbPulse){
+    let beatTime = (1000 * 60) / completedBar.tempo;
+    return (beatTime / nbPulse);
+}
+
+function playBeat(theClock, completedBar, theBeat, isFermata= false) {
+    var nbPulse =  getNbPulse(completedBar);
+    var pulseTime = getPulseTime(completedBar, nbPulse);
     for (var i = 0; i < nbPulse; i++) {
 //	console.log("play pulse num:" + i + " at " + theClock + "on");
         (function (thePulse) {
             var lightPulseOn = function () {
                 lightPulse("on", completedBar, theBeat, thePulse, nbPulse);
             };
-            mySetTimeout(lightPulseOn, theClock);
+        mySetTimeout(lightPulseOn, theClock);
         })(i);
     }
     ;
@@ -431,7 +467,7 @@ function playBeat(theClock, completedBar, theBeat) {
             var lightPulseOff = function () {
                 lightPulse("off", completedBar, theBeat, thePulse, nbPulse);
             };
-            mySetTimeout(lightPulseOff, theClock);
+            mySetTimeout(lightPulseOff, isFermata ? theClock+ fermata.period : theClock);
         })(i);
     }
     ;
@@ -448,7 +484,14 @@ function playBar(theClock, theCompletedBar, theBar) {
     playAlert(theClock, theCompletedBar);
     for (var i = 0; i < theCompletedBar.time; i++) {
 //console.log("play beat num:" + i + " at " + theClock);
-        theClock = playBeat(theClock, theCompletedBar, i);
+        if (theCompletedBar.fermata != undefined && theCompletedBar.fermata.time == i){
+            fermata.time= theCompletedBar.fermata.time;
+            fermata.period =theCompletedBar.fermata.period;
+            theClock = playFermata(theClock, theCompletedBar, i , true);
+        }else{
+            theClock = playBeat(theClock, theCompletedBar, i, false);
+        }
+        
     }
     ;
     return theClock;
@@ -850,12 +893,6 @@ function deleteSound (index) {
     var sonmix = document.getElementsByName("sonmix");
     console.log("** Sound to edit : ",sonmix[index].value);
 }
-
-function test() {
-    console.log("Test");
-}
-
-$("#test button").click(test);
 
 function readRecordByName(name) {
     return function readOneRecord() {

@@ -292,6 +292,13 @@ $("#morceau-modal-close").click(function () {
     $(".morceau").css('display', 'none');
 })
 
+/**
+ * fermer pop-up config point d'orgue
+ */
+ $("#fermata-modal-close").click(function () {
+    $(".fermata").css('display', 'none');
+})
+
 
 function addRepetion() {
     if (GLOBAL_SELECTED_BAR.begin && GLOBAL_SELECTED_BAR.end) {
@@ -305,6 +312,35 @@ function addRepetion() {
 }
 
 $("#add_repeat").click(addRepetion)
+
+function addFermata() {
+    if (GLOBAL_SELECTED_BAR.begin != undefined ){
+        buildOptionChooseFermataDOM()
+        $(".fermata").css('display', 'block');
+    }
+}
+
+$("#add_fermata").click(addFermata)
+
+function buildOptionChooseFermataDOM() {
+    let options = `<option value=null>sélectionnez</option>`
+        for (let i = 0; i < theScore.bars[GLOBAL_SELECTED_BAR.begin-1].time; i++) {
+            options += `<option  value="${i+1}"> ${i+1}</option>`
+        }
+    $('#fermata-select').html(options)
+}
+
+function saveFermataConfig() {
+    let time = $("#fermata-select").val()-1;
+    if(isNaN(time)){ // TODO à révoir
+        alert('veuillez choisir un temps !') 
+    }
+    let period = $("#period-input").val() ? $("#period-input").val() : 60;
+    theScore.bars[GLOBAL_SELECTED_BAR.begin-1].fermata= {"period":parseInt(period),"time": parseInt(time)};
+    $(".fermata").css('display', 'none');
+}
+
+$("#save_config").click(saveFermataConfig);
 
 $("#save_rep").click(function () {
 
