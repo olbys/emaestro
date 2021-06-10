@@ -769,7 +769,6 @@ function readRecordNames() {
     var req = new XMLHttpRequest();
 
     req.onreadystatechange = function (event) {
-        // XMLHttpRequest.DONE === 4
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
