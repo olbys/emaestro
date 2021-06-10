@@ -817,18 +817,53 @@ function buildMixSelector(soundName, index) {
 }
 
 function editSound(index) {
-    console.log("** Edit sound clicked **",index);
     $(".son").css('display', 'block');
 
+    $("#save_sound-title").click(function () {
+
+        var sonmix = document.getElementsByName("sonmix"); // Récupérer le oldFile
+        var newName = document.getElementById("input-sound-title").value; // Récupérer le newName
+
+        if (newName != "")
+        {
+            var newFile = toNewFileName(newName,sonmix[index].value);
+
+            var req = new XMLHttpRequest();
+            req.onreadystatechange = function (event) {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    if (this.status === 200) {
+                        console.log("Réponse reçue: %s", this.responseText);
+                    } else {
+                        console.log("Status de la réponse: %d (%s)",
+                            this.status, this.statusText);
+                    }
+                }
+            };
+            req.open("PUT", "/sons/" +sonmix[index].value, true);
+            req.send(null);
+
+        }
+        else
+            alert("Veuillez saisir le nouveau nom SVP !");
+
+        $(".son").css('display', 'none');
+    })
+
+}
+
+function toNewFileName(newName, oldFile){
+
+    const myRenamedFile = new File([oldFile],newName + ".mp3");
+    return myRenamedFile;
 }
 
 $("#mesure-modal-close-sound").click(function () {
     $(".son").css('display', 'none');
 })
 
-$("#save_sound-title").click(function () {
+/*$("#save_sound-title").click(function () {
     $(".son").css('display', 'none');
-})
+})*/
 
 function deleteSound (index) {
     console.log("** Delete sound : ",index);
