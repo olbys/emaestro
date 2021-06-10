@@ -185,6 +185,7 @@ function buildGrilleDOM() {
     grilleElement.html(innerGrille);
     $('div.grille-item').click(selectGrilleItem)
     handleRightClickGrilleItem();
+    detectDacapoInfine()
 }
 
 function loadConfSong() {
@@ -350,47 +351,59 @@ $("#dacapo-modal-close").click(function () {
     $(".dacapo-infine").css('display', 'none');
 })
 
+function detectDacapoInfine(){
+    if (theScore.bars.some(bar => bar.dacapo)) {
+        $("#dacapo-infine span").html("FINE")
+    }
+}
+
+function buildInfineInRepeat(selectedBar, repeat){
+    let options = `<option selected value=null>aucune</option>`;
+    for (let i = 1; i <= repeat.nbrepeats; i++) {
+        options += `<option value=${i}>${i}</option>`
+    }
+    $('#dacapo-infine-arret').html(options);
+    $("#mesure-modal.dacapo-infine").css('display', 'block');
+    $("#save-dacapo").click(function () {
+        let repeatBeforeFine = -1
+        repeatBeforeFine = parseInt($("#dacapo-infine-arret").val())
+        console.log("hey j'ai repete", repeatBeforeFine);
+        if(repeatBeforeFine){
+            selectedBar.fine = new Fine(repetions.indexOf(repeat), repeatBeforeFine);
+            $(".dacapo-infine").css('display', 'none');
+        }
+        buildGrilleDOM()
+    })
+}
+
 function addDacaAndFine() {
     if (theScore.currentbar !== null) {
         let selectedBar = theScore.bars[theScore.currentbar];
+        // if hasn't already dacapo
         if (!theScore.bars.some(bar => bar.dacapo)) {
             selectedBar.dacapo = true;
-            // console.log("bar dacapo", theScore.bars[theScore.currentbar]);
             theScore.currentbar = null;
             $("#dacapo-infine span").html("FINE")
-            console.log();
+
         } else if(!theScore.bars.some(bar => bar.fine)) {
             const allIndexRepeat = repetions.map((rep) => {
                 return Object.values({begin: rep.begin, end: rep.end})
-            }).flat()
+            })
             console.log('Allrepeteindex', allIndexRepeat);
-            if (allIndexRepeat.includes(theScore.currentbar)) {
+            if (allIndexRepeat.flat().includes(theScore.currentbar)) {
                 const repeatMatchThisBar = repetions.find(repeat => (repeat.begin === theScore.currentbar || repeat.end === theScore.currentbar));
-                // let options = `<option value=null>sélectionnez</option>`;
                 if (repeatMatchThisBar) {
-                    let options = `<option selected value=null>aucune</option>`;
-                    for (let i = 1; i <= repeatMatchThisBar.nbrepeats; i++) {
-                        options += `<option value=${i}>${i}</option>`
-                    }
-                    $('#dacapo-infine-arret').html(options);
-                    $("#mesure-modal.dacapo-infine").css('display', 'block');
-                    $("#save-dacapo").click(function () {
-                       let repeatBeforeFine = -1
-                        repeatBeforeFine = parseInt($("#dacapo-infine-arret").val())
-                        console.log("hey j'ai repete", repeatBeforeFine);
-                        if(repeatBeforeFine){
-                            selectedBar.fine = new Fine(repetions.indexOf(repeatMatchThisBar), repeatBeforeFine);
-                            $(".dacapo-infine").css('display', 'none');
-                        }
-                        buildGrilleDOM()
-                    })
+                   buildInfineInRepeat(selectedBar, repeatMatchThisBar);
                 }
             } else {
-                // console.log("hey j'ai pas de repetion");
-                selectedBar.fine = new Fine(null, null);
-            }
+                let repeatMatchThisBar = repetions.find(repeat => theScore.currentbar > repeat.begin && theScore.currentbar < repeat.end)
+                if(repeatMatchThisBar){
+                    buildInfineInRepeat(selectedBar, repeatMatchThisBar);
+                }else{
+                    selectedBar.fine = new Fine(null, null);
+                }
 
-            // console.log($("#dacapo-infine span").html());
+            }
 
         }
         buildGrilleDOM()
