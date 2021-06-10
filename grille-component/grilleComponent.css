@@ -1,7 +1,7 @@
 .grille-control-item {
     padding-top:20px;
     display: flex;
-    min-width: 100px;
+    min-width: 200px;
     width: auto;
     justify-content: space-between;
 }
