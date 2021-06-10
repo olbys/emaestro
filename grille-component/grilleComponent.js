@@ -78,7 +78,7 @@ function buildGrilleItemDOM(bar, index) {
     return ` <div class="grille-item" data-intensity="${bar.intensity}" data-selected="false" data-index="${index}" id="grille-${index}">
                 <div class="item-row-1">
                   <div class="numero">${index}</div>
-                  ${bar.dacapo ? `<img src="../assetss/images/dacapo.png" width="24">` : bar.fine ? `<img src="../assetss/images/fine.png" width="24">` : ``}
+                  ${bar.dacapo ? `<small class="dacapo">D.C.</small>` : bar.fine ? `<small class="fine">D.C</small>` : ``}
                   ${Object.values(GLOBAL_SELECTED_BAR).includes(index) ?
         `<div class="grille-item-selected"><i class="material-icons left">check_circle</i></div>`
         : ``
