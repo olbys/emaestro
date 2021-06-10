@@ -60,7 +60,9 @@ methods.GET = function(path, respond) {
 };
 
 methods.DELETE = function(path, respond) {
-    fs.stat(path, function(error, stats) {
+    console.log("PATH is :",path);
+    console.log("RESPOND is :",respond);
+   /* fs.stat(path, function(error, stats) {
         if (error && error.code == "ENOENT")
             respond(204);
         else if (error)
@@ -69,7 +71,7 @@ methods.DELETE = function(path, respond) {
             respond(204);
         else
             fs.unlink(path, respondErrorOrNothing(respond));
-    });
+    });*/
 };
 
 function respondErrorOrNothing(respond) {

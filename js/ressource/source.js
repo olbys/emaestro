@@ -9,9 +9,10 @@ function alertt() {
 var theScore;
 var repetions = [];
 var execrepetitions = [];
-var newScoreTemplate = new newScoreTemplateClass("", "Mon premier morceau", "premiermorceau", 4, null, []);
-var firstBarTemplate = new barTemplate(80, 4, 1, 4, 1, 4, "", null, null);
-var otherBarTemplate = new barTemplate(80, 4, 1, 4, 1, 4, "", null, null);
+var execdacapo = false;
+var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,null,[]);
+var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null);
+var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null);
 var valLa = 440;
 var globalClock;
 
@@ -73,11 +74,7 @@ function source() {
     var i;
     for (i = 0; i < sonmix.length; i++) {
         if (sonmix[i].checked) {
-
-
             document.getElementById(sonmix[i].value + '1').play();
-
-
         }
     }
     document.getElementById("vid2").play();
@@ -90,11 +87,7 @@ function stopmix() {
     var i;
     for (i = 0; i < sonmix.length; i++) {
         if (sonmix[i].checked) {
-
-
             document.getElementById(sonmix[i].value + '1').pause();
-
-
         }
     }
     document.getElementById("vid2").pause();
@@ -333,8 +326,7 @@ function lightKey(completedBar) {
     for (var i = 0; i < nbLeds; i++) {
         document.getElementById("led" + (firstLed + i))
             .setAttribute("fill", "black");
-    }
-    ;
+    };
 
     var key = completedBar.key;
     console.log("switch on key circle with new key: " + key);
@@ -344,15 +336,13 @@ function lightKey(completedBar) {
     } else {
         nbLeds = key;
         firstLed = circlesNbLeds[0] + circlesNbLeds[1];
-    }
-    ;
+    };
     console.log("first led = " + firstLed + " ; nbLeds = " + nbLeds);
     for (var i = 0; i < nbLeds; i++) {
         document
             .getElementById("led" + (firstLed + i))
             .setAttribute("fill", intensityColors[completedBar.intensity]);
-    }
-    ;
+    };
 };
 
 
@@ -443,8 +433,8 @@ function playBeat(theClock, completedBar, theBeat) {
 
 function playBar(theClock, theCompletedBar, theBar) {
 
-    console.log("play bar i ==> ", theBar);
-
+    console.log("play bar i ==> ",theBar);
+    
 // completion of the completed bar
     theCompletedBar = completeBar(theCompletedBar, theBar);
     playKey(theClock, theCompletedBar);
@@ -462,7 +452,7 @@ function lightOff() {
     for (var i = 0; i < nbLeds; i++) {
         document.getElementById("led" + i).setAttribute("fill", "black");
     }
-    ;
+   ;
 };
 
 function stopScore() {
@@ -485,19 +475,15 @@ function playEnd(theClock) {
     return theClock + 10;
 };
 
-function playListSons() {
+function playListSons () {
     function ff() {
         var sonmix = document.getElementsByName("sonmix");
         var txt = "";
         var i;
         for (i = 0; i < sonmix.length; i++) {
             if (sonmix[i].checked) {
-
-
-                console.log("son mix valeur :", sonmix[i].value);
+                console.log("son mix valeur :",sonmix[i].value);
                 document.getElementById(sonmix[i].value).play();
-
-
             }
         }
         // document.getElementById("order").value = "You ordered a coffee with: " + txt;
@@ -508,9 +494,9 @@ function playListSons() {
 
 function playScore() {
 
-    console.log(" repetitions ", repetions)
-    console.log(" exec repetitions ", JSON.stringify(execrepetitions))
-    console.log(" theScore.bars ", theScore.bars)
+    console.log (" repetitions ", repetions )
+    console.log (" exec repetitions ", JSON.stringify(execrepetitions))
+    console.log (" theScore.bars ", theScore.bars )
 
     playListSons();
 
@@ -524,10 +510,10 @@ function playScore() {
     // a completed bar is created to remember what does not change
     // it is cloned then updated while reading each bar in turn
     var completedBar = theScore.bars[0];
-
+    
     var i = 0;
-    while (i < theScore.bars.length) {
-
+    while(i < theScore.bars.length){
+    
         // starts the bar handler
         // the bar handler will start the beats and pulses handlers
         // and return an updated time
@@ -536,73 +522,75 @@ function playScore() {
         // do not forget to clone the completed bar
         completedBar = JSON.parse(JSON.stringify(theScore.bars[i]));
 
-        theClock = playBar(theClock, completedBar, i); //remplacer completedBar -> JSON.stringify(theScore.bars[i])
+        theClock = playBar(theClock, completedBar , i); //remplacer completedBar -> JSON.stringify(theScore.bars[i])
 
-        if (theScore.bars[i].BeginRepeat != null || theScore.bars[i].EndRepeat != null) {
+        if(theScore.bars[i].BeginRepeat!=null || theScore.bars[i].EndRepeat!= null){
 
-            if (theScore.bars[i].BeginRepeat != null && theScore.bars[i].EndRepeat == null) {
+            if( theScore.bars[i].BeginRepeat!=null && theScore.bars[i].EndRepeat==null ){
                 console.log("begin uniquement")
 
                 r = repetions[theScore.bars[i].BeginRepeat];
                 er = execrepetitions[theScore.bars[i].BeginRepeat];
                 console.log("r=", r)
                 console.log("er=", er)
-                if (r.nbrepeats != er.nbrepeats) {
-                    // er.nbrepeats++;
-                    i++;
-                } else if (r.nbrepeats == er.nbrepeats) {
-                    i++;
-                }
 
-            } else if (theScore.bars[i].EndRepeat != null && theScore.bars[i].BeginRepeat == null) {
-                console.log("end uniquement")
-
-                r = repetions[theScore.bars[i].EndRepeat];
-                er = execrepetitions[theScore.bars[i].EndRepeat];
-                console.log("r=", r)
-                console.log("er=", er)
-                if (r.nbrepeats != er.nbrepeats) {
-                    er.nbrepeats++;
-                    if (r.nbrepeats == er.nbrepeats) {
-                        console.log("mise a zero et fin de reprise")
-                        er.nbrepeats = 0;
-                        i++;
-                    } else {
-                        i = r.begin;
+                if (theScore.bars[i].fine != null){
+                    if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].BeginRepeat]-1== execrepetitions[theScore.bars[i].BeginRepeat].nbrepeats) {
+                        i= theScore.bars.length
                     }
                 }
-                // else if (r.nbrepeats==er.nbrepeats){
-                //     console.log("mise a zero et fin de reprise")
-                //     er.nbrepeats=0;
 
-                //     i++;
-                // }
-
-            } else if (theScore.bars[i].EndRepeat != null && theScore.bars[i].BeginRepeat != null) {
-                r_begin = repetions[theScore.bars[i].BeginRepeat];
-                er_begin = execrepetitions[theScore.bars[i].BeginRepeat];
-
-                r_end = repetions[theScore.bars[i].EndRepeat];
-                er_end = execrepetitions[theScore.bars[i].EndRepeat];
-
-                if (r_end.nbrepeats != er_end.nbrepeats) {
-                    er_end.nbrepeats++;
-                    i = r_end.begin;
-                } else if (r_end.nbrepeats == er_end.nbrepeats) {
-                    er_end.nbrepeats = 0;
-                    er_begin.nbrepeats++;
+                if(r.nbrepeats!=er.nbrepeats){
+                    i++;
+                }
+                else if(r.nbrepeats==er.nbrepeats){
                     i++;
                 }
 
             }
+            else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat==null){
+                console.log("end uniquement")
 
-        } else {
-            i++;
+                r = repetions[theScore.bars[i].EndRepeat];
+                er = execrepetitions[theScore.bars[i].EndRepeat];
+
+                console.log("r=", r)
+                console.log("er=", er)
+                if (r.nbrepeats!=er.nbrepeats){
+                    er.nbrepeats++;
+
+                    if (theScore.bars[i].fine != null){
+                        if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].EndRepeat]== execrepetitions[theScore.bars[i].EndRepeat].nbrepeats) {
+                            i= theScore.bars.length
+                        }
+                    }
+
+                    if(r.nbrepeats==er.nbrepeats){
+                        console.log("mise a zero et fin de reprise")
+                        er.nbrepeats=0;
+                        i++;
+                    }
+                    else{
+                        i = r.begin;
+                    }
+                }
+
+            }
         }
-
+        else if(theScore.bars[i].dacapo==true && execdacapo==false){
+            console.log("play bar je rentre dans un dacapo pour la mesure", i)
+            execdacapo=true;
+            i=0;
+            console.log("play bar je défini i à 0")
+        }
+        else if( execdacapo==true && theScore.bars[i].fine != null && theScore.bars[i].fine.repetition==null ){
+            i= theScore.bars.length
+        }
+        else{
+                i++;
+        }
     }
 };
-
 //$("div#play button#playscore").click(playScore);
 
 
@@ -617,7 +605,7 @@ function playScoreRecord() {
             if (sonmix[i].checked) {
 
 
-                console.log("son mix valeur :", sonmix[i].value);
+                console.log("son mix valeur :",sonmix[i].value);
                 document.getElementById(sonmix[i].value).play();
 
 
@@ -650,7 +638,7 @@ function playScoreRecord() {
         theClock = playBar(theClock, completedBar, i);
     }
     ;
-    theClock = (theClock);
+    theClock =  (theClock);
 };
 $("#playscore").click(playScore);
 
@@ -678,7 +666,7 @@ function stopScoreRecord() {
 
     // Arrete l'enregistrement
     let stop = document.getElementById('stopscorerecord');
-    //stop.click();
+   //stop.click();
 
     // Arrete le clock
     theClock = playEnd(globalClock);
@@ -687,16 +675,15 @@ function stopScoreRecord() {
 
 
 var fileContent = "";
-
 function saveScore() {
-
+    
     var fileName = $("#titre_partition").val();
-    if (fileName) {
+    if(fileName){
         var req = new XMLHttpRequest();
         var fileContent = JSON.stringify(theScore);
 
         req.onreadystatechange = function (event) {
-            // XMLHttpRequest.DONE === 4
+        // XMLHttpRequest.DONE === 4
             if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
                     console.log("Réponse reçue: %s", this.responseText);
@@ -706,16 +693,16 @@ function saveScore() {
                 }
             }
         };
-        theScore.repetions = repetions;
-        theScore.execrepetitions = execrepetitions;
+        theScore.repetions= repetions;
+        theScore.execrepetitions= execrepetitions;
         //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
 
         req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
         req.send(JSON.stringify(theScore));
-    } else {
+    } else{
         alert("Veuillez entrer un titre de partition pour la sauvegarde")
     }
-
+    
 };
 $("#sauvegarder_mesures").click(saveScore);
 
@@ -801,19 +788,19 @@ function readRecordNames() {
 //$('#chooserecord').on('click', readRecordNames);
 
 function buildRecordSelector(recordList) {
-    var listeAudioMixDom = "";
+    var listeAudioMixDom="";
 
     for (var i in recordList.scores) {
 
-        listeAudioMixDom += buildMixSelector(recordList.scores[i], i);
+        listeAudioMixDom += buildMixSelector(recordList.scores[i],i);
     }
     $('div.list-mix-file').html(listeAudioMixDom)
 }
 
 function buildMixSelector(soundName, index) {
 
-    var srcSound = "sons/" + soundName;
-    return ` <div class="mix-item">
+    var srcSound="sons/"+soundName;
+   return ` <div class="mix-item">
 
         <div class="mix-title">
             <div> ${soundName} </div>
@@ -831,7 +818,7 @@ function buildMixSelector(soundName, index) {
 }
 
 function editSound(index) {
-    console.log("** Edit sound clicked **", index);
+    console.log("** Edit sound clicked **",index);
     $(".son").css('display', 'block');
 
 }
@@ -844,10 +831,25 @@ $("#save_sound-title").click(function () {
     $(".son").css('display', 'none');
 })
 
-function deleteSound(index) {
-    console.log("** Delete sound clicked **", index);
+function deleteSound (index) {
+    console.log("** Delete sound : ",index);
     var sonmix = document.getElementsByName("sonmix");
-    console.log("** Sound to edit : ", sonmix[index].value);
+
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function (event) {
+
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                console.log("Réponse reçue: %s", this.responseText);
+            } else {
+                console.log("Status de la réponse: %d (%s)",
+                    this.status, this.statusText);
+            }
+        }
+    };
+    req.open("DELETE", "/sons/" +sonmix[index].value, true);
+    req.send(null);
+
 }
 
 function test() {
@@ -1041,8 +1043,8 @@ function add() {
     console.log(nbmembre);
     $("#infomembre").before('<label for="nommusicien">Nom</label>' + '<input id="nommusicien" type="text"></input>' +
         ' <label for="prenommusicien">Prénom</label>' + '<input id="prenommusicien" type="text"></input>' +
-        '<label for="instrument">Intrument</label>' + '<input id="instrument" type="text" </input>' + '<br>');
-    nbmembre = nbmembre + 1;
+        '<label for="instrument">Intrument</label>' + '<input id="instrument" type="text" </input>' + '<br>' );
+    nbmembre = nbmembre +1;
 };
 $("#add button").click(add);
 
@@ -1100,7 +1102,6 @@ $("#save button").click(saveGroup);
 
 
 $("#groupsize").change(setGroupSize);
-
 function setGroupSize() {
     group.groupsize = $("#groupsize").val();
 };
