@@ -103,8 +103,14 @@
                 <button id="add_repeat" class="button-on-dark" type="button">
                     <i class="large material-icons left">repeat</i>
                 </button>
+
                 <button id="add_fermata" class="button-on-dark" type="button">
                     <i><img src="../assetss/images/fermata.png" width="25"></i>
+                </button>
+
+                <button id="dacapo-infine" class="button-on-dark" type="button">
+                    <i class="large material-icons left">add</i>
+                    <span>DC</span>
                 </button>
             </div>
 
@@ -316,6 +322,33 @@
 
             <div class="input-button">
                 <button id="save_rep" class="button-primary waves-effect waves-light">
+                    <i class="material-icons left">repeat</i>
+                    Valider
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="mesure-modal" class="dacapo-infine">
+    <div class="modal-content">
+        <div class="modal-title">
+            <h4>Dacapo & infine </h4>
+            <div id="dacapo-modal-close" class="close">&times;</div>
+        </div>
+        <div class="modal-body">
+            <div class="input-control">
+                <div class="label">Nombre de répetion avant le fine :</div>
+                <select id="dacapo-infine-arret">
+                    <option value=null>sélectionnez</option>
+                </select>
+            </div>
+
+            <div class="input-button">
+                <button id="save-dacapo" class="button-primary waves-effect waves-light">
                     <i class="material-icons left">repeat</i>
                     Valider
                 </button>

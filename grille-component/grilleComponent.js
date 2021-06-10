@@ -36,9 +36,10 @@ function handleChangInputMesure() {
         var difference = nombre_mesure - theScore.bars.length;
         console.log(difference)
         if (difference > 0) {
-            bar_to_update = Array(difference).fill(null).map(() => immutablaObject(new barTemplate(80, 4, 1, 4, 1, 4, "", null, null,false,null)))
-            bar_to_update[4].dacapo=true;
-            bar_to_update[2].fine= new Fine([0],[2]);
+            bar_to_update = Array(difference).fill(null).map(() => immutablaObject(new barTemplate(80, 4, 1, 4, 1, 4, "", null, null,false,null,null)))
+            //bar_to_update[4].dacapo=true;
+            bar_to_update[2].dacoda= new Dacoda(6,2);
+            //bar_to_update[2].fine= new Fine([0],[2]);
             console.log(" this is bar to update", bar_to_update)
             theScore.bars.push(...immutablaObject(bar_to_update));
         } else {
@@ -78,17 +79,17 @@ function buildGrilleItemDOM(bar, index) {
     return ` <div class="grille-item" data-intensity="${bar.intensity}" data-selected="false" data-index="${index}" id="grille-${index}">
                 <div class="item-row-1">
                   <div class="numero">${index}</div>
+                  ${bar.dacapo ? `<small class="dacapo">D.C.</small>` : bar.fine ? `<small class="fine">D.C</small>` : ``}
                   ${Object.values(GLOBAL_SELECTED_BAR).includes(index) ?
         `<div class="grille-item-selected"><i class="material-icons left">check_circle</i></div>`
         : ``
     }
-                 
                 </div>
                ${(bar.BeginRepeat != null) ?
         `<div><img src="../assetss/images/repeat-open.png" width="25"></div>`
         : (bar.EndRepeat !== null) ? `<div><img src="../assetss/images/repeat-close.png" width="25"></div>` : `<div></div>`
     }
-           </div>       
+              </div>       
             `
 }
 
@@ -155,7 +156,7 @@ function handleRightClickGrilleItem() {
             ev.preventDefault();
             let indexInBars = $(object).data('index') - 1;
 
-            if(theScore.currentbar !== null){
+            if (theScore.currentbar !== null) {
                 resetBarSelected();
                 buildGrilleDOM()
                 theScore.currentbar = null
@@ -184,6 +185,7 @@ function buildGrilleDOM() {
     grilleElement.html(innerGrille);
     $('div.grille-item').click(selectGrilleItem)
     handleRightClickGrilleItem();
+    detectDacapoInfine()
 }
 
 function loadConfSong() {
@@ -379,6 +381,75 @@ $("#save_rep").click(function () {
 
 
 $("#clear_selected").click(resetBarSelected)
+
+
+$("#dacapo-modal-close").click(function () {
+    $(".dacapo-infine").css('display', 'none');
+})
+
+function detectDacapoInfine(){
+    if (theScore.bars.some(bar => bar.dacapo)) {
+        $("#dacapo-infine span").html("FINE")
+    }
+}
+
+function buildInfineInRepeat(selectedBar, repeat){
+    let options = `<option selected value=null>aucune</option>`;
+    for (let i = 1; i <= repeat.nbrepeats; i++) {
+        options += `<option value=${i}>${i}</option>`
+    }
+    $('#dacapo-infine-arret').html(options);
+    $("#mesure-modal.dacapo-infine").css('display', 'block');
+    $("#save-dacapo").click(function () {
+        let repeatBeforeFine = -1
+        repeatBeforeFine = parseInt($("#dacapo-infine-arret").val())
+        console.log("hey j'ai repete", repeatBeforeFine);
+        if(repeatBeforeFine){
+            selectedBar.fine = new Fine(repetions.indexOf(repeat), repeatBeforeFine);
+            $(".dacapo-infine").css('display', 'none');
+        }
+        buildGrilleDOM()
+    })
+}
+
+function addDacaAndFine() {
+    if (theScore.currentbar !== null) {
+        let selectedBar = theScore.bars[theScore.currentbar];
+        // if hasn't already dacapo
+        if (!theScore.bars.some(bar => bar.dacapo)) {
+            selectedBar.dacapo = true;
+            theScore.currentbar = null;
+            $("#dacapo-infine span").html("FINE")
+
+        } else if(!theScore.bars.some(bar => bar.fine)) {
+            const allIndexRepeat = repetions.map((rep) => {
+                return Object.values({begin: rep.begin, end: rep.end})
+            })
+            console.log('Allrepeteindex', allIndexRepeat);
+            if (allIndexRepeat.flat().includes(theScore.currentbar)) {
+                const repeatMatchThisBar = repetions.find(repeat => (repeat.begin === theScore.currentbar || repeat.end === theScore.currentbar));
+                if (repeatMatchThisBar) {
+                   buildInfineInRepeat(selectedBar, repeatMatchThisBar);
+                }
+            } else {
+                let repeatMatchThisBar = repetions.find(repeat => theScore.currentbar > repeat.begin && theScore.currentbar < repeat.end)
+                if(repeatMatchThisBar){
+                    buildInfineInRepeat(selectedBar, repeatMatchThisBar);
+                }else{
+                    selectedBar.fine = new Fine(null, null);
+                }
+
+            }
+
+        }
+        buildGrilleDOM()
+    } else {
+        alert('selectionnez une mesure valide')
+    }
+}
+
+
+$("#dacapo-infine").click(addDacaAndFine)
 
 
 
