@@ -9,9 +9,9 @@ function alertt() {
 var theScore;
 var repetions = [];
 var execrepetitions = [];
-var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,null,[]);
-var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
-var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
+var newScoreTemplate = new newScoreTemplateClass("", "Mon premier morceau", "premiermorceau", 4, null, []);
+var firstBarTemplate = new barTemplate(80, 4, 1, 4, 1, 4, "", null, null);
+var otherBarTemplate = new barTemplate(80, 4, 1, 4, 1, 4, "", null, null);
 var valLa = 440;
 var globalClock;
 
@@ -209,13 +209,13 @@ function makeCircle(cx, cy, r, style) {
 };
 
 $(function () {
-    var data= null;
-   console.log('log chargement ...')
+    var data = null;
+    console.log('log chargement ...')
 
     console.log(data)
     theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
-   // TODO à decommenter
-   // instantiateDOMScore(theScore);
+    // TODO à decommenter
+    // instantiateDOMScore(theScore);
     instantiateMaestroBox();
     readGroupNames();
     instantiateLa();
@@ -266,7 +266,7 @@ function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse) {
                 onoff == "on" ? intensityColors[completedBar.intensity] : "black");
     }
     ;
-   // socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
+    // socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
 };
 
 function mySetTimeout(fun, time) {
@@ -333,7 +333,8 @@ function lightKey(completedBar) {
     for (var i = 0; i < nbLeds; i++) {
         document.getElementById("led" + (firstLed + i))
             .setAttribute("fill", "black");
-    };
+    }
+    ;
 
     var key = completedBar.key;
     console.log("switch on key circle with new key: " + key);
@@ -343,13 +344,15 @@ function lightKey(completedBar) {
     } else {
         nbLeds = key;
         firstLed = circlesNbLeds[0] + circlesNbLeds[1];
-    };
+    }
+    ;
     console.log("first led = " + firstLed + " ; nbLeds = " + nbLeds);
     for (var i = 0; i < nbLeds; i++) {
         document
             .getElementById("led" + (firstLed + i))
             .setAttribute("fill", intensityColors[completedBar.intensity]);
-    };
+    }
+    ;
 };
 
 
@@ -440,8 +443,8 @@ function playBeat(theClock, completedBar, theBeat) {
 
 function playBar(theClock, theCompletedBar, theBar) {
 
-    console.log("play bar i ==> ",theBar);
-    
+    console.log("play bar i ==> ", theBar);
+
 // completion of the completed bar
     theCompletedBar = completeBar(theCompletedBar, theBar);
     playKey(theClock, theCompletedBar);
@@ -459,7 +462,7 @@ function lightOff() {
     for (var i = 0; i < nbLeds; i++) {
         document.getElementById("led" + i).setAttribute("fill", "black");
     }
-   ;
+    ;
 };
 
 function stopScore() {
@@ -482,7 +485,7 @@ function playEnd(theClock) {
     return theClock + 10;
 };
 
-function playListSons () {
+function playListSons() {
     function ff() {
         var sonmix = document.getElementsByName("sonmix");
         var txt = "";
@@ -491,7 +494,7 @@ function playListSons () {
             if (sonmix[i].checked) {
 
 
-                console.log("son mix valeur :",sonmix[i].value);
+                console.log("son mix valeur :", sonmix[i].value);
                 document.getElementById(sonmix[i].value).play();
 
 
@@ -505,9 +508,9 @@ function playListSons () {
 
 function playScore() {
 
-    console.log (" repetitions ", repetions )
-    console.log (" exec repetitions ", JSON.stringify(execrepetitions))
-    console.log (" theScore.bars ", theScore.bars )
+    console.log(" repetitions ", repetions)
+    console.log(" exec repetitions ", JSON.stringify(execrepetitions))
+    console.log(" theScore.bars ", theScore.bars)
 
     playListSons();
 
@@ -521,10 +524,10 @@ function playScore() {
     // a completed bar is created to remember what does not change
     // it is cloned then updated while reading each bar in turn
     var completedBar = theScore.bars[0];
-    
+
     var i = 0;
-    while(i < theScore.bars.length){
-    
+    while (i < theScore.bars.length) {
+
         // starts the bar handler
         // the bar handler will start the beats and pulses handlers
         // and return an updated time
@@ -533,41 +536,38 @@ function playScore() {
         // do not forget to clone the completed bar
         completedBar = JSON.parse(JSON.stringify(theScore.bars[i]));
 
-        theClock = playBar(theClock, completedBar , i); //remplacer completedBar -> JSON.stringify(theScore.bars[i])
+        theClock = playBar(theClock, completedBar, i); //remplacer completedBar -> JSON.stringify(theScore.bars[i])
 
-        if(theScore.bars[i].BeginRepeat!=null || theScore.bars[i].EndRepeat!= null){
+        if (theScore.bars[i].BeginRepeat != null || theScore.bars[i].EndRepeat != null) {
 
-            if( theScore.bars[i].BeginRepeat!=null && theScore.bars[i].EndRepeat==null ){
+            if (theScore.bars[i].BeginRepeat != null && theScore.bars[i].EndRepeat == null) {
                 console.log("begin uniquement")
 
                 r = repetions[theScore.bars[i].BeginRepeat];
                 er = execrepetitions[theScore.bars[i].BeginRepeat];
                 console.log("r=", r)
                 console.log("er=", er)
-                if( r.nbrepeats!=er.nbrepeats){
+                if (r.nbrepeats != er.nbrepeats) {
                     // er.nbrepeats++;
                     i++;
-                }
-                else if(r.nbrepeats==er.nbrepeats){
+                } else if (r.nbrepeats == er.nbrepeats) {
                     i++;
                 }
 
-            }
-            else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat==null){
+            } else if (theScore.bars[i].EndRepeat != null && theScore.bars[i].BeginRepeat == null) {
                 console.log("end uniquement")
 
                 r = repetions[theScore.bars[i].EndRepeat];
                 er = execrepetitions[theScore.bars[i].EndRepeat];
                 console.log("r=", r)
                 console.log("er=", er)
-                if (r.nbrepeats!=er.nbrepeats){
+                if (r.nbrepeats != er.nbrepeats) {
                     er.nbrepeats++;
-                    if(r.nbrepeats==er.nbrepeats){
+                    if (r.nbrepeats == er.nbrepeats) {
                         console.log("mise a zero et fin de reprise")
-                        er.nbrepeats=0;
+                        er.nbrepeats = 0;
                         i++;
-                    }
-                    else{
+                    } else {
                         i = r.begin;
                     }
                 }
@@ -578,33 +578,31 @@ function playScore() {
                 //     i++;
                 // }
 
-            }
-            else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat!=null){
+            } else if (theScore.bars[i].EndRepeat != null && theScore.bars[i].BeginRepeat != null) {
                 r_begin = repetions[theScore.bars[i].BeginRepeat];
                 er_begin = execrepetitions[theScore.bars[i].BeginRepeat];
 
                 r_end = repetions[theScore.bars[i].EndRepeat];
                 er_end = execrepetitions[theScore.bars[i].EndRepeat];
 
-                if (r_end.nbrepeats!=er_end.nbrepeats){
+                if (r_end.nbrepeats != er_end.nbrepeats) {
                     er_end.nbrepeats++;
                     i = r_end.begin;
-                }
-                else if (r_end.nbrepeats==er_end.nbrepeats){
-                    er_end.nbrepeats=0;
+                } else if (r_end.nbrepeats == er_end.nbrepeats) {
+                    er_end.nbrepeats = 0;
                     er_begin.nbrepeats++;
                     i++;
                 }
 
             }
-            
-        }
-        else{
+
+        } else {
             i++;
         }
 
     }
 };
+
 //$("div#play button#playscore").click(playScore);
 
 
@@ -619,7 +617,7 @@ function playScoreRecord() {
             if (sonmix[i].checked) {
 
 
-                console.log("son mix valeur :",sonmix[i].value);
+                console.log("son mix valeur :", sonmix[i].value);
                 document.getElementById(sonmix[i].value).play();
 
 
@@ -652,7 +650,7 @@ function playScoreRecord() {
         theClock = playBar(theClock, completedBar, i);
     }
     ;
-    theClock =  (theClock);
+    theClock = (theClock);
 };
 $("#playscore").click(playScore);
 
@@ -680,7 +678,7 @@ function stopScoreRecord() {
 
     // Arrete l'enregistrement
     let stop = document.getElementById('stopscorerecord');
-   //stop.click();
+    //stop.click();
 
     // Arrete le clock
     theClock = playEnd(globalClock);
@@ -689,15 +687,16 @@ function stopScoreRecord() {
 
 
 var fileContent = "";
+
 function saveScore() {
-    
+
     var fileName = $("#titre_partition").val();
-    if(fileName){
+    if (fileName) {
         var req = new XMLHttpRequest();
         var fileContent = JSON.stringify(theScore);
 
         req.onreadystatechange = function (event) {
-        // XMLHttpRequest.DONE === 4
+            // XMLHttpRequest.DONE === 4
             if (this.readyState === XMLHttpRequest.DONE) {
                 if (this.status === 200) {
                     console.log("Réponse reçue: %s", this.responseText);
@@ -707,16 +706,16 @@ function saveScore() {
                 }
             }
         };
-        theScore.repetions= repetions;
-        theScore.execrepetitions= execrepetitions;
+        theScore.repetions = repetions;
+        theScore.execrepetitions = execrepetitions;
         //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);
 
         req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
         req.send(JSON.stringify(theScore));
-    } else{
+    } else {
         alert("Veuillez entrer un titre de partition pour la sauvegarde")
     }
-    
+
 };
 $("#sauvegarder_mesures").click(saveScore);
 
@@ -802,19 +801,19 @@ function readRecordNames() {
 //$('#chooserecord').on('click', readRecordNames);
 
 function buildRecordSelector(recordList) {
-    var listeAudioMixDom="";
+    var listeAudioMixDom = "";
 
     for (var i in recordList.scores) {
 
-        listeAudioMixDom += buildMixSelector(recordList.scores[i],i);
+        listeAudioMixDom += buildMixSelector(recordList.scores[i], i);
     }
     $('div.list-mix-file').html(listeAudioMixDom)
 }
 
 function buildMixSelector(soundName, index) {
 
-    var srcSound="sons/"+soundName;
-   return ` <div class="mix-item">
+    var srcSound = "sons/" + soundName;
+    return ` <div class="mix-item">
 
         <div class="mix-title">
             <div> ${soundName} </div>
@@ -832,7 +831,7 @@ function buildMixSelector(soundName, index) {
 }
 
 function editSound(index) {
-    console.log("** Edit sound clicked **",index);
+    console.log("** Edit sound clicked **", index);
     $(".son").css('display', 'block');
 
 }
@@ -845,10 +844,10 @@ $("#save_sound-title").click(function () {
     $(".son").css('display', 'none');
 })
 
-function deleteSound (index) {
-    console.log("** Delete sound clicked **",index);
+function deleteSound(index) {
+    console.log("** Delete sound clicked **", index);
     var sonmix = document.getElementsByName("sonmix");
-    console.log("** Sound to edit : ",sonmix[index].value);
+    console.log("** Sound to edit : ", sonmix[index].value);
 }
 
 function test() {
@@ -1042,8 +1041,8 @@ function add() {
     console.log(nbmembre);
     $("#infomembre").before('<label for="nommusicien">Nom</label>' + '<input id="nommusicien" type="text"></input>' +
         ' <label for="prenommusicien">Prénom</label>' + '<input id="prenommusicien" type="text"></input>' +
-        '<label for="instrument">Intrument</label>' + '<input id="instrument" type="text" </input>' + '<br>' );
-    nbmembre = nbmembre +1;
+        '<label for="instrument">Intrument</label>' + '<input id="instrument" type="text" </input>' + '<br>');
+    nbmembre = nbmembre + 1;
 };
 $("#add button").click(add);
 
@@ -1101,6 +1100,7 @@ $("#save button").click(saveGroup);
 
 
 $("#groupsize").change(setGroupSize);
+
 function setGroupSize() {
     group.groupsize = $("#groupsize").val();
 };
@@ -1142,3 +1142,35 @@ function setInstrument() {
     group.membres[group.currentmembre].instrument = $("#player").val();
 };
 $("#player").change(setInstrument);
+
+$("#filesUpload").submit(function (ev) {
+    ev.preventDefault();
+    let file = $("#fileInput").get(0).files[0]
+    if (!file){
+        alert("veuillez sélectionnez un son")
+    }
+    var formData = new FormData();
+    formData.append('file', file, file.name);
+
+    $.ajax({
+        url: "/",
+        type: "POST",
+        data: formData,
+        processData: false,
+        cache: false,
+        contentType: false,
+        async : true,
+        success: function (response) {
+            console.log('success response', response)
+            if(response.success){
+                alert('fichier importé avec success')
+                $("#filesUpload").get(0).reset();
+            }
+        },
+        error: function (error) {
+            console.log('errorr response', error)
+        },
+
+    })
+
+})
