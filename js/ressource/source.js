@@ -203,13 +203,13 @@ function makeCircle(cx, cy, r, style) {
 };
 
 $(function () {
-    var data= null;
-   console.log('log chargement ...')
+    var data = null;
+    console.log('log chargement ...')
 
     console.log(data)
     theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
-   // TODO à decommenter
-   // instantiateDOMScore(theScore);
+    // TODO à decommenter
+    // instantiateDOMScore(theScore);
     instantiateMaestroBox();
     readGroupNames();
     instantiateLa();
@@ -260,7 +260,7 @@ function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse) {
                 onoff == "on" ? intensityColors[completedBar.intensity] : "black");
     }
     ;
-   // socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
+    // socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
 };
 
 function mySetTimeout(fun, time) {
@@ -801,7 +801,6 @@ function readRecordNames() {
     var req = new XMLHttpRequest();
 
     req.onreadystatechange = function (event) {
-        // XMLHttpRequest.DONE === 4
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
@@ -850,18 +849,53 @@ function buildMixSelector(soundName, index) {
 }
 
 function editSound(index) {
-    console.log("** Edit sound clicked **",index);
     $(".son").css('display', 'block');
 
+    $("#save_sound-title").click(function () {
+
+        var sonmix = document.getElementsByName("sonmix"); // Récupérer le oldFile
+        var newName = document.getElementById("input-sound-title").value; // Récupérer le newName
+
+        if (newName != "")
+        {
+            var newFile = toNewFileName(newName,sonmix[index].value);
+
+            var req = new XMLHttpRequest();
+            req.onreadystatechange = function (event) {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    if (this.status === 200) {
+                        console.log("Réponse reçue: %s", this.responseText);
+                    } else {
+                        console.log("Status de la réponse: %d (%s)",
+                            this.status, this.statusText);
+                    }
+                }
+            };
+            req.open("PUT", "/sons/" +sonmix[index].value, true);
+            req.send(null);
+
+        }
+        else
+            alert("Veuillez saisir le nouveau nom SVP !");
+
+        $(".son").css('display', 'none');
+    })
+
+}
+
+function toNewFileName(newName, oldFile){
+
+    const myRenamedFile = new File([oldFile],newName + ".mp3");
+    return myRenamedFile;
 }
 
 $("#mesure-modal-close-sound").click(function () {
     $(".son").css('display', 'none');
 })
 
-$("#save_sound-title").click(function () {
+/*$("#save_sound-title").click(function () {
     $(".son").css('display', 'none');
-})
+})*/
 
 function deleteSound (index) {
     console.log("** Delete sound : ",index);
@@ -1175,3 +1209,36 @@ function setInstrument() {
     group.membres[group.currentmembre].instrument = $("#player").val();
 };
 $("#player").change(setInstrument);
+
+$("#filesUpload").submit(function (ev) {
+    ev.preventDefault();
+    let file = $("#fileInput").get(0).files[0]
+    if (!file){
+        alert("veuillez sélectionnez un son")
+    }
+    var formData = new FormData();
+    formData.append('file', file, file.name);
+
+    $.ajax({
+        url: "/",
+        type: "POST",
+        data: formData,
+        processData: false,
+        cache: false,
+        contentType: false,
+        async : true,
+        success: function (response) {
+            console.log('success response', response)
+            if(response.success){
+                alert('fichier importé avec success')
+                $("#filesUpload").get(0).reset();
+                readRecordNames();
+            }
+        },
+        error: function (error) {
+            console.log('errorr response', error)
+        },
+
+    })
+
+})

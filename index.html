@@ -50,8 +50,8 @@
 
     <div class="layout-main">
         <div class="layout-mix">
-            <form id="filesUpload" method="POST" enctype="multipart/form-data" action="/"
-                  onsubmit="alert('Le fichier a été téléversé !');">
+            <form id="filesUpload" method="POST" enctype="multipart/form-data">
+                <input class="form-control" type="file" name="file" id="fileInput">
             <div class="mix-control">
                 <div class="checkbox-control">
                     <label for="chooserecord" class="form-check-label">
@@ -67,7 +67,7 @@
 
             <div class="list-mix">
                 <div class="list-mix-file" id="show-list-mix-file"></div>
-                <input class="form-control" type="file" name="file" id="fileInput">
+
 
             </div>
 

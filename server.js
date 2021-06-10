@@ -104,14 +104,14 @@ var moveFile = require('move-file');
 methods.POST = function(path, res, req) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-        console.log('files uploaded', files)
-        if (files.file && files.size > 0){
+        if (files.file && files.file.size > 0){
             var oldpath = files.file.path;
             var newpath = './sons/' + files.file.name;
             moveFile(oldpath, newpath, function (err) {
                 if (err) throw err;
-                res(204);
+                // res(200, JSON.parse({success : true}));
             });
+            res(200,JSON.stringify({success : true}));
         }
         else {res(403);}
     });
