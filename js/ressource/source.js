@@ -1166,6 +1166,7 @@ $("#filesUpload").submit(function (ev) {
             if(response.success){
                 alert('fichier importé avec success')
                 $("#filesUpload").get(0).reset();
+                readRecordNames();
             }
         },
         error: function (error) {
