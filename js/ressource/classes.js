@@ -26,14 +26,13 @@ class barTemplate{
     division;
     intensity;
     alert;
-    // next;
-    // repeat;
     BeginRepeat;
     EndRepeat;
     dacapo;
     fine;
+    dacoda;
     
-    constructor(tempo,beat,key,time,division,intensity,alert,BeginRepeat,EndRepeat,dacapo,fine){
+    constructor(tempo,beat,key,time,division,intensity,alert,BeginRepeat,EndRepeat,dacapo,fine,dacoda){
         this.tempo= tempo,
         this.beat= beat,
         this.key= key,
@@ -46,9 +45,19 @@ class barTemplate{
         this.EndRepeat=EndRepeat,
         this.dacapo=dacapo,
         this.fine=fine
+        this.dacoda = dacoda
     }
 }
 
+class Dacoda{
+    coda;
+    nbrepeatsbeforecoda;
+
+    constructor(coda,nbrepeatsbeforecoda){
+        this.coda = coda;
+        this.nbrepeatsbeforecoda = nbrepeatsbeforecoda
+    }
+}
 class Fine{
     repetition;
     nbrepeatsbeforefine;
