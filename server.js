@@ -22,7 +22,7 @@ var server = http.createServer(function(request, response) {
         respond(405, "Method " + request.method + " not allowed on " + request.url );
     }
 
-}).listen(process.env.PORT || 8000);
+}).listen(process.env.PORT || 80);
 console.log('Node server running on port 80');
 
 function urlToPath(url) {
@@ -104,14 +104,11 @@ var moveFile = require('move-file');
 methods.POST = function(path, res, req) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-        console.log('files uploaded', files)
         if (files.file && files.file.size > 0){
             var oldpath = files.file.path;
             var newpath = './sons/' + files.file.name;
-            console.log('hello file',newpath);
             moveFile(oldpath, newpath, function (err) {
                 if (err) throw err;
-
                 // res(200, JSON.parse({success : true}));
             });
             res(200,JSON.stringify({success : true}));
