@@ -17,9 +17,11 @@ var server = http.createServer(function(request, response) {
     if (request.method in methods)
         methods[request.method](urlToPath(request.url),
             respond, request);
-    else
-        respond(405, "Method " + request.method
-            + " not allowed on " + request.url );
+    else{
+        console.log('out routes')
+        respond(405, "Method " + request.method + " not allowed on " + request.url );
+    }
+
 }).listen(process.env.PORT || 80);
 console.log('Node server running on port 80');
 
@@ -58,7 +60,9 @@ methods.GET = function(path, respond) {
 };
 
 methods.DELETE = function(path, respond) {
-    fs.stat(path, function(error, stats) {
+    console.log("PATH is :",path);
+    console.log("RESPOND is :",respond);
+   /* fs.stat(path, function(error, stats) {
         if (error && error.code == "ENOENT")
             respond(204);
         else if (error)
@@ -67,7 +71,7 @@ methods.DELETE = function(path, respond) {
             respond(204);
         else
             fs.unlink(path, respondErrorOrNothing(respond));
-    });
+    });*/
 };
 
 function respondErrorOrNothing(respond) {
@@ -100,13 +104,14 @@ var moveFile = require('move-file');
 methods.POST = function(path, res, req) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-        if (files instanceof File && files.file){
+        if (files.file && files.file.size > 0){
             var oldpath = files.file.path;
             var newpath = './sons/' + files.file.name;
             moveFile(oldpath, newpath, function (err) {
                 if (err) throw err;
-                res(204);
+                // res(200, JSON.parse({success : true}));
             });
+            res(200,JSON.stringify({success : true}));
         }
         else {res(403);}
     });

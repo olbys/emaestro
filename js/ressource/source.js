@@ -9,9 +9,10 @@ function alertt() {
 var theScore;
 var repetions = [];
 var execrepetitions = [];
+var execdacapo = false;
 var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,null,[]);
-var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
-var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null);
+var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null);
+var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null);
 var valLa = 440;
 var globalClock;
 var fermata = {'period': 0, 'time': 0}; // point d'orgue
@@ -74,11 +75,7 @@ function source() {
     var i;
     for (i = 0; i < sonmix.length; i++) {
         if (sonmix[i].checked) {
-
-
             document.getElementById(sonmix[i].value + '1').play();
-
-
         }
     }
     document.getElementById("vid2").play();
@@ -91,11 +88,7 @@ function stopmix() {
     var i;
     for (i = 0; i < sonmix.length; i++) {
         if (sonmix[i].checked) {
-
-
             document.getElementById(sonmix[i].value + '1').pause();
-
-
         }
     }
     document.getElementById("vid2").pause();
@@ -210,13 +203,13 @@ function makeCircle(cx, cy, r, style) {
 };
 
 $(function () {
-    var data= null;
-   console.log('log chargement ...')
+    var data = null;
+    console.log('log chargement ...')
 
     console.log(data)
     theScore = instantiateJSScore(newScoreTemplate, firstBarTemplate);
-   // TODO à decommenter
-   // instantiateDOMScore(theScore);
+    // TODO à decommenter
+    // instantiateDOMScore(theScore);
     instantiateMaestroBox();
     readGroupNames();
     instantiateLa();
@@ -532,12 +525,8 @@ function playListSons () {
         var i;
         for (i = 0; i < sonmix.length; i++) {
             if (sonmix[i].checked) {
-
-
                 console.log("son mix valeur :",sonmix[i].value);
                 document.getElementById(sonmix[i].value).play();
-
-
             }
         }
         // document.getElementById("order").value = "You ordered a coffee with: " + txt;
@@ -587,8 +576,14 @@ function playScore() {
                 er = execrepetitions[theScore.bars[i].BeginRepeat];
                 console.log("r=", r)
                 console.log("er=", er)
-                if( r.nbrepeats!=er.nbrepeats){
-                    // er.nbrepeats++;
+
+                if (theScore.bars[i].fine != null){
+                    if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].BeginRepeat]-1== execrepetitions[theScore.bars[i].BeginRepeat].nbrepeats) {
+                        i= theScore.bars.length
+                    }
+                }
+
+                if(r.nbrepeats!=er.nbrepeats){
                     i++;
                 }
                 else if(r.nbrepeats==er.nbrepeats){
@@ -601,10 +596,18 @@ function playScore() {
 
                 r = repetions[theScore.bars[i].EndRepeat];
                 er = execrepetitions[theScore.bars[i].EndRepeat];
+
                 console.log("r=", r)
                 console.log("er=", er)
                 if (r.nbrepeats!=er.nbrepeats){
                     er.nbrepeats++;
+
+                    if (theScore.bars[i].fine != null){
+                        if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].EndRepeat]== execrepetitions[theScore.bars[i].EndRepeat].nbrepeats) {
+                            i= theScore.bars.length
+                        }
+                    }
+
                     if(r.nbrepeats==er.nbrepeats){
                         console.log("mise a zero et fin de reprise")
                         er.nbrepeats=0;
@@ -614,38 +617,21 @@ function playScore() {
                         i = r.begin;
                     }
                 }
-                // else if (r.nbrepeats==er.nbrepeats){
-                //     console.log("mise a zero et fin de reprise")
-                //     er.nbrepeats=0;
-
-                //     i++;
-                // }
 
             }
-            else if(theScore.bars[i].EndRepeat!= null && theScore.bars[i].BeginRepeat!=null){
-                r_begin = repetions[theScore.bars[i].BeginRepeat];
-                er_begin = execrepetitions[theScore.bars[i].BeginRepeat];
-
-                r_end = repetions[theScore.bars[i].EndRepeat];
-                er_end = execrepetitions[theScore.bars[i].EndRepeat];
-
-                if (r_end.nbrepeats!=er_end.nbrepeats){
-                    er_end.nbrepeats++;
-                    i = r_end.begin;
-                }
-                else if (r_end.nbrepeats==er_end.nbrepeats){
-                    er_end.nbrepeats=0;
-                    er_begin.nbrepeats++;
-                    i++;
-                }
-
-            }
-            
+        }
+        else if(theScore.bars[i].dacapo==true && execdacapo==false){
+            console.log("play bar je rentre dans un dacapo pour la mesure", i)
+            execdacapo=true;
+            i=0;
+            console.log("play bar je défini i à 0")
+        }
+        else if( execdacapo==true && theScore.bars[i].fine != null && theScore.bars[i].fine.repetition==null ){
+            i= theScore.bars.length
         }
         else{
-            i++;
+                i++;
         }
-
     }
 };
 //$("div#play button#playscore").click(playScore);
@@ -826,7 +812,6 @@ function readRecordNames() {
     var req = new XMLHttpRequest();
 
     req.onreadystatechange = function (event) {
-        // XMLHttpRequest.DONE === 4
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
@@ -875,23 +860,73 @@ function buildMixSelector(soundName, index) {
 }
 
 function editSound(index) {
-    console.log("** Edit sound clicked **",index);
     $(".son").css('display', 'block');
 
+    $("#save_sound-title").click(function () {
+
+        var sonmix = document.getElementsByName("sonmix"); // Récupérer le oldFile
+        var newName = document.getElementById("input-sound-title").value; // Récupérer le newName
+
+        if (newName != "")
+        {
+            var newFile = toNewFileName(newName,sonmix[index].value);
+
+            var req = new XMLHttpRequest();
+            req.onreadystatechange = function (event) {
+                if (this.readyState === XMLHttpRequest.DONE) {
+                    if (this.status === 200) {
+                        console.log("Réponse reçue: %s", this.responseText);
+                    } else {
+                        console.log("Status de la réponse: %d (%s)",
+                            this.status, this.statusText);
+                    }
+                }
+            };
+            req.open("PUT", "/sons/" +sonmix[index].value, true);
+            req.send(null);
+
+        }
+        else
+            alert("Veuillez saisir le nouveau nom SVP !");
+
+        $(".son").css('display', 'none');
+    })
+
+}
+
+function toNewFileName(newName, oldFile){
+
+    const myRenamedFile = new File([oldFile],newName + ".mp3");
+    return myRenamedFile;
 }
 
 $("#mesure-modal-close-sound").click(function () {
     $(".son").css('display', 'none');
 })
 
-$("#save_sound-title").click(function () {
+/*$("#save_sound-title").click(function () {
     $(".son").css('display', 'none');
-})
+})*/
 
 function deleteSound (index) {
-    console.log("** Delete sound clicked **",index);
+    console.log("** Delete sound : ",index);
     var sonmix = document.getElementsByName("sonmix");
-    console.log("** Sound to edit : ",sonmix[index].value);
+
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function (event) {
+
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                console.log("Réponse reçue: %s", this.responseText);
+            } else {
+                console.log("Status de la réponse: %d (%s)",
+                    this.status, this.statusText);
+            }
+        }
+    };
+    req.open("DELETE", "/sons/" +sonmix[index].value, true);
+    req.send(null);
+
 }
 
 function readRecordByName(name) {
@@ -1179,3 +1214,36 @@ function setInstrument() {
     group.membres[group.currentmembre].instrument = $("#player").val();
 };
 $("#player").change(setInstrument);
+
+$("#filesUpload").submit(function (ev) {
+    ev.preventDefault();
+    let file = $("#fileInput").get(0).files[0]
+    if (!file){
+        alert("veuillez sélectionnez un son")
+    }
+    var formData = new FormData();
+    formData.append('file', file, file.name);
+
+    $.ajax({
+        url: "/",
+        type: "POST",
+        data: formData,
+        processData: false,
+        cache: false,
+        contentType: false,
+        async : true,
+        success: function (response) {
+            console.log('success response', response)
+            if(response.success){
+                alert('fichier importé avec success')
+                $("#filesUpload").get(0).reset();
+                readRecordNames();
+            }
+        },
+        error: function (error) {
+            console.log('errorr response', error)
+        },
+
+    })
+
+})

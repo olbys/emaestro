@@ -30,8 +30,10 @@ class barTemplate{
     // repeat;
     BeginRepeat;
     EndRepeat;
+    dacapo;
+    fine;
     
-    constructor(tempo,beat,key,time,division,intensity,alert,BeginRepeat,EndRepeat){
+    constructor(tempo,beat,key,time,division,intensity,alert,BeginRepeat,EndRepeat,dacapo,fine){
         this.tempo= tempo,
         this.beat= beat,
         this.key= key,
@@ -41,13 +43,23 @@ class barTemplate{
         this.alert= alert,
         // this.repeat = repeat
         this.BeginRepeat= BeginRepeat,
-        this.EndRepeat=EndRepeat
+        this.EndRepeat=EndRepeat,
+        this.dacapo=dacapo,
+        this.fine=fine
     }
-    
+}
+
+class Fine{
+    repetition;
+    nbrepeatsbeforefine;
+
+    constructor(repetition,nbrepeatsbeforefine){
+        this.repetition=repetition,
+        this.nbrepeatsbeforefine=nbrepeatsbeforefine
+    }
 }
 
 class Repeats{
-
     begin;
     end;
     nbrepeats;
@@ -60,12 +72,9 @@ class Repeats{
 }
 
 class ExecRepeats{
-
     nbrepeats;
 
     constructor(nbrepeats){
-
         this.nbrepeats= nbrepeats
     }
-
 }
