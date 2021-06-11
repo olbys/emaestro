@@ -547,7 +547,7 @@ function playScore() {
     console.log (" theScore.bars ", theScore.bars )
 
     playListSons();
-
+    execdacapo = false;
     var d = new Date();
     var cpt = 1;
     startClock = d.getTime();
@@ -739,6 +739,8 @@ function saveScore() {
                     console.log("Status de la réponse: %d (%s)",
                         this.status, this.statusText);
                 }
+
+                alert("Morceau sauvegardé avec succès!")
             }
         };
         theScore.scoretitle = fileName;
@@ -748,6 +750,7 @@ function saveScore() {
 
         req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
         req.send(JSON.stringify(theScore));
+        
     } else{
         alert("Veuillez entrer un titre de partition pour la sauvegarde")
     }
