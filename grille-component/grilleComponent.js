@@ -38,7 +38,7 @@ function handleChangInputMesure() {
         if (difference > 0) {
             bar_to_update = Array(difference).fill(null).map(() => immutablaObject(new barTemplate(80, 4, 1, 4, 1, 4, "", null, null,false,null,null)))
             //bar_to_update[4].dacapo=true;
-            bar_to_update[2].dacoda= new Dacoda(6,2);
+            //bar_to_update[2].dacoda= new Dacoda(6,2);
             //bar_to_update[2].fine= new Fine([0],[2]);
             console.log(" this is bar to update", bar_to_update)
             theScore.bars.push(...immutablaObject(bar_to_update));
@@ -358,7 +358,7 @@ function detectDacapoInfine(){
 }
 
 function buildInfineInRepeat(selectedBar, repeat){
-    let options = `<option selected value=null>aucune</option>`;
+    let options = ``;
     for (let i = 1; i <= repeat.nbrepeats; i++) {
         options += `<option value=${i}>${i}</option>`
     }
