@@ -735,6 +735,8 @@ function saveScore() {
                     console.log("Status de la réponse: %d (%s)",
                         this.status, this.statusText);
                 }
+
+                alert("Morceau sauvegardé avec succès!")
             }
         };
         theScore.repetions= repetions;
@@ -743,6 +745,7 @@ function saveScore() {
 
         req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
         req.send(JSON.stringify(theScore));
+        
     } else{
         alert("Veuillez entrer un titre de partition pour la sauvegarde")
     }
