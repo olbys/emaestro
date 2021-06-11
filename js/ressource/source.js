@@ -260,7 +260,11 @@ function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse) {
             .getElementById("led" + (firstLed + i))
             .setAttribute("fill",
                 onoff == "on" ? intensityColors[completedBar.intensity] : "black");
-    }   
+    }  
+    
+   /* if(theBeat == fermata.time){
+    
+    }*/
    // socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
 }
 
@@ -737,6 +741,7 @@ function saveScore() {
                 }
             }
         };
+        theScore.scoretitle = fileName;
         theScore.repetions= repetions;
         theScore.execrepetitions= execrepetitions;
         //req.open("PUT", "/SCORES/" + theScore.choosegroup + "/" + fileName, true);

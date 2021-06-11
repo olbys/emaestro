@@ -190,7 +190,8 @@ function buildGrilleDOM() {
 
 function loadConfSong() {
     let scorefilename = $("#morceau-select").val();
-    console.log("scorefilename", scorefilename);
+    theScore.scoretitle = scorefilename;
+    $('#titre_partition').val(scorefilename)
     return readScoreByName(scorefilename)
 }
 
