@@ -543,7 +543,7 @@ function playScore() {
     console.log (" theScore.bars ", theScore.bars )
 
     playListSons();
-
+    execdacapo = false;
     var d = new Date();
     var cpt = 1;
     startClock = d.getTime();
