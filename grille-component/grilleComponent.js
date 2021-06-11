@@ -405,7 +405,7 @@ function buildInfineInRepeat(selectedBar, repeat){
         repeatBeforeFine = parseInt($("#dacapo-infine-arret").val())
         console.log("hey j'ai repete", repeatBeforeFine);
         if(repeatBeforeFine){
-            selectedBar.fine = new Fine(repetions.indexOf(repeat), repeatBeforeFine);
+            selectedBar.fine = new Fine([repetions.indexOf(repeat)], [repeatBeforeFine]);
             $(".dacapo-infine").css('display', 'none');
         }
         buildGrilleDOM()
