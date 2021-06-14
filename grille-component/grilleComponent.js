@@ -313,7 +313,7 @@ function addRepetion() {
         } else
             alert("L'ordre de réprise est incorrecte")
     } else
-        alert("Veuillez selectionnez l'intervalle de reprise")
+        alert("Veuillez sélectionner l'intervalle de reprise !")
 }
 
 $("#add_repeat").click(addRepetion)
@@ -353,7 +353,7 @@ $("#save_rep").click(function () {
     const fin = parseInt($('#fin-reprise-select').val()) - 1;
     const nombre_repeat = parseInt($('#reprise-input-repeat').val());
     if (isNaN(begin) || isNaN(fin) || isNaN(nombre_repeat)) {
-        alert("une erreur à été détecté dans le formulaire de reprise")
+        alert("Une erreur a été détectée dans le formulaire de reprise !")
         return
     }
     let repeat = new Repeats(begin, fin, nombre_repeat);
@@ -445,7 +445,7 @@ function addDacaAndFine() {
         }
         buildGrilleDOM()
     } else {
-        alert('selectionnez une mesure valide')
+        alert('Veuillez sélectionner une mesure valide !')
     }
 }
 

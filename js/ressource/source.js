@@ -555,9 +555,11 @@ function buildOptionChooseMesureDOM() {
     let options = `<option value=null>Sélectionnez</option>`
     if (nbMesures !== 0) {
         for (let i = 1; i <= nbMesures; i++) {
-            options += `<option  value=${i}> ${i} </option>`
+            options += `<option value=${i}> ${i} </option>`
         }
     }
+    $("#start-select").val();
+    $("#end-select").val();
     $('#start-select').html(options)
     $('#end-select').html(options)
 }
@@ -866,7 +868,7 @@ function saveScore() {
                         this.status, this.statusText);
                 }
 
-                alert("Morceau sauvegardé avec succès!")
+                alert("Morceau sauvegardé avec succès !")
             }
         };
         theScore.scoretitle = fileName;
@@ -878,7 +880,7 @@ function saveScore() {
         req.send(JSON.stringify(theScore));
         
     } else{
-        alert("Veuillez entrer un titre de partition pour la sauvegarde")
+        alert("Veuillez entrer un titre de partition pour la sauvegarde !")
     }
     
 };
@@ -932,7 +934,7 @@ function buildScoreSelector(scoreList) {
 
 function buildOptionChooseMorceauDOM(scoreList) {
     console.log("scorelist", scoreList);
-    let options = `<option value=null>sélectionnez</option>`
+    let options = `<option value=null>Sélectionnez</option>`
     if (scoreList.scores.length !== 0) {
         for (let i = 0; i < scoreList.scores.length; i++) {
             options += `<option  value="${scoreList.scores[i]}"> ${scoreList.scores[i]}</option>`
@@ -1354,7 +1356,7 @@ $("#filesUpload").submit(function (ev) {
     ev.preventDefault();
     let file = $("#fileInput").get(0).files[0]
     if (!file){
-        alert("veuillez sélectionnez un son")
+        alert("Veuillez sélectionner un son !")
     }
     var formData = new FormData();
     formData.append('file', file, file.name);
@@ -1370,7 +1372,7 @@ $("#filesUpload").submit(function (ev) {
         success: function (response) {
             console.log('success response', response)
             if(response.success){
-                alert('fichier importé avec success')
+                alert('Fichier importé avec succés !')
                 $("#filesUpload").get(0).reset();
                 readRecordNames();
             }
