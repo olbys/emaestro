@@ -540,6 +540,103 @@ function playListSons () {
     ff();
 }
 
+// Se lance suite à un clic sur le bouton Lancer le métronome et l'enregistrement
+function playMetronome() {
+    $(".metronome").css('display', 'block');
+    buildOptionChooseMesureDOM();
+}
+$("#playscore").click(playMetronome)
+
+// Permet de remplir le pop-up de lancement du métronome à partir d'une mesure donnée
+function buildOptionChooseMesureDOM() {
+
+    var nbMesures = $("#nombre_mesure").val();
+    let options = `<option value=null>Sélectionnez</option>`
+    if (nbMesures !== 0) {
+        for (let i = 1; i <= nbMesures; i++) {
+            options += `<option  value=${i}> ${i} </option>`
+        }
+    }
+    $('#start-select').html(options)
+    $('#end-select').html(options)
+}
+
+// Se lance suite à un clic sur le bouton Valider dans le pop-up de choix de la mesure de début et de fin
+$("#save_mesure").click(function () {
+
+    var debutMesure = $("#start-select").val();
+    var finMesure = $("#end-select").val();
+    var tabMesure = [];
+
+    if (debutMesure != "" && finMesure != "" )
+    {
+        $(".metronome").css('display', 'none');
+        for (let i = debutMesure-1; i < finMesure ; i++) {
+
+            tabMesure.push(theScore.bars[i]);
+
+        }
+        theScore.bars = tabMesure;
+        if (theScore.bars[0].BeginRepeat!=null || theScore.bars[0].EndRepeat!=null )
+        {
+            if (theScore.bars[0].BeginRepeat!=null)
+            {
+                //var repeat = repetions[BeginRepeat];
+                $(".metronomeReprise").css('display', 'block');
+                buildOptionChooseRepeatDOM();
+
+            }
+        }
+        else {
+            playScore();
+        }
+
+    }
+    else
+        alert("Veuillez sélectionner une valeur de début et de fin SVP !");
+
+})
+
+// Cacher le pop-up de lancement du métronome à partir d'une mesure donnée
+$("#mesure-modal-close-mesure").click(function () {
+    $(".metronome").css('display', 'none');
+})
+
+// Permet de remplir le pop-up de lancement du métronome avec une reprise
+function buildOptionChooseRepeatDOM() {
+
+    var nbRepeat = $("#reprise-input-repeat").val();
+    let options = `<option value=null>Sélectionnez</option>`
+        for (let i = 1; i <= nbRepeat; i++) {
+            options += `<option  value=${i}> ${i} </option>`
+        }
+    $('#repeat-select').html(options)
+}
+
+// Cacher le pop-up de lancement du métronome avec une reprise
+$("#mesure-modal-close-mesure-reprise").click(function () {
+    $(".metronomeReprise").css('display', 'none');
+})
+
+// Se lance suite à un clic sur le bouton Valider dans le pop-up de lancement du métronome avec une reprise
+$("#save_mesure-reprise").click(function () {
+
+    // Nombre de répitition choisi
+    var repeat = $("#repeat-select").val();
+    $(".metronomeReprise").css('display', 'none');
+
+    if (repeat !== "")
+    {
+        // Traitement à faire dans le cas d'une reprise au début
+
+        playScore();
+    }
+
+    else
+        alert("Veuillez sélectionner la répitition !");
+
+})
+
 function playScore() {
 
     console.log (" repetitions ", repetions )
@@ -639,8 +736,7 @@ function playScore() {
         }
     }
 };
-//$("div#play button#playscore").click(playScore);
-
+//$("#playscore").click(playScore);
 
 function playScoreRecord() {
 
@@ -688,8 +784,6 @@ function playScoreRecord() {
     ;
     theClock =  (theClock);
 };
-$("#playscore").click(playScore);
-
 
 function stopScoreRecord() {
 
