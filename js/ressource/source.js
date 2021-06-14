@@ -10,9 +10,10 @@ var theScore;
 var repetions = [];
 var execrepetitions = [];
 var execdacapo = false;
+var execdacoda = 0;
 var newScoreTemplate = new newScoreTemplateClass("","Mon premier morceau","premiermorceau",4,null,[]);
-var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null);
-var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null);
+var firstBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null,null);
+var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null,null);
 var valLa = 440;
 var globalClock;
 var fermata = {'period': 0, 'time': 0}; // point d'orgue
@@ -582,13 +583,23 @@ function playScore() {
                 console.log("r=", r)
                 console.log("er=", er)
 
-                if (theScore.bars[i].fine != null){
+                
+                if (theScore.bars[i].fine != null){                       
                     if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].BeginRepeat]-1== execrepetitions[theScore.bars[i].BeginRepeat].nbrepeats) {
-                        i= theScore.bars.length
+                        i= theScore.bars.length                                       
+                    } else{
+                        i++;
                     }
                 }
-
-                if(r.nbrepeats!=er.nbrepeats){
+                else if(theScore.bars[i].dacoda !=null){
+                    execdacoda++
+                    if(theScore.bars[i].dacoda.nbrepeatsbeforecoda == execdacoda){
+                        i = theScore.bars[i].dacoda.coda;
+                    } else{
+                        i++;
+                    }
+                }
+                else if(r.nbrepeats!=er.nbrepeats){
                     i++;
                 }
                 else if(r.nbrepeats==er.nbrepeats){
@@ -604,17 +615,21 @@ function playScore() {
 
                 console.log("r=", r)
                 console.log("er=", er)
-                if (r.nbrepeats!=er.nbrepeats){
-                    er.nbrepeats++;
 
-                    if (theScore.bars[i].fine != null){
-                        if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].EndRepeat]== execrepetitions[theScore.bars[i].EndRepeat].nbrepeats) {
-                            i= theScore.bars.length
-                        }
-                    }
+                er.nbrepeats++;
 
-                    if(r.nbrepeats==er.nbrepeats){
-                        console.log("mise a zero et fin de reprise")
+                if (theScore.bars[i].fine != null){                     
+                    if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].EndRepeat]== execrepetitions[theScore.bars[i].EndRepeat].nbrepeats) {
+                        i= theScore.bars.length                                       
+                    } 
+                }
+
+                if(theScore.bars[i].dacoda !=null){
+                    execdacoda++
+                    if(theScore.bars[i].dacoda.nbrepeatsbeforecoda == execdacoda){
+                        i = theScore.bars[i].dacoda.coda;
+                    } 
+                    else if(r.nbrepeats==er.nbrepeats){
                         er.nbrepeats=0;
                         i++;
                     }
@@ -622,7 +637,14 @@ function playScore() {
                         i = r.begin;
                     }
                 }
-
+                else if(r.nbrepeats==er.nbrepeats){
+                    console.log("mise a zero et fin de reprise")
+                    er.nbrepeats=0;
+                    i++;
+                }
+                else{
+                    i = r.begin;
+                }
             }
         }
         else if(theScore.bars[i].dacapo==true && execdacapo==false){
@@ -635,7 +657,17 @@ function playScore() {
             i= theScore.bars.length
         }
         else{
-                i++;
+            
+            if(theScore.bars[i].dacoda !=null){
+                execdacoda++
+                if(theScore.bars[i].dacoda.nbrepeatsbeforecoda == execdacoda){
+                    i = theScore.bars[i].dacoda.coda;
+                }else {
+                    i++;  
+                }
+            }else {
+                i++; 
+            }
         }
     }
 };
