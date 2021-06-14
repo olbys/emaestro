@@ -448,6 +448,71 @@
 
 </div>
 
+<!-- Démarrer le métronome à partir et jusqu'à une mesure donné -->
+
+<div id="mesure-modal" class="modal metronome">
+    <div class="modal-content">
+        <div class="modal-title">
+            <h4> Lancement du métronome </h4>
+            <div id="mesure-modal-close-mesure" class="close">&times;</div>
+        </div>
+        <div class="modal-body">
+            <div class="input-control">
+                <div class="label"> Première mesure : </div>
+                <select id="start-select">
+                    <option value=null>Sélectionnez</option>
+                </select>
+            </div>
+
+            <div class="input-control">
+                <div class="label"> Dernière mesure : </div>
+                <select id="end-select">
+                    <option value=null>Sélectionnez</option>
+                </select>
+            </div>
+
+            <div class="input-button">
+                <button id="save_mesure" class="button-primary waves-effect waves-light">
+                    <i class="material-icons left">repeat</i>
+                    Valider
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Démarrer le métronome à partir et jusqu'à une mesure donné lors d'une reprise -->
+
+<div id="mesure-modal" class="modal metronomeReprise">
+    <div class="modal-content">
+        <div class="modal-title">
+            <h4> Lancement du métronome avec une reprise </h4>
+            <div id="mesure-modal-close-mesure-reprise" class="close">&times;</div>
+        </div>
+        <div class="modal-body">
+            <div class="input-control">
+                <div class="label"> Numéro de la répitition : </div>
+                <select id="repeat-select">
+                    <option value=null>Sélectionnez</option>
+                </select>
+            </div>
+
+            <div class="input-button">
+                <button id="save_mesure-reprise" class="button-primary waves-effect waves-light">
+                    <i class="material-icons left">repeat</i>
+                    Valider
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 
 

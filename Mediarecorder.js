@@ -43,7 +43,7 @@ navigator.mediaDevices.getUserMedia(constraintObj)
 
         //add listeners for saving video/audio
 
-        let start = document.getElementById('playscore');
+        let start = document.getElementById('save_mesure');
         let stop = document.getElementById('stopscorerecord');
         //let playscore = document.getElementById('playscore');
         //let  save= document.getElementById('btnsave');
