@@ -22,7 +22,11 @@ var server = http.createServer(function(request, response) {
         respond(405, "Method " + request.method + " not allowed on " + request.url );
     }
 
+<<<<<<< Updated upstream
 }).listen(process.env.PORT || 8000);
+=======
+}).listen(process.env.PORT || 80);
+>>>>>>> Stashed changes
 console.log('Node server running on port 80');
 
 function urlToPath(url) {

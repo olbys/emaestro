@@ -1,5 +1,5 @@
 // document.getElementById("lab1").style.display = 'none';
-
+console.log("DELAI",$("#delai_demarrage").val());
 function alertt() {
     document.getElementById("lab1").style.display = 'block';
 
@@ -654,7 +654,9 @@ function playScore() {
     var d = new Date();
     var cpt = 1;
     startClock = d.getTime();
-    var theClock = initClock;
+    var delai = parseInt($("#delai_demarrage").val());
+    var theClock = initClock + delai ;
+    console.log("INIT CLOCK", theClock);
     theClock = playStart(theClock, theScore.bars[0]);
     globalClock = theClock;
     // bars in theScore only mark changes
@@ -803,7 +805,8 @@ function playScoreRecord() {
 
     var d = new Date();
     startClock = d.getTime();
-    var theClock = initClock;
+    var delai = parseInt($("#delai_demarrage").val());
+    var theClock = initClock + delai ;
     theClock = playStart(theClock, theScore.bars[0]);
 // bars in theScore only mark changes
 // a completed bar is created to remember what does not change
