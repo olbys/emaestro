@@ -249,14 +249,18 @@ $("#alert").change(setAlert);
 const EMAESTRO_ON = 0x80
 const EMAESTRO_OFF = 0x81
 
-function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse) {
+function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse, isfermata= false) {
     var d = new Date();
     var clock = d.getTime() - startClock;
-//	console.log("light " + onoff + " pulse num:" + thePulse + " at " + clock);
     var nbLeds = nbLedsPerPulse[nbPulse - 1][completedBar.time];
     var firstLed = theBeat * nbLedsPerBeat[completedBar.time] + thePulse * nbLeds;
-//	console.log("led " + onoff + ": from " + firstLed + " to " + (firstLed+nbLeds));
+    if(isfermata){
+        showFermata(isfermata)
+    }else{
+        showFermata(isfermata)
+        lightKey(completedBar);
 
+    }
     for (var i = 0; i < nbLeds; i++) {
         console.log('led', i, (firstLed + i));
         document
@@ -269,6 +273,14 @@ function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse) {
     
     }*/
    // socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
+}
+
+function showFermata(isFermata){
+    let lightArray = [24,25,26,27,28,36,37,38,39,40,48]
+    lightArray.forEach(led => {
+        document.getElementById("led" + led)
+                .setAttribute("fill",isFermata? "grey" : "black");
+    }, this);
 }
 
 function mySetTimeout(fun, time) {
@@ -448,14 +460,13 @@ function getPulseTime(completedBar, nbPulse){
 function playBeat(theClock, completedBar, theBeat, isFermata= false) {
     var nbPulse =  getNbPulse(completedBar);
     var pulseTime = getPulseTime(completedBar, nbPulse);
-    if(isFermata){
-        pulseTime *= fermata.period
-    }
     for (var i = 0; i < nbPulse; i++) {
-//	console.log("play pulse num:" + i + " at " + theClock + "on");
+        if(isFermata){
+            pulseTime *= fermata.period
+        }
         (function (thePulse) {
             var lightPulseOn = function () {
-                lightPulse("on", completedBar, theBeat, thePulse, nbPulse);
+                lightPulse("on", completedBar, theBeat, thePulse, nbPulse, isFermata);
             };
         mySetTimeout(lightPulseOn, theClock);
         })(i);
@@ -466,7 +477,7 @@ function playBeat(theClock, completedBar, theBeat, isFermata= false) {
 //	console.log("play pulse num:" + i + " at " + theClock + "off");
         (function (thePulse) {
             var lightPulseOff = function () {
-                lightPulse("off", completedBar, theBeat, thePulse, nbPulse);
+                lightPulse("off", completedBar, theBeat, thePulse, nbPulse, isFermata);
             };
             mySetTimeout(lightPulseOff,theClock);
         })(i);
@@ -480,11 +491,10 @@ function playBar(theClock, theCompletedBar, theBar) {
     console.log("play bar i ==> ",theBar);
     
 // completion of the completed bar
-    theCompletedBar = completeBar(theCompletedBar, theBar);
+    //theCompletedBar = completeBar(theCompletedBar, theBar);
     playKey(theClock, theCompletedBar);
     playAlert(theClock, theCompletedBar);
     for (var i = 0; i < theCompletedBar.time; i++) {
-//console.log("play beat num:" + i + " at " + theClock);
         if (theCompletedBar.fermata != undefined && theCompletedBar.fermata.time == i){
             fermata.time= theCompletedBar.fermata.time;
             fermata.period =theCompletedBar.fermata.period;
