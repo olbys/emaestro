@@ -1,5 +1,5 @@
 // document.getElementById("lab1").style.display = 'none';
-
+console.log("DELAI",$("#delai_demarrage").val());
 function alertt() {
     document.getElementById("lab1").style.display = 'block';
 
@@ -17,6 +17,8 @@ var otherBarTemplate = new barTemplate(80,4,1,4,1,4,"",null,null,false,null,null
 var valLa = 440;
 var globalClock;
 var fermata = {'period': 0, 'time': 0}; // point d'orgue
+var debutMesure;
+var finMesure;
 
 
 $("#add button").click(add);
@@ -567,22 +569,23 @@ function buildOptionChooseMesureDOM() {
 // Se lance suite à un clic sur le bouton Valider dans le pop-up de choix de la mesure de début et de fin
 $("#save_mesure").click(function () {
 
-    var debutMesure = $("#start-select").val();
-    var finMesure = $("#end-select").val();
+     debutMesure = $("#start-select").val();
+     finMesure = $("#end-select").val();
     var tabMesure = [];
 
     if (debutMesure != "" && finMesure != "" )
     {
         $(".metronome").css('display', 'none');
-        for (let i = debutMesure-1; i < finMesure ; i++) {
+        // for (let i = debutMesure-1; i < finMesure ; i++) {
 
-            tabMesure.push(theScore.bars[i]);
+        //     tabMesure.push(theScore.bars[i]);
 
-        }
-        theScore.bars = tabMesure;
-        if (theScore.bars[0].BeginRepeat!=null || theScore.bars[0].EndRepeat!=null )
+        // }
+        // theScore.bars = tabMesure;
+
+        if (theScore.bars[debutMesure].BeginRepeat!=null || theScore.bars[debutMesure].EndRepeat!=null )
         {
-            if (theScore.bars[0].BeginRepeat!=null)
+            if (theScore.bars[debutMesure].BeginRepeat!=null)
             {
                 //var repeat = repetions[BeginRepeat];
                 $(".metronomeReprise").css('display', 'block');
@@ -651,7 +654,9 @@ function playScore() {
     var d = new Date();
     var cpt = 1;
     startClock = d.getTime();
-    var theClock = initClock;
+    var delai = parseInt($("#delai_demarrage").val());
+    var theClock = initClock + delai ;
+    console.log("INIT CLOCK", theClock);
     theClock = playStart(theClock, theScore.bars[0]);
     globalClock = theClock;
     // bars in theScore only mark changes
@@ -659,8 +664,8 @@ function playScore() {
     // it is cloned then updated while reading each bar in turn
     var completedBar = theScore.bars[0];
     
-    var i = 0;
-    while(i < theScore.bars.length){
+    var i = debutMesure-1;
+    while(i <=finMesure-1){
     
         // starts the bar handler
         // the bar handler will start the beats and pulses handlers
@@ -800,7 +805,8 @@ function playScoreRecord() {
 
     var d = new Date();
     startClock = d.getTime();
-    var theClock = initClock;
+    var delai = parseInt($("#delai_demarrage").val());
+    var theClock = initClock + delai ;
     theClock = playStart(theClock, theScore.bars[0]);
 // bars in theScore only mark changes
 // a completed bar is created to remember what does not change
