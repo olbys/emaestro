@@ -462,9 +462,10 @@ $("#dacapo-infine").click(addDacaAndFine)
 $("#dacoda-modal-close").click(function () {
     $("#mesure-modal.dacoda").css('display', 'none');
 })
-function buildCodaInRepeat(selectedBar, repeat) {
+function buildCodaInRepeat(selectedBar, repeat , isBothCodaAndRepeat = false) {
     let options = ``;
-    for (let i = 1; i <= repeat.nbrepeats; i++) {
+    let endRepeat = isBothCodaAndRepeat ? repeat.nbrepeats * 2 : repeat.nbrepeats;
+    for (let i = 1; i <= endRepeat; i++) {
         options += `<option value=${i}>${i}</option>`
     }
     $('#dacoda-select').html(options);
@@ -492,28 +493,52 @@ function addCodaDacoda() {
 
         const allCodas = theScore.bars.filter(bar => !!bar.dacoda)
         console.log('ensemble de coda dans le bar', allCodas);
-
-        // IF repeat
-        if (allRepeats.flat().includes(theScore.currentbar) || barInsideRepeat) {
-            if ((allCodas?.length % 2) === 0) {
+        if((allCodas?.length % 2) === 0){
+            // Si on est dans une reprise
+            if (allRepeats.flat().includes(theScore.currentbar) || barInsideRepeat) {
                 GLOBAL_CODA = theScore.currentbar;
                 selectedBar.dacoda = new Dacoda(null, null);
-                console.log('dans le premier  cas')
-            } else if (allCodas?.length % 2 !== 0) {
-
-                theScore.bars[GLOBAL_CODA].dacoda.coda = theScore.currentbar;
-                let repeatMatchThisBar = repetions.find(repeat => (repeat.begin === theScore.currentbar || repeat.end === theScore.currentbar));
-                if(!repeatMatchThisBar)
-                    repeatMatchThisBar = repetions.find(repeat => theScore.currentbar > repeat.begin && theScore.currentbar < repeat.end)
-                if(repeatMatchThisBar){
-                    buildCodaInRepeat(theScore.bars[GLOBAL_CODA], repeatMatchThisBar);
-                    GLOBAL_CODA = null
+            }else{
+                let isMatchDacapo = selectedBar.dacapo || theScore.bars.some((bar, index) => bar.dacapo && index >= theScore.currentbar);
+                if (isMatchDacapo){
+                    GLOBAL_CODA = theScore.currentbar;
+                    selectedBar.dacoda = new Dacoda(null, 2);
+                    console.log('youpi ...')
+                }else {
+                    alert('Veuillez seléctionnez une mesure dans une repetition ou une dacapo svp');
                 }
 
-                console.log('dans le deuxieme click')
+
             }
-        }else
-            alert('Veuillez seléctionnez une mesure dans une repetition ou une code svp')
+            console.log('dans le premier  cas')
+        }
+        else if (allCodas?.length % 2 !== 0) {
+            theScore.bars[GLOBAL_CODA].dacoda.coda = theScore.currentbar;
+
+            let isMatchCoda = theScore.bars[GLOBAL_CODA].dacoda.nbrepeatsbeforecoda !==0;
+            let repeatMatchThisBar = repetions.find(repeat => (repeat.begin === GLOBAL_CODA || repeat.end === GLOBAL_CODA));
+            if(!repeatMatchThisBar)
+                repeatMatchThisBar = repetions.find(repeat => GLOBAL_CODA > repeat.begin && GLOBAL_CODA < repeat.end)
+
+            if(repeatMatchThisBar && isMatchCoda){
+                /// TODO faire quelque chose
+                console.log( "selecteur match", $("#mesure-modal.dacoda div.label").html());
+                $("#mesure-modal.dacoda div.label").html(`Nombre de passage sur la mesure ${GLOBAL_CODA+1} avant d'aller à la coda :`)
+                buildCodaInRepeat(theScore.bars[GLOBAL_CODA], repeatMatchThisBar, true);
+                GLOBAL_CODA = null
+            }
+            else if(repeatMatchThisBar){
+                $("#mesure-modal.dacoda div.label").html("Nombre de répétition avant d'aller à la coda :");
+                buildCodaInRepeat(theScore.bars[GLOBAL_CODA], repeatMatchThisBar);
+                GLOBAL_CODA = null
+            }else if(isMatchCoda){
+                GLOBAL_CODA = null;
+            }else {
+                alert(" la coda n'est pas une reprise ou dacapo")
+            }
+
+            console.log('dans le deuxieme click', repeatMatchThisBar)
+        }
 
 
         buildGrilleDOM()
