@@ -2,6 +2,7 @@ let GLOBAL_SELECTED_BAR = {
     begin: null,
     end: null
 }
+let GLOBAL_CODA = null;
 
 function immutablaObject(object) {
     return JSON.parse(JSON.stringify(object));
@@ -36,7 +37,7 @@ function handleChangInputMesure() {
         var difference = nombre_mesure - theScore.bars.length;
         console.log(difference)
         if (difference > 0) {
-            bar_to_update = Array(difference).fill(null).map(() => immutablaObject(new barTemplate(80, 4, 1, 4, 1, 4, "", null, null,false,null,null)))
+            bar_to_update = Array(difference).fill(null).map(() => immutablaObject(new barTemplate(80, 4, 1, 4, 1, 4, "", null, null, false, null, null)))
             //bar_to_update[4].dacapo=true;
             //bar_to_update[2].dacoda= new Dacoda(6,2);
             //bar_to_update[2].fine= new Fine([0],[2]);
@@ -76,10 +77,14 @@ function handleChangeMesure() {
 
 
 function buildGrilleItemDOM(bar, index) {
+    const isCoda = theScore.bars.some(bars => bars.dacoda?.coda === (index-1));
+    console.log("iscode value for", isCoda, (index-1 ))
+
     return ` <div class="grille-item" data-intensity="${bar.intensity}" data-selected="false" data-index="${index}" id="grille-${index}">
                 <div class="item-row-1">
                   <div class="numero">${index}</div>
-                  ${bar.dacapo ? `<small class="dacapo">D.C.</small>` : bar.fine ? `<small class="fine">D.C</small>` : ``}
+                  ${bar.dacapo ? `<small class="dacapo">D.C.</small>` : bar.fine ? `<small class="fine">fine</small>` : ``}
+                  ${bar.dacoda || isCoda ? `<small class="dacapo"><img src="../assetss/images/coda.png" width="20"></small>` : ``}
                   ${Object.values(GLOBAL_SELECTED_BAR).includes(index) ?
         `<div class="grille-item-selected"><i class="material-icons left">check_circle</i></div>`
         : ``
@@ -106,7 +111,7 @@ function activeGrilleItemDOM(index, domElement) {
             $(dom).attr("data-selected", false);
         });
         $(domElement).attr("data-selected", true);
-        console.log("nombre", theScore.currentbar);
+        console.log("the current barre", theScore.currentbar);
         updateMesureInputDOM(theScore.bars[index])
     }
 }
@@ -300,7 +305,7 @@ $("#morceau-modal-close").click(function () {
 /**
  * fermer pop-up config point d'orgue
  */
- $("#fermata-modal-close").click(function () {
+$("#fermata-modal-close").click(function () {
     $(".fermata").css('display', 'none');
 })
 
@@ -319,7 +324,7 @@ function addRepetion() {
 $("#add_repeat").click(addRepetion)
 
 function addFermata() {
-    if (GLOBAL_SELECTED_BAR.begin != undefined ){
+    if (GLOBAL_SELECTED_BAR.begin != undefined) {
         buildOptionChooseFermataDOM()
         $(".fermata").css('display', 'block');
     }
@@ -329,19 +334,19 @@ $("#add_fermata").click(addFermata)
 
 function buildOptionChooseFermataDOM() {
     let options = `<option value=null>sélectionnez</option>`
-        for (let i = 0; i < theScore.bars[GLOBAL_SELECTED_BAR.begin-1].time; i++) {
-            options += `<option  value="${i+1}"> ${i+1}</option>`
-        }
+    for (let i = 0; i < theScore.bars[GLOBAL_SELECTED_BAR.begin - 1].time; i++) {
+        options += `<option  value="${i + 1}"> ${i + 1}</option>`
+    }
     $('#fermata-select').html(options)
 }
 
 function saveFermataConfig() {
-    let time = $("#fermata-select").val()-1;
-    if(isNaN(time)){ // TODO à révoir
-        alert('veuillez choisir un temps !') 
+    let time = $("#fermata-select").val() - 1;
+    if (isNaN(time)) { // TODO à révoir
+        alert('veuillez choisir un temps !')
     }
     let period = $("#period-input").val() ? $("#period-input").val() : 60;
-    theScore.bars[GLOBAL_SELECTED_BAR.begin-1].fermata= {"period":parseInt(period),"time": parseInt(time)};
+    theScore.bars[GLOBAL_SELECTED_BAR.begin - 1].fermata = {"period": parseInt(period), "time": parseInt(time)};
     $(".fermata").css('display', 'none');
 }
 
@@ -388,13 +393,13 @@ $("#dacapo-modal-close").click(function () {
     $(".dacapo-infine").css('display', 'none');
 })
 
-function detectDacapoInfine(){
+function detectDacapoInfine() {
     if (theScore.bars.some(bar => bar.dacapo)) {
         $("#dacapo-infine span").html("FINE")
     }
 }
 
-function buildInfineInRepeat(selectedBar, repeat){
+function buildInfineInRepeat(selectedBar, repeat) {
     let options = ``;
     for (let i = 1; i <= repeat.nbrepeats; i++) {
         options += `<option value=${i}>${i}</option>`
@@ -405,7 +410,7 @@ function buildInfineInRepeat(selectedBar, repeat){
         let repeatBeforeFine = -1
         repeatBeforeFine = parseInt($("#dacapo-infine-arret").val())
         console.log("hey j'ai repete", repeatBeforeFine);
-        if(repeatBeforeFine){
+        if (repeatBeforeFine) {
             selectedBar.fine = new Fine([repetions.indexOf(repeat)], [repeatBeforeFine]);
             $(".dacapo-infine").css('display', 'none');
         }
@@ -422,7 +427,7 @@ function addDacaAndFine() {
             theScore.currentbar = null;
             $("#dacapo-infine span").html("FINE")
 
-        } else if(!theScore.bars.some(bar => bar.fine)) {
+        } else if (!theScore.bars.some(bar => bar.fine)) {
             const allIndexRepeat = repetions.map((rep) => {
                 return Object.values({begin: rep.begin, end: rep.end})
             })
@@ -430,13 +435,13 @@ function addDacaAndFine() {
             if (allIndexRepeat.flat().includes(theScore.currentbar)) {
                 const repeatMatchThisBar = repetions.find(repeat => (repeat.begin === theScore.currentbar || repeat.end === theScore.currentbar));
                 if (repeatMatchThisBar) {
-                   buildInfineInRepeat(selectedBar, repeatMatchThisBar);
+                    buildInfineInRepeat(selectedBar, repeatMatchThisBar);
                 }
             } else {
                 let repeatMatchThisBar = repetions.find(repeat => theScore.currentbar > repeat.begin && theScore.currentbar < repeat.end)
-                if(repeatMatchThisBar){
+                if (repeatMatchThisBar) {
                     buildInfineInRepeat(selectedBar, repeatMatchThisBar);
-                }else{
+                } else {
                     selectedBar.fine = new Fine(null, null);
                 }
 
@@ -451,6 +456,74 @@ function addDacaAndFine() {
 
 
 $("#dacapo-infine").click(addDacaAndFine)
+
+
+// ------------- DACODA ---------------//
+$("#dacoda-modal-close").click(function () {
+    $("#mesure-modal.dacoda").css('display', 'none');
+})
+function buildCodaInRepeat(selectedBar, repeat) {
+    let options = ``;
+    for (let i = 1; i <= repeat.nbrepeats; i++) {
+        options += `<option value=${i}>${i}</option>`
+    }
+    $('#dacoda-select').html(options);
+    $("#mesure-modal.dacoda").css('display', 'block');
+    $("#save-dacoda").click(function () {
+        let repeatBeforeFine = null
+        repeatBeforeFine = parseInt($("#dacoda-select").val())
+        if (!isNaN(repeatBeforeFine)) {
+            selectedBar.dacoda.nbrepeatsbeforecoda = repeatBeforeFine;
+            $("#mesure-modal.dacoda").css('display', 'none');
+        }
+        buildGrilleDOM()
+    })
+}
+function addCodaDacoda() {
+
+    if (theScore.currentbar !== null) {
+        let selectedBar = theScore.bars[theScore.currentbar];
+
+        // test if in reprise
+        const allRepeats = repetions.map((rep) => {
+            return Object.values({begin: rep.begin, end: rep.end})
+        })
+        let barInsideRepeat = repetions.find(repeat => theScore.currentbar > repeat.begin && theScore.currentbar < repeat.end);
+
+        const allCodas = theScore.bars.filter(bar => !!bar.dacoda)
+        console.log('ensemble de coda dans le bar', allCodas);
+
+        // IF repeat
+        if (allRepeats.flat().includes(theScore.currentbar) || barInsideRepeat) {
+            if ((allCodas?.length % 2) === 0) {
+                GLOBAL_CODA = theScore.currentbar;
+                selectedBar.dacoda = new Dacoda(null, null);
+                console.log('dans le premier  cas')
+            } else if (allCodas?.length % 2 !== 0) {
+
+                theScore.bars[GLOBAL_CODA].dacoda.coda = theScore.currentbar;
+                let repeatMatchThisBar = repetions.find(repeat => (repeat.begin === theScore.currentbar || repeat.end === theScore.currentbar));
+                if(!repeatMatchThisBar)
+                    repeatMatchThisBar = repetions.find(repeat => theScore.currentbar > repeat.begin && theScore.currentbar < repeat.end)
+                if(repeatMatchThisBar){
+                    buildCodaInRepeat(theScore.bars[GLOBAL_CODA], repeatMatchThisBar);
+                    GLOBAL_CODA = null
+                }
+
+                console.log('dans le deuxieme click')
+            }
+        }else
+            alert('Veuillez seléctionnez une mesure dans une repetition ou une code svp')
+
+
+        buildGrilleDOM()
+    } else {
+        console.log("tesxiste pas");
+    }
+}
+
+$("#coda-dacoda").click(addCodaDacoda);
+
 
 
 
