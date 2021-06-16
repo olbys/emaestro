@@ -1027,13 +1027,17 @@ $("#mesure-modal-close-sound").click(function () {
 function deleteSound (index) {
     console.log("** Delete sound : ",index);
     var sonmix = document.getElementsByName("sonmix");
-
     var req = new XMLHttpRequest();
     req.onreadystatechange = function (event) {
 
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
+                let response = JSON.parse(this.responseText);
+                if(response.deleted){
+                    alert("Le son à été supprimé avec succès")
+                    readRecordNames();
+                }
             } else {
                 console.log("Status de la réponse: %d (%s)",
                     this.status, this.statusText);

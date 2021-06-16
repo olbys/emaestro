@@ -38,8 +38,8 @@
                 <p class="flow-text">Emaestro</p>
             </div>
             <div class="right-item">
-                <div >
-                    <button  class="waves-effect waves-light">
+                <div>
+                    <button class="waves-effect waves-light">
                         <i class="material-icons left">file_download</i>
                         Télecharger
                     </button>
@@ -52,24 +52,27 @@
         <div class="layout-mix">
             <form id="filesUpload" method="POST" enctype="multipart/form-data">
                 <input class="form-control" type="file" name="file" id="fileInput">
-            <div class="mix-control">
-                <div class="checkbox-control">
-                    <label for="chooserecord" class="form-check-label">
-                        Mixer avec d'autres sons
-                    </label>
-                    <input id="chooserecord" type="checkbox" value="mix">
+                <div class="mix-control">
+                    <div class="checkbox-control">
+                        <label for="chooserecord" class="form-check-label">
+                            Mixer avec d'autres sons
+                        </label>
+                        <input id="chooserecord" type="checkbox" value="mix">
+                    </div>
+                    <button id="btnsave" class="button-primary waves-effect waves-light" type="submit">
+                        <i class="material-icons left">file_upload</i>
+                        Importer un son
+                    </button>
                 </div>
-                <button id="btnsave" class="button-primary waves-effect waves-light" type="submit">
-                    <i class="material-icons left">file_upload</i>
-                    Importer un son
-                </button>
-            </div>
 
-            <div class="list-mix">
-                <div class="list-mix-file" id="show-list-mix-file"></div>
-            </div>
+                <div class="list-mix">
+                    <div class="list-mix-file" id="show-list-mix-file"></div>
+                </div>
+                <div class="audio-recorder">
+                    <audio id="audiosave" controls></audio>
+                </div>
 
-               <audio id="audiosave" controls></audio>
+
             </form>
         </div>
 
@@ -132,7 +135,7 @@
             <div class="input-control">
                 <div class="control">
                     <label class="input-label" for="debutPlay">Début mesure </label>
-                    <input  placeholder="début: 1 " id="debutPlay" type="number" class="">
+                    <input placeholder="début: 1 " id="debutPlay" type="number" class="">
                 </div>
                 <div class="control">
                     <label class="input-label" for="endPlay">Fin mesure</label>
@@ -332,7 +335,7 @@
 
             <div class="input-control">
                 <div class="label">Nombre de fois :</div>
-                <input type="text" placeholder="ex :2"  id="reprise-input-repeat" value="2">
+                <input type="text" placeholder="ex :2" id="reprise-input-repeat" value="2">
             </div>
 
             <div class="input-button">
@@ -403,7 +406,7 @@
 </div>
 
 
-<!-- choisir un morceau --> 
+<!-- choisir un morceau -->
 
 <div id="mesure-modal" class="modal morceau">
     <div class="modal-content">
@@ -432,7 +435,7 @@
 
 </div>
 
-<!-- pop-up configuration du point d'orgue --> 
+<!-- pop-up configuration du point d'orgue -->
 
 <div id="mesure-modal" class="modal fermata">
     <div class="modal-content">
@@ -449,7 +452,7 @@
             </div>
             <div class="input-control">
                 <div class="label">Nombre de fois :</div>
-                <input type="text" placeholder="ex : 5 "  id="period-input">
+                <input type="text" placeholder="ex : 5 " id="period-input">
             </div>
             <div class="input-button">
                 <button id="save_config" class="button-primary waves-effect waves-light">
@@ -475,7 +478,7 @@
         <div class="modal-body">
             <div class="input-control">
                 <div class="label"> Nouveau titre :</div>
-                <input type="text" placeholder="ex :2"  id="input-sound-title" value="Ecrire le nouveau titre">
+                <input type="text" placeholder="ex :2" id="input-sound-title" value="Ecrire le nouveau titre">
             </div>
 
             <div class="input-button">
@@ -504,7 +507,7 @@
         </div>
         <div class="modal-body">
             <div class="input-control">
-                <div class="label"> Nombre de passage de la réprise: </div>
+                <div class="label"> Nombre de passage de la réprise:</div>
                 <select id="repeat-select">
                     <option value=null>Sélectionnez</option>
                 </select>
