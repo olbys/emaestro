@@ -129,16 +129,16 @@
 
             </div>
 
-<!--            <div class="button-control">-->
-<!--                <button id="playscore" class="button-on-dark" type="button">-->
-<!--                    <i class="large material-icons">mic_noneaudiotrack</i>-->
-<!--                    Lancer le métronome et l'enregistrement-->
-<!--                </button>-->
-<!--                <button id="stopscorerecord" class="button-on-dark" type="button">-->
-<!--                    <i class="large material-icons"> stopaudiotrack</i>-->
-<!--                    Arrêter l'enregistrement-->
-<!--                </button>-->
-<!--            </div>-->
+            <div class="input-control">
+                <div class="control">
+                    <label class="input-label" for="debutPlay">Début mesure </label>
+                    <input  placeholder="début: 1 " id="debutPlay" type="number" class="">
+                </div>
+                <div class="control">
+                    <label class="input-label" for="endPlay">Fin mesure</label>
+                    <input placeholder="fin: 4" id="endPlay" type="number" class="">
+                </div>
+            </div>
 
 
         </section>
@@ -493,39 +493,6 @@
 
 <!-- Démarrer le métronome à partir et jusqu'à une mesure donné -->
 
-<div id="mesure-modal" class="modal metronome">
-    <div class="modal-content">
-        <div class="modal-title">
-            <h4> Lancement du métronome </h4>
-            <div id="mesure-modal-close-mesure" class="close">&times;</div>
-        </div>
-        <div class="modal-body">
-            <div class="input-control">
-                <div class="label"> Première mesure : </div>
-                <select id="start-select">
-                    <option value=null>Sélectionnez</option>
-                </select>
-            </div>
-
-            <div class="input-control">
-                <div class="label"> Dernière mesure : </div>
-                <select id="end-select">
-                    <option value=null>Sélectionnez</option>
-                </select>
-            </div>
-
-            <div class="input-button">
-                <button id="save_mesure" class="button-primary waves-effect waves-light">
-                    <i class="material-icons left">repeat</i>
-                    Valider
-                </button>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
 <!-- Démarrer le métronome à partir et jusqu'à une mesure donné lors d'une reprise -->
 
@@ -537,7 +504,7 @@
         </div>
         <div class="modal-body">
             <div class="input-control">
-                <div class="label"> Numéro de la répétition : </div>
+                <div class="label"> Nombre de passage de la réprise: </div>
                 <select id="repeat-select">
                     <option value=null>Sélectionnez</option>
                 </select>
