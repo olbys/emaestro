@@ -82,6 +82,7 @@ function buildGrilleItemDOM(bar, index) {
                   <div class="numero">${index}</div>
                   ${bar.dacapo ? `<small class="dacapo">D.C.</small>` : bar.fine ? `<small class="fine">fine</small>` : ``}
                   ${bar.dacoda || isCoda ? `<small class="dacapo"><img src="../assetss/images/coda.png" width="20"></small>` : ``}
+                  ${bar.fermata ? `<small class="fermarta"><img src="../assetss/images/fermata.png" width="22"></small>` : ``}
                   ${Object.values(GLOBAL_SELECTED_BAR).includes(index) ?
         `<div class="grille-item-selected"><i class="material-icons left">check_circle</i></div>`
         : ``
@@ -345,6 +346,7 @@ function saveFermataConfig() {
     let period = $("#period-input").val() ? $("#period-input").val() : 60;
     theScore.bars[GLOBAL_SELECTED_BAR.begin - 1].fermata = {"period": parseInt(period), "time": parseInt(time)};
     $(".fermata").css('display', 'none');
+    buildGrilleDOM();
 }
 
 $("#save_config").click(saveFermataConfig);
