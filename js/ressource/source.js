@@ -483,7 +483,7 @@ function playBar(theClock, theCompletedBar, theBar) {
     playKey(theClock, theCompletedBar);
     playAlert(theClock, theCompletedBar);
     for (var i = 0; i < theCompletedBar.time; i++) {
-        if (theCompletedBar.fermata != undefined && theCompletedBar.fermata.time == i){
+        if (!!theCompletedBar.fermata && theCompletedBar.fermata.time == i){
             fermata.time= theCompletedBar.fermata.time;
             fermata.period =theCompletedBar.fermata.period;
             theClock = playBeat(theClock, theCompletedBar, i , true);

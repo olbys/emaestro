@@ -213,6 +213,7 @@ function readScoreByName(name) {
                     theScore = JSON.parse(this.responseText);
                     repetions = theScore.repetions;
                     execrepetitions = theScore.execrepetitions;
+                    $('#nombre_mesure').val(parseInt(theScore.bars.length))
                     buildGrilleDOM();
                     $(".morceau").css('display', 'none');
                 } else {

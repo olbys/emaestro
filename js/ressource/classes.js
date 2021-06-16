@@ -31,8 +31,9 @@ class barTemplate{
     dacapo;
     fine;
     dacoda;
-    
-    constructor(tempo,beat,key,time,division,intensity,alert,BeginRepeat,EndRepeat,dacapo,fine,dacoda){
+    fermata;
+
+    constructor(tempo,beat,key,time,division,intensity,alert,BeginRepeat,EndRepeat,dacapo,fine,dacoda, fermata = null){
         this.tempo= tempo,
         this.beat= beat,
         this.key= key,
@@ -44,8 +45,9 @@ class barTemplate{
         this.BeginRepeat= BeginRepeat,
         this.EndRepeat=EndRepeat,
         this.dacapo=dacapo,
-        this.fine=fine
-        this.dacoda = dacoda
+        this.fine=fine,
+        this.dacoda = dacoda,
+        this.fermata = fermata
     }
 }
 
