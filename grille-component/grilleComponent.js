@@ -442,7 +442,6 @@ function addDacaAndFine() {
             const allIndexRepeat = repetions.map((rep) => {
                 return Object.values({begin: rep.begin, end: rep.end})
             })
-            console.log('Allrepeteindex', allIndexRepeat);
             if (allIndexRepeat.flat().includes(theScore.currentbar)) {
                 const repeatMatchThisBar = repetions.find(repeat => (repeat.begin === theScore.currentbar || repeat.end === theScore.currentbar));
                 if (repeatMatchThisBar) {

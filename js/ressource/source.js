@@ -976,8 +976,13 @@ function buildMixSelector(soundName, index) {
 }
 
 function editSound(index) {
-    $(".son").css('display', 'block');
+    // $(".son").css('display', 'block');
+    const promptResult = prompt("Etrer le nom");
+    console.log("promptResult", promptResult);
+    if(index){
 
+    }
+    return
     $("#save_sound-title").click(function () {
 
         var sonmix = document.getElementsByName("sonmix"); // Récupérer le oldFile
