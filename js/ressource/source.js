@@ -549,6 +549,11 @@ $("#playscore").click(function () {
     console.log("fin mesure", finMesure);
     if (!isNaN(debutMesure) && ! isNaN(finMesure) )
     {
+        if(debutMesure < 0 || finMesure < 0 || debutMesure > finMesure || finMesure > theScore.bars.length ){
+            alert("veuillez sélectionnez des mesures valides");
+            return
+        }
+
         $(".metronome").css('display', 'none');
         console.clear();
         let repeatMatch = repetions.find((bar)=> (bar.begin === debutMesure-1 || bar.end === debutMesure-1) || (bar.begin === finMesure-1 || bar.end === finMesure-1) );
