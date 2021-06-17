@@ -541,8 +541,36 @@ function playListSons () {
     ff();
 }
 
+
+function fullMetroScreen(setFull = true) {
+
+    if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+        if (document.exitFullscreen)
+            document.exitFullscreen();
+         else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+         else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+         else if (document.msExitFullscreen) document.msExitFullscreen();
+
+    } else {
+       if (setFull){
+           let metroBox = $('.layout-metronome').get(0);
+           if (metroBox.requestFullscreen) {
+               metroBox.requestFullscreen();
+           } else if (metroBox.mozRequestFullScreen) metroBox.mozRequestFullScreen();
+            else if (metroBox.webkitRequestFullscreen) metroBox.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            else if (metroBox.msRequestFullscreen) metroBox.msRequestFullscreen();
+
+       }
+    }
+
+
+}
+
 $("#playscore").click(function () {
 
+
+
+    fullMetroScreen();
     debutMesure = ( parseInt($("#debutPlay").val()) );
     finMesure = ( parseInt($("#endPlay").val()) );
     console.log("debut", debutMesure);
@@ -555,7 +583,6 @@ $("#playscore").click(function () {
         }
 
         $(".metronome").css('display', 'none');
-        console.clear();
         let repeatMatch = repetions.find((bar)=> (bar.begin === debutMesure-1 || bar.end === debutMesure-1) || (bar.begin === finMesure-1 || bar.end === finMesure-1) );
         if(!repeatMatch)
             repeatMatch = repetions.find((bar)=> ( bar.begin < debutMesure-1 && bar.end > debutMesure-1)  || (bar.begin < finMesure-1 && bar.end > finMesure-1) );
@@ -771,6 +798,7 @@ function playScore() {
             }
         }
     }
+   fullMetroScreen(false);
 };
 //$("#playscore").click(playScore);
 

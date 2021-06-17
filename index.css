@@ -70,7 +70,9 @@ html, body{
     justify-content: space-between;
     align-items: center;
 }
+
 #emaestrobox {
     align-self: center;
     width: 55%;
+    height: max-content;
 }
