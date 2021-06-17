@@ -1,48 +1,10 @@
-const express = require('express')
-const https = require('https');
+const http = require('http');
 const fs = require('fs');
-
-const app = express()
-
-
-// Enable reverse proxy support in Express. This causes the
-// the "X-Forwarded-Proto" header field to be trusted so its
-// value can be used to determine the protocol. See 
-// http://expressjs.com/api#app-settings for more details.
-
-/*app.get('/', (req, res) => {
-  res.send('Hello HTTPS!')
-})*/
-
-app.enable('trust proxy');
-
-// Add a handler to inspect the req.secure flag (see 
-// http://expressjs.com/api#req.secure). This allows us 
-// to know whether the request was via http or https.
-
-app.use (function (req, res, next) {
-        if (req.secure) {
-                // request was via https, so do no special handling
-                next();
-        } else {
-                // request was via http, so redirect to https
-                res.redirect('https://' + req.headers.host + req.url);
-		//res.redirect('https://emaestro.istic.univ-rennes1.fr:80/' + req.url);
-       }
-});
-
-
-// Allow static files in the /public directory to be served
-
-app.use(express.static(__dirname + '/public'));
 
 
 var methods = Object.create(null);
 
-var server = https.createServer({
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.cert')
-},function(request, response) {
+var server = http.createServer(function(request, response) {
         function respond(code, body, type) {
         if (!type) type = "application/json";
         response.writeHead(code, {"Content-Type": type});
@@ -60,19 +22,9 @@ var server = https.createServer({
         respond(405, "Method " + request.method + " not allowed on " + request.url );
     }
 
-}).listen(process.env.PORT || 443);
+}).listen(process.env.PORT || 800
+0);
 console.log('Node server running on port 80');
-
-/*var server = http.createServer({
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.cert')
-},app).listen(process.env.PORT || 80);
-console.log('Node server running on port 80');*/
-
-// Start listening on the port
-/*var server = app.listen(80, function() {
-        console.log('Listening on port %d', server.address().port);
-});*/
 
 function urlToPath(url) {
     var path = require("url").parse(url).pathname;
