@@ -550,7 +550,7 @@ $("#playscore").click(function () {
     if (!isNaN(debutMesure) && ! isNaN(finMesure) )
     {
         if(debutMesure < 0 || finMesure < 0 || debutMesure > finMesure || finMesure > theScore.bars.length ){
-            alert("veuillez sélectionnez des mesures valides");
+            alert("Veuillez sélectionnez des mesures valides.");
             return
         }
 
@@ -865,7 +865,7 @@ function saveScore() {
         req.send(JSON.stringify(theScore));
 
     } else{
-        alert("Veuillez entrer un titre de partition pour la sauvegarde !")
+        alert("Veuillez écrire un titre de partition pour la sauvegarde.")
     }
 
 };
@@ -1014,7 +1014,7 @@ function editSound(index) {
 
         }
         else
-            alert("Veuillez saisir le nouveau nom SVP !");
+            alert("Merci de saisir le nouveau nom");
 
         $(".son").css('display', 'none');
     })
@@ -1350,7 +1350,7 @@ $("#filesUpload").submit(function (ev) {
     ev.preventDefault();
     let file = $("#fileInput").get(0).files[0]
     if (!file){
-        alert("Veuillez sélectionner un son !")
+        alert("Veuillez sélectionner un son.")
     }
     var formData = new FormData();
     formData.append('file', file, file.name);
@@ -1366,13 +1366,13 @@ $("#filesUpload").submit(function (ev) {
         success: function (response) {
             console.log('success response', response)
             if(response.success){
-                alert('Fichier importé avec succés !')
+                alert('Fichier importé avec succès!')
                 $("#filesUpload").get(0).reset();
                 readRecordNames();
             }
         },
         error: function (error) {
-            console.log('errorr response', error)
+            console.log('error response', error)
         },
 
     })
