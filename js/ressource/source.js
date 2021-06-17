@@ -627,15 +627,21 @@ function playScore() {
     var d = new Date();
     var cpt = 1;
     startClock = d.getTime();
-    var delai = parseInt($("#delai_demarrage").val());
+    var delai = parseInt($("#delai_demarrage").val())*1000;
+    console.log("TEST ENREGISTREMENT variable delai", delai)
     var theClock = initClock + delai ;
     console.log("INIT CLOCK", theClock);
+    console.log("TEST ENREGISTREMENT theClock init", theClock);
     theClock = playStart(theClock, theScore.bars[0]);
+    console.log("TEST ENREGISTREMENT theClock suite", theClock);
     globalClock = theClock;
     // bars in theScore only mark changes
     // a completed bar is created to remember what does not change
     // it is cloned then updated while reading each bar in turn
     var completedBar = theScore.bars[0];
+
+    
+
 
     var i = debutMesure-1;
     while(i <=finMesure-1){
