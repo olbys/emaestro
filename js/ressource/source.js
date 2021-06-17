@@ -1040,7 +1040,7 @@ function deleteSound (index) {
                 console.log("Réponse reçue: %s", this.responseText);
                 let response = JSON.parse(this.responseText);
                 if(response.deleted){
-                    alert("Le son à été supprimé avec succès")
+                    alert("Le son a été supprimé avec succès.")
                     readRecordNames();
                 }
             } else {
