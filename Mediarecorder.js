@@ -52,7 +52,18 @@ navigator.mediaDevices.getUserMedia(constraintObj)
         let chunks = [];
 
         start.addEventListener('click', (ev)=>{
-            mediaRecorder.start();
+            if(mediaRecorder.state=="recording") {
+                mediaRecorder.stop();
+            } 
+            var delai = parseInt($("#delai_demarrage").val())*1000
+            console.log("DELAI",delai)
+            if (delai!== undefined){
+                    setTimeout(() => { mediaRecorder.start(); }, delai);
+            }
+            else {
+                mediaRecorder.start();
+            }
+            
             console.log(mediaRecorder.state);
 
 
