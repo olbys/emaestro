@@ -505,17 +505,12 @@ function lightOff() {
 };
 
 function stopScore() {
-    clearAllTimers(listTimers);
+    listTimers.forEach(timer => {
+        clearTimeout(timer);
+    })
     playEnd(10);
 };
-$("div#play button#stopscore").click(stopScore);
 
-function clearAllTimers(timers) {
-    for (i = 0; i < timers.length; i++) {
-        clearTimeout(timers.shift());
-    }
-    ;
-};
 
 function playEnd(theClock) {
     mySetTimeout(function () {

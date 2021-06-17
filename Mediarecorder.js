@@ -72,6 +72,7 @@ navigator.mediaDevices.getUserMedia(constraintObj)
             try {
             mediaRecorder.stop();
             stopScoreRecord();
+                stopScore()
             fullMetroScreen(false);
             $("#save-recorder").css('display', 'none')
             console.log(mediaRecorder.state);
