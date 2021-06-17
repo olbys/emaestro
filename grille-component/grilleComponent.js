@@ -51,7 +51,6 @@ function handleChangInputMesure() {
 
         buildGrilleDOM();
         detectLancementMetro();
-        // console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, theScore.bars);
     }
 }
 
@@ -279,7 +278,7 @@ function updateGlobalScore(value, property) {
             if (theScore.currentbar !== null) {
                 theScore.bars[theScore.currentbar][property] = _value;
             } else {
-                alert('Sélectionnez une mesure à configurer')
+                alert('Veuillez sélectionner une mesure à configurer.')
             }
 
         }
@@ -326,9 +325,9 @@ function addRepetion() {
             buildOptionRepriseDOM();
             $("#mesure-modal").css('display', 'block');
         } else
-            alert("L'ordre de réprise est incorrecte")
+            alert("L'ordre de sélection de la reprise est incorrecte. Veuillez commencer par la mesure la plus petite.")
     } else
-        alert("Veuillez sélectionner l'intervalle de reprise !")
+        alert("Vous n'avez pas sélectionné d'intervalle. Veuillez sélectionner une valeur de début et de fin en effectuant un clic droit.")
 }
 
 $("#add_repeat").click(addRepetion)
@@ -369,7 +368,7 @@ $("#save_rep").click(function () {
     const fin = parseInt($('#fin-reprise-select').val()) - 1;
     const nombre_repeat = parseInt($('#reprise-input-repeat').val());
     if (isNaN(begin) || isNaN(fin) || isNaN(nombre_repeat)) {
-        alert("Une erreur a été détectée dans le formulaire de reprise !")
+        alert("Une erreur a été détectée dans le formulaire de reprise.")
         return
     }
     let repeat = new Repeats(begin, fin, nombre_repeat);
@@ -460,7 +459,7 @@ function addDacaAndFine() {
         }
         buildGrilleDOM()
     } else {
-        alert('Veuillez sélectionner une mesure valide !')
+        alert('Veuillez sélectionner une mesure valide.')
     }
 }
 
@@ -550,7 +549,7 @@ function addCodaDacoda() {
             }else if(isMatchCoda){
                 GLOBAL_CODA = null;
             }else {
-                alert(" La coda n'est pas une reprise ou da capo.")
+                alert("Vous ne pouvez pas placer de coda à cet endroit-là. Merci de sélectionner une mesure dans une répétition ou un Da Capo.")
             }
 
             console.log('dans le deuxieme click', repeatMatchThisBar)
@@ -559,7 +558,7 @@ function addCodaDacoda() {
 
         buildGrilleDOM()
     } else {
-        console.log("tesxiste pas");
+        console.log("t'existes pas");
     }
 }
 

@@ -578,7 +578,7 @@ $("#playscore").click(function () {
                 }
 
                 else
-                    alert("Veuillez sélectionner la répitition !");
+                    alert("Veuillez sélectionner la répétition.");
 
             })
         }
@@ -588,7 +588,7 @@ $("#playscore").click(function () {
 
     }
     else
-        alert("Veuillez sélectionner une valeur de début et de fin SVP !");
+        alert("Vous n'avez pas sélectionné d'intervalle. Veuillez sélectionner une valeur de début et de fin en effectuant un clic droit.");
 
 })
 
