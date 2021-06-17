@@ -539,12 +539,14 @@ function addCodaDacoda() {
                 /// TODO faire quelque chose
                 console.log( "selecteur match", $("#mesure-modal.dacoda div.label").html());
                 $("#mesure-modal.dacoda div.label").html(`Nombre de passage sur la mesure ${GLOBAL_CODA+1} avant d'aller à la Coda :`)
-                buildCodaInRepeat(theScore.bars[GLOBAL_CODA], repeatMatchThisBar, true);
+                //buildCodaInRepeat(theScore.bars[GLOBAL_CODA], repeatMatchThisBar, true);
+                theScore.bars[GLOBAL_CODA].dacoda.nbrepeatsbeforecoda = repeatMatchThisBar.nbrepeats*2;
                 GLOBAL_CODA = null
             }
             else if(repeatMatchThisBar){
                 $("#mesure-modal.dacoda div.label").html("Nombre de répétition avant d'aller à la coda :");
-                buildCodaInRepeat(theScore.bars[GLOBAL_CODA], repeatMatchThisBar);
+                //buildCodaInRepeat(theScore.bars[GLOBAL_CODA], repeatMatchThisBar);
+                theScore.bars[GLOBAL_CODA].dacoda.nbrepeatsbeforecoda = repeatMatchThisBar.nbrepeats;
                 GLOBAL_CODA = null
             }else if(isMatchCoda){
                 GLOBAL_CODA = null;
