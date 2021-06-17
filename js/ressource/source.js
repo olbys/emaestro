@@ -969,11 +969,13 @@ function buildMixSelector(soundName, index) {
                 <source src="${srcSound}" type="audio/mp3"> 
             </audio>
             <input data-mix="${index}" type="checkbox" id="audio-${index}" name="sonmix" value="${soundName}">
-            <i class="large material-icons" onclick="editSound(${index})">edit</i>
             <i class="large material-icons" onclick="deleteSound(${index})">delete_forever</i>
         </div>
     </div> `
 }
+
+//ocaou je le laisse là <i class="large material-icons" onclick="editSound(${index})">edit</i>
+
 
 function editSound(index) {
     // $(".son").css('display', 'block');
