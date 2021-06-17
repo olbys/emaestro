@@ -507,9 +507,17 @@ function addCodaDacoda() {
             // Si on est dans une reprise
             if (allRepeats.flat().includes(theScore.currentbar) || barInsideRepeat) {
                 GLOBAL_CODA = theScore.currentbar;
-                selectedBar.dacoda = new Dacoda(null, null);
+                let isMatchDacapo = selectedBar.dacapo || theScore.bars.some((bar, index) => bar.dacapo && index >= theScore.currentbar);
+                if (isMatchDacapo){
+                    selectedBar.dacoda = new Dacoda(null, 2);
+                } 
+                else{ 
+                    selectedBar.dacoda = new Dacoda(null, null);
+                }
+
             }else{
                 let isMatchDacapo = selectedBar.dacapo || theScore.bars.some((bar, index) => bar.dacapo && index >= theScore.currentbar);
+                console.log("ON VEUT VOIR CA" , isMatchDacapo)
                 if (isMatchDacapo){
                     GLOBAL_CODA = theScore.currentbar;
                     selectedBar.dacoda = new Dacoda(null, 2);
@@ -518,14 +526,12 @@ function addCodaDacoda() {
                     alert('Vous ne pouvez pas placer de coda à cet endroit-là. Merci de sélectionner une mesure dans une répétition ou un Da Capo.');
                 }
 
-
             }
             console.log('dans le premier  cas')
         }
         else if (allCodas?.length % 2 !== 0) {
             theScore.bars[GLOBAL_CODA].dacoda.coda = theScore.currentbar;
-
-            let isMatchCoda = theScore.bars[GLOBAL_CODA].dacoda.nbrepeatsbeforecoda !==0;
+            let isMatchCoda = theScore.bars[GLOBAL_CODA].dacoda.nbrepeatsbeforecoda!==null;
             let repeatMatchThisBar = repetions.find(repeat => (repeat.begin === GLOBAL_CODA || repeat.end === GLOBAL_CODA));
             if(!repeatMatchThisBar)
                 repeatMatchThisBar = repetions.find(repeat => GLOBAL_CODA > repeat.begin && GLOBAL_CODA < repeat.end)
@@ -544,7 +550,7 @@ function addCodaDacoda() {
             }else if(isMatchCoda){
                 GLOBAL_CODA = null;
             }else {
-                alert(" la coda n'est pas une reprise ou dacapo")
+                alert(" La coda n'est pas une reprise ou da capo.")
             }
 
             console.log('dans le deuxieme click', repeatMatchThisBar)
