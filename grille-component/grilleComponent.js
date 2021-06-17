@@ -515,7 +515,7 @@ function addCodaDacoda() {
                     selectedBar.dacoda = new Dacoda(null, 2);
                     console.log('youpi ...')
                 }else {
-                    alert('Veuillez seléctionnez une mesure dans une repetition ou une dacapo svp');
+                    alert('Vous ne pouvez pas placer de coda à cet endroit-là. Merci de sélectionner une mesure dans une répétition ou un Da Capo');
                 }
 
 
