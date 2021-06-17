@@ -467,28 +467,28 @@ function addDacaAndFine() {
 $("#dacapo-infine").click(addDacaAndFine)
 
 
-// ------------- DACODA ---------------//
-$("#dacoda-modal-close").click(function () {
-    $("#mesure-modal.dacoda").css('display', 'none');
-})
-function buildCodaInRepeat(selectedBar, repeat , isBothCodaAndRepeat = false) {
-    let options = ``;
-    let endRepeat = isBothCodaAndRepeat ? repeat.nbrepeats * 2 : repeat.nbrepeats;
-    for (let i = 1; i <= endRepeat; i++) {
-        options += `<option value=${i}>${i}</option>`
-    }
-    $('#dacoda-select').html(options);
-    $("#mesure-modal.dacoda").css('display', 'block');
-    $("#save-dacoda").click(function () {
-        let repeatBeforeFine = null
-        repeatBeforeFine = parseInt($("#dacoda-select").val())
-        if (!isNaN(repeatBeforeFine)) {
-            selectedBar.dacoda.nbrepeatsbeforecoda = repeatBeforeFine;
-            $("#mesure-modal.dacoda").css('display', 'none');
-        }
-        buildGrilleDOM()
-    })
-}
+// // ------------- DACODA ---------------//
+// $("#dacoda-modal-close").click(function () {
+//     $("#mesure-modal.dacoda").css('display', 'none');
+// })
+// function buildCodaInRepeat(selectedBar, repeat , isBothCodaAndRepeat = false) {
+//     let options = ``;
+//     let endRepeat = isBothCodaAndRepeat ? repeat.nbrepeats * 2 : repeat.nbrepeats;
+//     for (let i = 1; i <= endRepeat; i++) {
+//         options += `<option value=${i}>${i}</option>`
+//     }
+//     $('#dacoda-select').html(options);
+//     $("#mesure-modal.dacoda").css('display', 'block');
+//     $("#save-dacoda").click(function () {
+//         let repeatBeforeFine = null
+//         repeatBeforeFine = parseInt($("#dacoda-select").val())
+//         if (!isNaN(repeatBeforeFine)) {
+//             selectedBar.dacoda.nbrepeatsbeforecoda = repeatBeforeFine;
+//             $("#mesure-modal.dacoda").css('display', 'none');
+//         }
+//         buildGrilleDOM()
+//     })
+// }
 function addCodaDacoda() {
 
     if (theScore.currentbar !== null) {

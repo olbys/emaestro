@@ -636,6 +636,7 @@ function playScore() {
     // a completed bar is created to remember what does not change
     // it is cloned then updated while reading each bar in turn
     var completedBar = theScore.bars[0];
+    
 
     var i = debutMesure-1;
     while(i <=finMesure-1){
@@ -735,7 +736,30 @@ function playScore() {
         }
         else{
 
-            if(theScore.bars[i].dacoda !=null){
+            // Détection si on est au milieu d'une reprise
+            const allRepeats = repetions.map((rep) => {
+                return Object.values({begin: rep.begin, end: rep.end})
+            })
+            let barInsideRepeat = repetions.find(repeat => i > repeat.begin && i < repeat.end);
+            console.log("play bar barInsideRepeat",barInsideRepeat);
+            console.log("play bar execdacapo",execdacapo)
+        
+            var indexRepeatFine
+            if (barInsideRepeat != undefined) {
+                console.log("play bar je rentre ici")
+                indexRepeatFine = repetions.indexOf(barInsideRepeat);
+                console.log("play bar indexRepeatFine", indexRepeatFine)
+            }
+
+            if (theScore.bars[i].fine != null){
+                if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[indexRepeatFine]-1== execrepetitions[indexRepeatFine].nbrepeats) {
+                    i= theScore.bars.length
+                } else{
+                    i++;
+                }
+            }
+
+            else if(theScore.bars[i].dacoda !=null){
                 execdacoda++
                 if(theScore.bars[i].dacoda.nbrepeatsbeforecoda == execdacoda){
                     i = theScore.bars[i].dacoda.coda;
