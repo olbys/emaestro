@@ -60,3 +60,11 @@
     border: solid white 1.5px;
     border-radius: 9px;
 }
+.input-control input[type ='number'] {
+    min-width: 50px !important;
+    width: 120px!important;
+}
+
+.audio-mix i {
+    cursor: pointer !important;
+}

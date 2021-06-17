@@ -113,3 +113,7 @@
     width:20%;
 
 }
+.audio-recorder{
+    display: flex;
+    justify-content: center;
+}

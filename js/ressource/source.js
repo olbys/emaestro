@@ -260,7 +260,7 @@ function lightPulse(onoff, completedBar, theBeat, thePulse, nbPulse, isfermata= 
             .getElementById("led" + (firstLed + i))
             .setAttribute("fill",
                 onoff == "on" ? intensityColors[completedBar.intensity] : "black");
-    }  
+    }
 
    // socket.emit('message', (onoff == "on" ? EMAESTRO_ON : EMAESTRO_OFF) + firstLed + nbLeds + intensityColors[completedBar.intensity]);
 }
@@ -289,7 +289,7 @@ function fermataOn(time){
     lightArray.forEach(led => {
         let lightOn = () => {document.getElementById("led" + led).setAttribute("fill", "white" )};
         mySetTimeout(lightOn, time);
-        
+
     }, this);
 }
 
@@ -477,7 +477,7 @@ function playBeat(theClock, completedBar, theBeat, isFermata= false) {
 function playBar(theClock, theCompletedBar, theBar) {
 
     console.log("play bar i ==> ",theBar);
-    
+
 // completion of the completed bar
     //theCompletedBar = completeBar(theCompletedBar, theBar);
     playKey(theClock, theCompletedBar);
@@ -490,7 +490,7 @@ function playBar(theClock, theCompletedBar, theBar) {
         }else{
             theClock = playBeat(theClock, theCompletedBar, i, false);
         }
-        
+
     }
     ;
     return theClock;
@@ -541,55 +541,46 @@ function playListSons () {
     ff();
 }
 
-// Se lance suite à un clic sur le bouton Lancer le métronome et l'enregistrement
-function playMetronome() {
-    $(".metronome").css('display', 'block');
-    buildOptionChooseMesureDOM();
-}
-$("#playscore").click(playMetronome)
+$("#playscore").click(function () {
 
-// Permet de remplir le pop-up de lancement du métronome à partir d'une mesure donnée
-function buildOptionChooseMesureDOM() {
-
-    var nbMesures = $("#nombre_mesure").val();
-    let options = `<option value=null>Sélectionnez</option>`
-    if (nbMesures !== 0) {
-        for (let i = 1; i <= nbMesures; i++) {
-            options += `<option value=${i}> ${i} </option>`
-        }
-    }
-    $("#start-select").val();
-    $("#end-select").val();
-    $('#start-select').html(options)
-    $('#end-select').html(options)
-}
-
-// Se lance suite à un clic sur le bouton Valider dans le pop-up de choix de la mesure de début et de fin
-$("#save_mesure").click(function () {
-
-     debutMesure = $("#start-select").val();
-     finMesure = $("#end-select").val();
-    var tabMesure = [];
-
-    if (debutMesure != "" && finMesure != "" )
+    debutMesure = ( parseInt($("#debutPlay").val()) );
+    finMesure = ( parseInt($("#endPlay").val()) );
+    console.log("debut", debutMesure);
+    console.log("fin mesure", finMesure);
+    if (!isNaN(debutMesure) && ! isNaN(finMesure) )
     {
+        if(debutMesure < 0 || finMesure < 0 || debutMesure > finMesure || finMesure > theScore.bars.length ){
+            alert("veuillez sélectionnez des mesures valides");
+            return
+        }
+
         $(".metronome").css('display', 'none');
-        // for (let i = debutMesure-1; i < finMesure ; i++) {
+        console.clear();
+        let repeatMatch = repetions.find((bar)=> (bar.begin === debutMesure-1 || bar.end === debutMesure-1) || (bar.begin === finMesure-1 || bar.end === finMesure-1) );
+        if(!repeatMatch)
+            repeatMatch = repetions.find((bar)=> ( bar.begin < debutMesure-1 && bar.end > debutMesure-1)  || (bar.begin < finMesure-1 && bar.end > finMesure-1) );
 
-        //     tabMesure.push(theScore.bars[i]);
+        console.log('repeat', repeatMatch)
+        if(repeatMatch){
+            $(".metronomeReprise").css('display', 'block');
+            buildOptionChooseRepeatDOM(repeatMatch.nbrepeats);
+            // Se lance suite à un clic sur le bouton Valider dans le pop-up de lancement du métronome avec une reprise
+            $("#save_mesure-reprise").click(function () {
+                // Nombre de répitition choisi
+                var repeat = $("#repeat-select").val();
+                $(".metronomeReprise").css('display', 'none');
+                if (!isNaN(repeat))
+                {
+                   execrepetitions[repetions.indexOf(repeatMatch)].nbrepeats = (repeatMatch.nbrepeats - parseInt(repeat));
+                //   console.log('excec', execrepetitions[repetions.indexOf(repeatMatch)] , execrepetitions);
 
-        // }
-        // theScore.bars = tabMesure;
+                    playScore();
+                }
 
-        if (theScore.bars[debutMesure].BeginRepeat!=null || theScore.bars[debutMesure].EndRepeat!=null )
-        {
-            if (theScore.bars[debutMesure].BeginRepeat!=null)
-            {
-                //var repeat = repetions[BeginRepeat];
-                $(".metronomeReprise").css('display', 'block');
-                buildOptionChooseRepeatDOM();
+                else
+                    alert("Veuillez sélectionner la répitition !");
 
-            }
+            })
         }
         else {
             playScore();
@@ -601,15 +592,16 @@ $("#save_mesure").click(function () {
 
 })
 
+
+
 // Cacher le pop-up de lancement du métronome à partir d'une mesure donnée
 $("#mesure-modal-close-mesure").click(function () {
     $(".metronome").css('display', 'none');
 })
 
 // Permet de remplir le pop-up de lancement du métronome avec une reprise
-function buildOptionChooseRepeatDOM() {
+function buildOptionChooseRepeatDOM(nbRepeat) {
 
-    var nbRepeat = $("#reprise-input-repeat").val();
     let options = `<option value=null>Sélectionnez</option>`
         for (let i = 1; i <= nbRepeat; i++) {
             options += `<option  value=${i}> ${i} </option>`
@@ -622,24 +614,7 @@ $("#mesure-modal-close-mesure-reprise").click(function () {
     $(".metronomeReprise").css('display', 'none');
 })
 
-// Se lance suite à un clic sur le bouton Valider dans le pop-up de lancement du métronome avec une reprise
-$("#save_mesure-reprise").click(function () {
 
-    // Nombre de répitition choisi
-    var repeat = $("#repeat-select").val();
-    $(".metronomeReprise").css('display', 'none');
-
-    if (repeat !== "")
-    {
-        // Traitement à faire dans le cas d'une reprise au début
-
-        playScore();
-    }
-
-    else
-        alert("Veuillez sélectionner la répitition !");
-
-})
 
 function playScore() {
 
@@ -661,10 +636,10 @@ function playScore() {
     // a completed bar is created to remember what does not change
     // it is cloned then updated while reading each bar in turn
     var completedBar = theScore.bars[0];
-    
+
     var i = debutMesure-1;
     while(i <=finMesure-1){
-    
+
         // starts the bar handler
         // the bar handler will start the beats and pulses handlers
         // and return an updated time
@@ -685,10 +660,10 @@ function playScore() {
                 console.log("r=", r)
                 console.log("er=", er)
 
-                
-                if (theScore.bars[i].fine != null){                       
+
+                if (theScore.bars[i].fine != null){
                     if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].BeginRepeat]-1== execrepetitions[theScore.bars[i].BeginRepeat].nbrepeats) {
-                        i= theScore.bars.length                                       
+                        i= theScore.bars.length
                     } else{
                         i++;
                     }
@@ -720,17 +695,17 @@ function playScore() {
 
                 er.nbrepeats++;
 
-                if (theScore.bars[i].fine != null){                     
+                if (theScore.bars[i].fine != null){
                     if(execdacapo==true  && theScore.bars[i].fine.nbrepeatsbeforefine[theScore.bars[i].EndRepeat]== execrepetitions[theScore.bars[i].EndRepeat].nbrepeats) {
-                        i= theScore.bars.length                                       
-                    } 
+                        i= theScore.bars.length
+                    }
                 }
 
                 if(theScore.bars[i].dacoda !=null){
                     execdacoda++
                     if(theScore.bars[i].dacoda.nbrepeatsbeforecoda == execdacoda){
                         i = theScore.bars[i].dacoda.coda;
-                    } 
+                    }
                     else if(r.nbrepeats==er.nbrepeats){
                         er.nbrepeats=0;
                         i++;
@@ -759,16 +734,16 @@ function playScore() {
             i= theScore.bars.length
         }
         else{
-            
+
             if(theScore.bars[i].dacoda !=null){
                 execdacoda++
                 if(theScore.bars[i].dacoda.nbrepeatsbeforecoda == execdacoda){
                     i = theScore.bars[i].dacoda.coda;
                 }else {
-                    i++;  
+                    i++;
                 }
             }else {
-                i++; 
+                i++;
             }
         }
     }
@@ -856,7 +831,7 @@ function stopScoreRecord() {
 
 var fileContent = "";
 function saveScore() {
-    
+
     var fileName = $("#titre_partition").val();
     if(fileName){
         var req = new XMLHttpRequest();
@@ -882,11 +857,11 @@ function saveScore() {
 
         req.open("PUT", "/SCORES/" + "Caroline & Dominique" + "/" + fileName, true);
         req.send(JSON.stringify(theScore));
-        
+
     } else{
         alert("Veuillez entrer un titre de partition pour la sauvegarde !")
     }
-    
+
 };
 $("#sauvegarder_mesures").click(saveScore);
 
@@ -1001,8 +976,13 @@ function buildMixSelector(soundName, index) {
 }
 
 function editSound(index) {
-    $(".son").css('display', 'block');
+    // $(".son").css('display', 'block');
+    const promptResult = prompt("Etrer le nom");
+    console.log("promptResult", promptResult);
+    if(index){
 
+    }
+    return
     $("#save_sound-title").click(function () {
 
         var sonmix = document.getElementsByName("sonmix"); // Récupérer le oldFile
@@ -1052,13 +1032,17 @@ $("#mesure-modal-close-sound").click(function () {
 function deleteSound (index) {
     console.log("** Delete sound : ",index);
     var sonmix = document.getElementsByName("sonmix");
-
     var req = new XMLHttpRequest();
     req.onreadystatechange = function (event) {
 
         if (this.readyState === XMLHttpRequest.DONE) {
             if (this.status === 200) {
                 console.log("Réponse reçue: %s", this.responseText);
+                let response = JSON.parse(this.responseText);
+                if(response.deleted){
+                    alert("Le son à été supprimé avec succès")
+                    readRecordNames();
+                }
             } else {
                 console.log("Status de la réponse: %d (%s)",
                     this.status, this.statusText);

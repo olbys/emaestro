@@ -37,3 +37,6 @@
 .navbar-custom > .left-item p {
     font-weight: bold;
 }
+.navbar-custom #save-recorder {
+    display: none;
+}

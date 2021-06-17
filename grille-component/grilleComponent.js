@@ -50,6 +50,7 @@ function handleChangInputMesure() {
         }
 
         buildGrilleDOM();
+        detectLancementMetro();
         // console.log('listener', typeof nombre_mesure, nombre_mesure, bar_to_update, theScore.bars);
     }
 }
@@ -213,7 +214,8 @@ function readScoreByName(name) {
                     theScore = JSON.parse(this.responseText);
                     repetions = theScore.repetions;
                     execrepetitions = theScore.execrepetitions;
-                    $('#nombre_mesure').val(parseInt(theScore.bars.length))
+                    $('#nombre_mesure').val(parseInt(theScore.bars.length));
+                    detectLancementMetro()
                     buildGrilleDOM();
                     $(".morceau").css('display', 'none');
                 } else {
@@ -245,8 +247,17 @@ $(function () {
     if (theScore.bars.length > 0) {
         $("#nombre_mesure").val(theScore.bars.length);
         buildGrilleDOM();
+        detectLancementMetro()
+
     }
 })
+
+function detectLancementMetro(){
+    if(theScore.bars.length > 0){
+        $('#debutPlay').val(1);
+        $('#endPlay').val(theScore.bars.length);
+    }
+}
 
 
 /// Update GLOBAL SCORE
@@ -431,7 +442,6 @@ function addDacaAndFine() {
             const allIndexRepeat = repetions.map((rep) => {
                 return Object.values({begin: rep.begin, end: rep.end})
             })
-            console.log('Allrepeteindex', allIndexRepeat);
             if (allIndexRepeat.flat().includes(theScore.currentbar)) {
                 const repeatMatchThisBar = repetions.find(repeat => (repeat.begin === theScore.currentbar || repeat.end === theScore.currentbar));
                 if (repeatMatchThisBar) {

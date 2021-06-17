@@ -43,7 +43,7 @@ navigator.mediaDevices.getUserMedia(constraintObj)
 
         //add listeners for saving video/audio
 
-        let start = document.getElementById('save_mesure');
+        let start = document.getElementById('playscore');
         let stop = document.getElementById('stopscorerecord');
         //let playscore = document.getElementById('playscore');
         //let  save= document.getElementById('btnsave');
@@ -61,6 +61,7 @@ navigator.mediaDevices.getUserMedia(constraintObj)
             try {
             mediaRecorder.stop();
             stopScoreRecord();
+            $("#save-recorder").css('display', 'none')
             console.log(mediaRecorder.state);
             }
             catch (e) {
@@ -89,8 +90,42 @@ navigator.mediaDevices.getUserMedia(constraintObj)
             h.append('Accept', 'video/mp4');
             let fd = new FormData();
             fd.append('user-id', 77);
-            //let myFile = vidSave;
-            fd.append('avatar', blob, "avatrack.mp4");
+            $("#save-recorder").css('display', 'block')
+
+
+            $("#save-recorder").click(function (){
+
+                let fileName = prompt("Nom du fichier");
+                if(fileName === "" || !fileName){
+                    alert("nom incorrect")
+                    return;
+                }
+                fd.append('file', blob, `${fileName}.mp3`);
+
+                $.ajax({
+                    url: "/",
+                    type: "POST",
+                    data: fd,
+                    processData: false,
+                    cache: false,
+                    contentType: false,
+                    async : true,
+                    success: function (response) {
+                        console.log('success response', response)
+                        if(response.success){
+                            alert('Fichier importé avec succés !')
+                            $("#filesUpload").get(0).reset();
+                            readRecordNames();
+                        }
+                    },
+                    error: function (error) {
+                        console.log('errorr response', error)
+                    },
+
+                })
+
+
+            })
 
             let req = new Request(link, {
                 method: 'POST',
