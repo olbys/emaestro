@@ -515,7 +515,7 @@ function addCodaDacoda() {
                     selectedBar.dacoda = new Dacoda(null, 2);
                     console.log('youpi ...')
                 }else {
-                    alert('Vous ne pouvez pas placer de coda à cet endroit-là. Merci de sélectionner une mesure dans une répétition ou un Da Capo');
+                    alert('Vous ne pouvez pas placer de coda à cet endroit-là. Merci de sélectionner une mesure dans une répétition ou un Da Capo.');
                 }
 
 
@@ -533,7 +533,7 @@ function addCodaDacoda() {
             if(repeatMatchThisBar && isMatchCoda){
                 /// TODO faire quelque chose
                 console.log( "selecteur match", $("#mesure-modal.dacoda div.label").html());
-                $("#mesure-modal.dacoda div.label").html(`Nombre de passage sur la mesure ${GLOBAL_CODA+1} avant d'aller à la coda :`)
+                $("#mesure-modal.dacoda div.label").html(`Nombre de passage sur la mesure ${GLOBAL_CODA+1} avant d'aller à la Coda :`)
                 buildCodaInRepeat(theScore.bars[GLOBAL_CODA], repeatMatchThisBar, true);
                 GLOBAL_CODA = null
             }
