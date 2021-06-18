@@ -110,7 +110,7 @@ navigator.mediaDevices.getUserMedia(constraintObj)
 
                 let fileName = prompt("Nom du fichier");
                 if(fileName === "" || !fileName){
-                    alert("nom incorrect")
+                    alert("Le nom est incorrect.")
                     return;
                 }
                 fd.append('file', blob, `${fileName}.mp3`);
@@ -126,7 +126,7 @@ navigator.mediaDevices.getUserMedia(constraintObj)
                     success: function (response) {
                         console.log('success response', response)
                         if(response.success){
-                            alert('Fichier importé avec succés !')
+                            alert('Fichier importé avec succès !')
                             $("#filesUpload").get(0).reset();
                             readRecordNames();
                         }
