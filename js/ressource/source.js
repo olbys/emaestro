@@ -561,11 +561,15 @@ function fullMetroScreen(setFull = true) {
 
 }
 
+$("#fullscreen").click(function (){
+    fullMetroScreen();
+});
+
+
 $("#playscore").click(function () {
 
 
 
-    fullMetroScreen();
     debutMesure = ( parseInt($("#debutPlay").val()) );
     finMesure = ( parseInt($("#endPlay").val()) );
     console.log("debut", debutMesure);
