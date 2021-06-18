@@ -588,14 +588,17 @@ $("#playscore").click(function () {
             buildOptionChooseRepeatDOM(repeatMatch.nbrepeats);
             // Se lance suite à un clic sur le bouton Valider dans le pop-up de lancement du métronome avec une reprise
             $("#save_mesure-reprise").click(function () {
-                // Nombre de répitition choisi
+                // Nombre de répétition choisi
                 var repeat = $("#repeat-select").val();
                 $(".metronomeReprise").css('display', 'none');
                 if (!isNaN(repeat))
                 {
-                   execrepetitions[repetions.indexOf(repeatMatch)].nbrepeats = (repeatMatch.nbrepeats - parseInt(repeat));
+                //    execrepetitions[repetions.indexOf(repeatMatch)].nbrepeats = (repeatMatch.nbrepeats - parseInt(repeat));
                 //   console.log('excec', execrepetitions[repetions.indexOf(repeatMatch)] , execrepetitions);
-
+                    console.log("play bar parseInt", parseInt(repeat));
+                    console.log("play bar repeatMatch.nbrepeats", repeatMatch.nbrepeats);
+                    execrepetitions[repetions.indexOf(repeatMatch)].nbrepeats =  parseInt(repeat)-1;
+                    console.log("play bar execrepetitions",execrepetitions)
                     playScore();
                 }
 
